@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Campsite-a-palooza</string>
+    <string name="title_activity_campsite">Campsite</string>
+    <string name="test_JSON">
+        {
+            "id": 123124,
+            "location": "Saltholmen",
+            "coordinates": "213543",
+            "type": "Bar",
+            "fee": "Free",
+            "capacity": 30,
+            "availability": \"All year\",
+            "description": \"This is great bar much fun.\"
+            }
+    </string>
+    <string name="test_JSON2">{ id: 123124, location: Saltholmen, coordinates: 213543, type: Bar, fee: Free, capacity: 30, availability: \"All year\", description: ey}</string>
+
+    <string name="ERROR">_ERROR</string>
 </resources>
