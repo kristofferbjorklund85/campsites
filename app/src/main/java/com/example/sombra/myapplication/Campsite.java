@@ -17,8 +17,6 @@ import org.w3c.dom.Text;
 
 public class Campsite extends AppCompatActivity {
 
-    TextView testView;
-
     public static String ERROR;
 
     @Override
@@ -38,22 +36,23 @@ public class Campsite extends AppCompatActivity {
         String test_JSON = getString(R.string.test_JSON);
         CampsiteModel cm = createCampsite(test_JSON);
 
-        TextView campsiteView = createTextView(cm);
+        setCampsiteView(cm);
     }
 
-    public TextView createTextView(CampsiteModel cm) {
-        TextView campsiteView = (TextView) findViewById(R.id.campsite_info);
+    public void setCampsiteView(CampsiteModel cm) {
+        TextView locationView = (TextView) findViewById(R.id.location);
+        TextView typeView = (TextView) findViewById(R.id.type);
+        TextView feeView = (TextView) findViewById(R.id.fee);
+        TextView capacityView = (TextView) findViewById(R.id.capacity);
+        TextView availabilityView = (TextView) findViewById(R.id.availability);
+        TextView descriptionView = (TextView) findViewById(R.id.description);
 
-        campsiteView.setText(   "Location: " + cm.location +
-                                "\nCoordinates: " + cm.coordinates +
-                                "\nType: " + cm.type +
-                                "\nFee: " + cm.fee +
-                                "\nCapacity: " + cm.capacity +
-                                "\nAvailability: " + cm.availability +
-                                "\nDescription: " + cm.description
-                            );
-
-        return campsiteView;
+        locationView.setText("Location: " + cm.location);
+        typeView.setText("Type: " + cm.type);
+        feeView.setText("Fee: " + cm.fee);
+        capacityView.setText("Capacity: " + cm.capacity);
+        availabilityView.setText("Availability: " + cm.availability);
+        descriptionView.setText("Description: " + cm.description);
     }
 
     public CampsiteModel createCampsite(String jsonStr) {
