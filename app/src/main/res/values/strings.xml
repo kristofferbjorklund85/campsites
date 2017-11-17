@@ -16,4 +16,5 @@
     <string name="test_JSON2">{ id: 123124, location: Saltholmen, coordinates: 213543, type: Bar, fee: Free, capacity: 30, availability: \"All year\", description: ey}</string>
 
     <string name="ERROR">_ERROR</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

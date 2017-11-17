@@ -22,11 +22,11 @@ public class Campsite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_campsite);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Campsite");
-        setSupportActionBar(toolbar);
-        init();
+        setContentView(R.layout.activity_maps);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.setTitle("Maps");
+        //setSupportActionBar(toolbar);
+        //init();
 
     }
 
