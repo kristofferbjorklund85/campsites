@@ -25,6 +25,7 @@ public class CampsiteModel {
         this.capacity = capacity;
         this.availability = availability;
         this.description = description;
+
     }
 
 
