@@ -66,7 +66,7 @@ public class Campsite extends AppCompatActivity {
 
         try {
             return new CampsiteModel(
-                    jsonObj.getInt("id"),
+                    jsonObj.getString("id"),
                     jsonObj.getString("location"),
                     jsonObj.getString("coordinates"),
                     jsonObj.getString("type"),

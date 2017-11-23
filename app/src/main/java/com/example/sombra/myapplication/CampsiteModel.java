@@ -6,7 +6,7 @@ package com.example.sombra.myapplication;
 
 public class CampsiteModel {
 
-    int id;
+    String id;
     String location;
     String coordinates;
     String type;
@@ -15,7 +15,7 @@ public class CampsiteModel {
     String availability;
     String description;
 
-    public CampsiteModel(int id, String location, String coordinates, String type, String fee,
+    public CampsiteModel(String id, String location, String coordinates, String type, String fee,
                          int capacity, String availability, String description){
         this.id = id;
         this.location = location;
@@ -25,8 +25,5 @@ public class CampsiteModel {
         this.capacity = capacity;
         this.availability = availability;
         this.description = description;
-
     }
-
-
 }
