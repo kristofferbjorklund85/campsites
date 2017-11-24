@@ -18,6 +18,9 @@ public class LoginActivity extends AppCompatActivity {
         VolleyHandler vh = new VolleyHandler();
         ArrayList<CampsiteModel> cml = (ArrayList) vh.getCampList(this);
 
+        for(CampsiteModel cm : cml) {
+            Log.d("List before: ", cm.location);
+        }
 
         Log.d("starting: ", "Maps");
         Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
