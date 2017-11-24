@@ -34,7 +34,7 @@ public class Campsite extends AppCompatActivity {
         ERROR = Campsite.class.getSimpleName() + getString(R.string.ERROR);
 
         String test_JSON = getString(R.string.test_JSON);
-        CampsiteModel cm = createCampsite((CampsiteModel) getIntent().getExtras().getBundle());
+        CampsiteModel cm = createCampsite(test_JSON);
 
         setCampsiteView(cm);
     }
@@ -68,7 +68,8 @@ public class Campsite extends AppCompatActivity {
             return new CampsiteModel(
                     jsonObj.getString("id"),
                     jsonObj.getString("location"),
-                    jsonObj.getString("coordinates"),
+                    jsonObj.getDouble("lat"),
+                    jsonObj.getDouble("lng"),
                     jsonObj.getString("type"),
                     jsonObj.getString("fee"),
                     jsonObj.getInt("capacity"),

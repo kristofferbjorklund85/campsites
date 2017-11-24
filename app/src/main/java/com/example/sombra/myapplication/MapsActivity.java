@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        createMarkers((CampsiteModel) getIntent().getExtras().getBundle());
+        //createMarkers((CampsiteModel) getIntent().getExtras().getBundle());
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(BRISBANE));
 
@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapsActivity.this, Campsite.class);
-                intent.putExtras((CampsiteModel) marker.getTag());
+                //intent.putExtras("cm", (CampsiteModel) marker.getTag());
                 startActivity(intent);
             }
         });

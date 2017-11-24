@@ -9,6 +9,16 @@ import android.os.Parcelable;
 
 public class CampsiteModel implements Parcelable {
 
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public CampsiteModel createFromParcel(Parcel in) {
+            return new CampsiteModel(in);
+        }
+
+        public CampsiteModel[] newArray(int size) {
+            return new CampsiteModel[size];
+        }
+    };
+
     String id;
     String location;
     double lat;
