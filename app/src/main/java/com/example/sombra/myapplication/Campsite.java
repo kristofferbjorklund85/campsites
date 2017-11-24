@@ -36,7 +36,8 @@ public class Campsite extends AppCompatActivity {
         String test_JSON = getString(R.string.test_JSON);
         CampsiteModel cm = createCampsite(test_JSON);
 
-        setCampsiteView(cm);
+        Bundle data = getIntent().getExtras();
+        setCampsiteView((CampsiteModel) data.getParcelable("cm"));
     }
 
     public void setCampsiteView(CampsiteModel cm) {
