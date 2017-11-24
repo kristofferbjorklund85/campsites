@@ -27,6 +27,12 @@ public class VolleyHandler {
         //url = getString(R.string.apiURL);
     }
 
+    public List<CampsiteModel> getCampList(Context context) {
+        getCampsites(context);
+
+        return campsites;
+    }
+
     public void getCampsites(Context context) {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(

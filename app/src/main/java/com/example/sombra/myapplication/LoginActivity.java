@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -13,10 +15,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         VolleyHandler vh = new VolleyHandler();
-        vh.getCampsites(this);
+        List<CampsiteModel> cml = vh.getCampList(this);
+
 
         Log.d("starting: ", "Maps");
         Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+        intent.putExtra(cml);
         startActivity(intent);
         finish();
     }
