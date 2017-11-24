@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -37,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    private static void createMarkers(List<CampsiteModel> list) {
+    private static void createMarkers(ArrayList<CampsiteModel> list) {
         for(CampsiteModel cm : list) {
             Marker m =   mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(cm.lat, cm.lng))
@@ -58,8 +59,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        Bundle data = getIntent().getExtras();
-        createMarkers((List<CampsiteModel>) data.getParcelable("cmList"));
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            Log.d("Extras in Maps: ", " NULL");
+            return;
+        }
+
+        ArrayList<CampsiteModel> cml = extras.getParcelableArrayList("cmList");
+
+        for(CampsiteModel cm : cml) {
+            Log.d("List before: ", cm.location);
+        }
+
+        createMarkers(cml);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(BRISBANE));
 
