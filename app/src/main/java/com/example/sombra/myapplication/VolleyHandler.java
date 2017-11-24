@@ -30,6 +30,7 @@ public class VolleyHandler {
     public List<CampsiteModel> getCampList(Context context) {
         getCampsites(context);
 
+        Log.d("returning: ", "campsites array");
         return campsites;
     }
 

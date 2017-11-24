@@ -28,9 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
-        /*for(CampsiteModel cm : cml) {
+        for(CampsiteModel cm : cml) {
             Log.d("List before: ", cm.location);
-        }*/
+        }
 
         Log.d("starting: ", "Maps");
         Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
