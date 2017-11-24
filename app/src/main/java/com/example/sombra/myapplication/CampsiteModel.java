@@ -8,18 +8,20 @@ public class CampsiteModel {
 
     String id;
     String location;
-    String coordinates;
+    double lat;
+    double lng;
     String type;
     String fee;
     int capacity;
     String availability;
     String description;
 
-    public CampsiteModel(String id, String location, String coordinates, String type, String fee,
+    public CampsiteModel(String id, String location, double lat, double lng, String type, String fee,
                          int capacity, String availability, String description){
         this.id = id;
         this.location = location;
-        this.coordinates = coordinates;
+        this.lat = lat;
+        this.lng = lng;
         this.type = type;
         this.fee = fee;
         this.capacity = capacity;

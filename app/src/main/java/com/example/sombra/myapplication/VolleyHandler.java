@@ -20,6 +20,8 @@ public class VolleyHandler {
 
     private String url = "http://87.96.251.140:8080/API";
     private List<CampsiteModel> campsites;
+    private double lat = -31.952854;
+    private double lng =  115.857342;
 
     public VolleyHandler() {
         //url = getString(R.string.apiURL);
@@ -35,7 +37,7 @@ public class VolleyHandler {
 
                     @Override
                     public void onResponse(JSONArray array) {
-                        campsites = fromJSON(array);
+                        campsites = fakeJSON(array);
 
                     }
                 }, new Response.ErrorListener() {
@@ -50,8 +52,35 @@ public class VolleyHandler {
 
     }
 
+    public List fakeJSON(JSONArray array) {
+        List<CampsiteModel> campList = new ArrayList<>();
 
-    public List fromJSON(JSONArray array) {
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                JSONObject jsonObj = array.getJSONObject(i);
+                CampsiteModel cm = new CampsiteModel(
+                        jsonObj.getString("id"),
+                        jsonObj.getString("location"),
+                        (lat + i),
+                        (lng + i),
+                        jsonObj.getString("type"),
+                        jsonObj.getString("fee"),
+                        jsonObj.getInt("capacity"),
+                        jsonObj.getString("availability"),
+                        jsonObj.getString("description"));
+                campList.add(cm);
+                Log.d("fromJSON: ", "created object");
+            } catch (JSONException e) {
+                Log.d("fromJSON Exception: ", e.getMessage());
+            }
+        }
+
+        Log.d("fromJSON: ", "Returning List of " + campList.size());
+        return campList;
+    }
+
+
+ /*   public List oldJSON(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
 
         for (int i = 0; i < array.length(); i++) {
@@ -75,7 +104,7 @@ public class VolleyHandler {
 
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
-    }
+    }*/
 
 
 }
