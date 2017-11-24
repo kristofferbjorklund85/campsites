@@ -12,6 +12,7 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
+    VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
 
     @Override
@@ -21,12 +22,13 @@ public class LoginActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.login_button);
 
-        VolleyHandler vh = new VolleyHandler();
-        cml = (ArrayList) vh.getCampList(this);
+        vh = new VolleyHandler();
+        vh.getCampsites(this);
 
     }
 
     public void login(View view) {
+        cml = (ArrayList<CampsiteModel>) vh.getCampList();
 
         for(CampsiteModel cm : cml) {
             Log.d("List before: ", cm.location);

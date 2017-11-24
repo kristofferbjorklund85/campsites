@@ -27,9 +27,7 @@ public class VolleyHandler {
         //url = getString(R.string.apiURL);
     }
 
-    public List<CampsiteModel> getCampList(Context context) {
-        getCampsites(context);
-
+    public List<CampsiteModel> getCampList() {
         Log.d("returning: ", "campsites array");
         return campsites;
     }
