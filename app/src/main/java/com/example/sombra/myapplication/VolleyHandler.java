@@ -44,7 +44,7 @@ public class VolleyHandler {
                     @Override
                     public void onResponse(JSONArray array) {
                         campsites = fakeJSON(array);
-
+                        Log.d("on Response: ", "setting campsites");
                     }
                 }, new Response.ErrorListener() {
 

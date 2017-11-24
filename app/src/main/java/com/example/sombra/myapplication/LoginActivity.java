@@ -4,23 +4,33 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
+    ArrayList<CampsiteModel> cml;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        VolleyHandler vh = new VolleyHandler();
-        ArrayList<CampsiteModel> cml = (ArrayList) vh.getCampList(this);
+        Button button = findViewById(R.id.login_button);
 
-        for(CampsiteModel cm : cml) {
+        VolleyHandler vh = new VolleyHandler();
+        cml = (ArrayList) vh.getCampList(this);
+
+    }
+
+    public void login(View view) {
+
+        /*for(CampsiteModel cm : cml) {
             Log.d("List before: ", cm.location);
-        }
+        }*/
 
         Log.d("starting: ", "Maps");
         Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
@@ -28,4 +38,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
