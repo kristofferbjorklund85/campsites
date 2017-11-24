@@ -34,7 +34,6 @@ public class Campsite extends AppCompatActivity {
         ERROR = Campsite.class.getSimpleName() + getString(R.string.ERROR);
 
         String test_JSON = getString(R.string.test_JSON);
-        CampsiteModel cm = createCampsite(test_JSON);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
