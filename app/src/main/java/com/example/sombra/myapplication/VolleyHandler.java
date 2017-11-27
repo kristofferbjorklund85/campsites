@@ -66,8 +66,8 @@ public class VolleyHandler {
                 CampsiteModel cm = new CampsiteModel(
                         jsonObj.getString("id"),
                         jsonObj.getString("location"),
-                        (lat + i),
-                        (lng + i),
+                        jsonObj.getDouble("lat"),
+                        jsonObj.getDouble("lng"),
                         jsonObj.getString("type"),
                         jsonObj.getString("fee"),
                         jsonObj.getInt("capacity"),
