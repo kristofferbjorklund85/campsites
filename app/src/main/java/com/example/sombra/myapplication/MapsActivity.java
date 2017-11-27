@@ -14,7 +14,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -80,6 +79,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapsActivity.this, Campsite.class);
                 intent.putExtra("cm", (CampsiteModel) marker.getTag());
+                startActivity(intent);
+            }
+        });
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng point) {
+                Marker m =  mMap.addMarker(new MarkerOptions()
+                            .position(point)
+                            .title("User created marker"));
+
+                Intent intent = new Intent(MapsActivity.this, CampsiteForm.class);
+                intent.putExtra("latlng", m.getPosition());
                 startActivity(intent);
             }
         });
