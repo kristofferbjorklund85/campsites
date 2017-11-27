@@ -20,7 +20,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Username"
+            android:hint="Username"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="37dp" />
 
@@ -32,6 +32,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:ems="10"
+            android:hint="password"
             android:inputType="textPassword"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="100dp" />

@@ -90,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .position(point)
                             .title("User created marker"));
 
-                Intent intent = new Intent(MapsActivity.this, CampsiteForm.class);
+                Intent intent = new Intent(MapsActivity.this, PostActivity.class);
                 intent.putExtra("latlng", m.getPosition());
                 startActivity(intent);
             }

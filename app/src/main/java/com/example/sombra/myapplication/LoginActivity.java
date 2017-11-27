@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button button = findViewById(R.id.login_button);
-
         vh = new VolleyHandler();
         vh.getCampsites(this);
 
@@ -33,6 +32,10 @@ public class LoginActivity extends AppCompatActivity {
         for(CampsiteModel cm : cml) {
             Log.d("List before: ", cm.location);
         }
+
+        EditText et = findViewById(R.id.input_username);
+        Session.setUsername(et.getText().toString());
+        Log.d("Username: ", Session.getUsername());
 
         Log.d("starting: ", "Maps");
         Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
