@@ -61,15 +61,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if(marker.getTitle().equals("User created marker")) {
-                    Intent intent = new Intent(MapsActivity.this, PostActivity.class);
-                    intent.putExtra("latlng", marker.getPosition());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MapsActivity.this, Campsite.class);
-                    intent.putExtra("cm", (CampsiteModel) marker.getTag());
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
+                intent.putExtra("cm", (CampsiteModel) marker.getTag());
+                startActivity(intent);
             }
         });
 
@@ -78,8 +72,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapClick(LatLng point) {
                 Marker m =  mMap.addMarker(new MarkerOptions()
                             .position(point)
-                            .title("Create new Campsite"));
-                m.showInfoWindow();
+                            .title("User created marker"));
+
+                Intent intent = new Intent(MapsActivity.this, PostActivity.class);
+                intent.putExtra("latlng", m.getPosition());
+                startActivity(intent);
             }
         });
     }

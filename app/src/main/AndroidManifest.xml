@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Campsite"
+            android:name=".CampsiteActivity"
             android:label="@string/title_activity_campsite"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
