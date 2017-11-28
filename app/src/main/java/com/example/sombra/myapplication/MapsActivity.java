@@ -1,9 +1,14 @@
 package com.example.sombra.myapplication;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,17 +18,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
-    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-    private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
-
-    private Marker mPerth;
-    private Marker mSydney;
-    private Marker mBrisbane;
 
     private static GoogleMap mMap;
 
@@ -31,13 +30,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    private static void createMarkers(ArrayList<CampsiteModel> list) {
+    private static void createMarker(ArrayList<CampsiteModel> list) {
         for(CampsiteModel cm : list) {
             Marker m =   mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(cm.lat, cm.lng))
@@ -45,19 +43,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             m.setTag(cm);
         }
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
+
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Log.d("Extras in Maps: ", " NULL");
@@ -66,13 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ArrayList<CampsiteModel> cml = extras.getParcelableArrayList("cmList");
 
-        for(CampsiteModel cm : cml) {
-            Log.d("List before: ", cm.location);
-        }
-
-        createMarkers(cml);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(BRISBANE));
+        createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -96,4 +80,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+    public void onSearch(View view) {
+        EditText location_tf = (EditText)findViewById(R.id.TFaddress);
+        String location = location_tf.getText().toString();
+        List<Address> addressList = null;
+
+        if(location != null || !location.equals("")) {
+            Geocoder gc = new Geocoder(this);
+            try {
+                addressList = gc.getFromLocationName(location, 1);
+            } catch(IOException | IllegalStateException | IllegalArgumentException e) {
+                Log.d("Search Maps: ", e.toString());
+                Toast toast = Toast.makeText(this, "That place doesn't exist", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
+            Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
+        }
+    }
 }
+
