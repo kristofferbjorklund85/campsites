@@ -13,76 +13,76 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="location"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="location"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="type"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="type"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/fee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="fee"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/fee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="fee"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/capacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="capacity"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/capacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="capacity"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/availability"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="availability"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="availability"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="description"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:text="description"
+                android:textSize="12pt"
+                android:gravity="center"
+                tools:layout_editor_absoluteX="14dp"
+                tools:layout_editor_absoluteY="229dp" />
 
-        <ListView
-            android:id="@+id/comments_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <ListView
+                android:id="@+id/comments_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 </android.support.constraint.ConstraintLayout>
