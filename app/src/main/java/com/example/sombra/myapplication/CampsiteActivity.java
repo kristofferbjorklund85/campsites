@@ -1,21 +1,15 @@
 package com.example.sombra.myapplication;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.w3c.dom.Text;
 
-public class Campsite extends AppCompatActivity {
+public class CampsiteActivity extends AppCompatActivity {
 
     public static String ERROR;
 
@@ -31,13 +25,13 @@ public class Campsite extends AppCompatActivity {
     }
 
     public void init() {
-        ERROR = Campsite.class.getSimpleName() + getString(R.string.ERROR);
+        ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
 
         String test_JSON = getString(R.string.test_JSON);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.d("Extras in Campsite: ", " NULL");
+            Log.d("Extras: ", " NULL");
             return;
         }
 
