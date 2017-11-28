@@ -6,7 +6,7 @@ package com.example.sombra.myapplication;
 
 public class User {
 
-    private static String username;
+    private static String username = null;
 
     public static void setUsername(String user) {
         User.username = user;

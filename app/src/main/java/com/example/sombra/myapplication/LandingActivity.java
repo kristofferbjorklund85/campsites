@@ -50,7 +50,7 @@ public class LandingActivity extends AppCompatActivity {
         Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
         intent.putParcelableArrayListExtra("cmList", cml);
         startActivity(intent);
-        finish();
+        //finish();
 
     }
 
