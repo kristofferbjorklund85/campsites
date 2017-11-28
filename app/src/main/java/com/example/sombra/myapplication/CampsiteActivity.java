@@ -24,6 +24,7 @@ import java.util.List;
 public class CampsiteActivity extends AppCompatActivity {
 
     public static String ERROR;
+    CommentLoader cl = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,78 +64,9 @@ public class CampsiteActivity extends AppCompatActivity {
         availabilityView.setText("Availability: " + cm.availability);
         descriptionView.setText("Description: " + cm.description);
 
-        loadComments();
+        CommentLoader cl = new CommentLoader();
+        cl.loadComments(this, (ListView) findViewById(R.id.comments_listview));
     }
-
-    public void loadComments() {
-
-        Comment[] commentsArray = {
-                new Comment(User.getUsername(), "This is great campsite, many friendly people"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
-
-
-        ListView comments = (ListView) findViewById(R.id.comments_listview);
-        CommentAdapter adapter = new CommentAdapter(this,
-                R.layout.comments_listitem, commentsArray);
-        comments.setAdapter(adapter);
-
-    }
-
-    private class CommentAdapter extends ArrayAdapter<Comment> {
-
-        Context context;
-        int layoutResourceId;
-        Comment data[] = null;
-
-
-        public CommentAdapter(Context context, int layoutResourceId, Comment[] data) {
-            super(context, layoutResourceId, data);
-            this.layoutResourceId = layoutResourceId;
-            this.context = context;
-            this.data = data;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View row = convertView;
-            CommentHolder holder = null;
-
-            if(row == null) {
-                LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-                row = inflater.inflate(layoutResourceId, parent, false);
-
-                holder = new CommentHolder();
-
-                holder.user = (TextView)row.findViewById(R.id.comment_user);
-                holder.comment = (TextView)row.findViewById(R.id.comment_textview);
-
-
-                row.setTag(holder);
-
-            } else {
-                holder = (CommentHolder)row.getTag();
-            }
-
-            holder.user.setText(data[position].username + ":");
-            holder.comment.setText(data[position].comment);
-
-
-            return row;
-        }
-        
-
-    }
-
-    static class CommentHolder
-    {
-        TextView user;
-        TextView comment;
-    }
-
-
-
-
 
 
 
