@@ -79,5 +79,10 @@
             tools:layout_editor_absoluteX="14dp"
             tools:layout_editor_absoluteY="229dp" />
 
+        <ListView
+            android:id="@+id/comments_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </android.support.v7.widget.LinearLayoutCompat>
 </android.support.constraint.ConstraintLayout>
