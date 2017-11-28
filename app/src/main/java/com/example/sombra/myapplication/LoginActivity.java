@@ -17,6 +17,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(true) {
+            User.setUsername("420DonaldTrump69");
+            Log.d("starting: ", "Landing");
+            Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void login(View view) {
