@@ -27,8 +27,6 @@ public class CampsiteActivity extends AppCompatActivity {
     public void init() {
         ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
 
-        String test_JSON = getString(R.string.test_JSON);
-
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Log.d("Extras: ", " NULL");
@@ -54,7 +52,18 @@ public class CampsiteActivity extends AppCompatActivity {
         descriptionView.setText("Description: " + cm.description);
     }
 
+
+
+
+
+
+
+
+   /*
     public CampsiteModel createCampsite(String jsonStr) {
+
+    String test_JSON = getString(R.string.test_JSON);
+
         JSONObject jsonObj = null;
 
         try {
@@ -80,7 +89,6 @@ public class CampsiteActivity extends AppCompatActivity {
         }
         return null;
     }
-
-
+    */
 
 }
