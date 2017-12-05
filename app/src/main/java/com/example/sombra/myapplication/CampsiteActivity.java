@@ -32,7 +32,6 @@ public class CampsiteActivity extends AppCompatActivity {
 
     public static String ERROR;
     CommentLoader cl = null;
-    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class CampsiteActivity extends AppCompatActivity {
         init(this);
 
     }
-
 
 
     public void init(final Context context) {
