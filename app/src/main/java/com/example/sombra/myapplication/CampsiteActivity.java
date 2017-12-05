@@ -1,7 +1,11 @@
 package com.example.sombra.myapplication;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +32,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
     public static String ERROR;
     CommentLoader cl = null;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +41,13 @@ public class CampsiteActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Maps");
         setSupportActionBar(toolbar);
-        init();
+        init(this);
 
     }
 
-    public void init() {
+
+
+    public void init(final Context context) {
         ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
 
         Bundle extras = getIntent().getExtras();
@@ -47,6 +57,15 @@ public class CampsiteActivity extends AppCompatActivity {
         }
 
         setCampsiteView((CampsiteModel) extras.getParcelable("cm"));
+
+        Button button = (Button) findViewById(R.id.comment_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DialogFragment newFragment = new CommentDialog();
+                newFragment.show(getFragmentManager(), "comment");
+            }
+        });
+
     }
 
     public void setCampsiteView(CampsiteModel cm) {
@@ -67,6 +86,22 @@ public class CampsiteActivity extends AppCompatActivity {
         CommentLoader cl = new CommentLoader();
         cl.loadComments(this, (ListView) findViewById(R.id.comments_listview));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
