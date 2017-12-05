@@ -41,8 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location mLastKnownLocation;
     private LatLng mDefaultLocation = new LatLng(-17.824858, 31.053028);
     private int DEFAULT_ZOOM = 11;
-    private double currentLat;
-    private double currentLng;
+    private static double currentLat;
+    private static double currentLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +182,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             currentLat = mLastKnownLocation.getLatitude();
+                            Log.d("CurrentLat: ", String.valueOf(currentLat));
                             currentLng = mLastKnownLocation.getLongitude();
+                            Log.d("CurrentLng: ", String.valueOf(currentLng));
                         } else {
                             Log.d("getDeviceLocation", "Current location is null. Using defaults.");
                             Log.e("getDeviceLocation", "Exception: %s", task.getException());
@@ -197,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void updateLocationUI() {
+    void updateLocationUI() {
         if (mMap == null) {
             return;
         }
@@ -212,5 +214,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    public static LatLng getCurrentLatLng() {
+        LatLng latLng = new LatLng(currentLat, currentLng);
+        return latLng;
     }
 }
