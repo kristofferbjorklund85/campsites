@@ -21,6 +21,11 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
+        MapsActivity ma = new MapsActivity();
+
+        ma.updateLocationUI();
+        ma.getDeviceLocation();
+
         vh = new VolleyHandler();
         vh.getCampsites(this);
 

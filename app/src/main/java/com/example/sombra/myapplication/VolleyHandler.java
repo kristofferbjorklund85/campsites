@@ -20,10 +20,11 @@ import java.util.List;
 
 public class VolleyHandler {
 
-    private String url = "http://87.96.251.140:8080/API";
     private List<CampsiteModel> campsites;
-    private double lat = -31.952854;
-    private double lng =  115.857342;
+    private double lat = MapsActivity.getCurrentLatLng().latitude;
+    private double lng =  MapsActivity.getCurrentLatLng().longitude;
+    private String url = String.format("http://87.96.251.140:8080/API");
+    private String urlLatLng = String.format("http://87.96.251.140:8080/API/lat%1$s/lng%2$s", String.valueOf(lat), String.valueOf(lng));
 
     public VolleyHandler() {
         //url = getString(R.string.apiURL);
@@ -35,6 +36,8 @@ public class VolleyHandler {
     }
 
     public void getCampsites(Context context) {
+
+        Log.d("UrlLatLng: ", urlLatLng);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -127,7 +130,6 @@ public class VolleyHandler {
         return campList;
     }
 
-
  /*   public List oldJSON(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
 
@@ -153,6 +155,4 @@ public class VolleyHandler {
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
     }*/
-
-
 }
