@@ -8,81 +8,87 @@
     tools:context="com.example.sombra.myapplication.CampsiteActivity"
     tools:showIn="@layout/activity_campsite">
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/location"
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="location"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="type"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+            <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="location"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/fee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="fee"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="type"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/capacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="capacity"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="fee"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/availability"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="availability"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="capacity"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30px"
-            android:text="description"
-            android:textSize="12pt"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/availability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="availability"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-        <ListView
-            android:id="@+id/comments_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="center"
+                    android:text="description"
+                    android:textSize="12pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
 
-    </android.support.v7.widget.LinearLayoutCompat>
+                <ListView
+                    android:id="@+id/comments_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

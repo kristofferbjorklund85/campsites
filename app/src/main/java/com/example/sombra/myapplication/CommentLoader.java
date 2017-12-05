@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 public class CommentLoader {
 
-
     public void loadComments(Context context, ListView listview) {
 
         Comment[] commentsArray = {
