@@ -25,6 +25,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static GoogleMap mMap;
+    private static ArrayList<Marker> markerList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +62,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
-                intent.putExtra("cm", (CampsiteModel) marker.getTag());
-                startActivity(intent);
+                if (marker.getTitle().equals("Create new Campsite")) {
+                    Intent intent = new Intent(MapsActivity.this, PostActivity.class);
+                    intent.putExtra("latlng", marker.getPosition());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
+                    intent.putExtra("cm", (CampsiteModel) marker.getTag());
+                    startActivity(intent);
+                }
             }
         });
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
+                if(!markerList.isEmpty()) {
+                    markerList.get(0).remove();
+                    markerList.remove(0);
+                }
                 Marker m =  mMap.addMarker(new MarkerOptions()
                             .position(point)
-                            .title("User created marker"));
+                            .title("Create new Campsite"));
 
-                Intent intent = new Intent(MapsActivity.this, PostActivity.class);
-                intent.putExtra("latlng", m.getPosition());
-                startActivity(intent);
+                markerList.add(m);
+                m.showInfoWindow();
             }
         });
     }

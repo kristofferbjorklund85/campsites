@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,47 @@ public class VolleyHandler {
 
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
 
+    }
+
+    public void postCampsites(Context context, CampsiteModel cm) {
+        JSONObject jo = toJSON(cm);
+
+        JsonObjectRequest joReq = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jo,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("on Repsonse POST: ", "sent Campsite");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("POST-request cause", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(context).addToRequestQueue(joReq);
+    }
+
+    public static JSONObject toJSON(CampsiteModel cm) {
+        JSONObject jsonObj = new JSONObject();
+
+        try {
+            jsonObj.put("id", cm.id);
+            jsonObj.put("location", cm.location);
+            jsonObj.put("lat", cm.lat);
+            jsonObj.put("lng", cm.lng);
+            jsonObj.put("type", cm.type);
+            jsonObj.put("fee", cm.fee);
+            jsonObj.put("capacity", cm.capacity);
+            jsonObj.put("availability", cm.availability);
+            jsonObj.put("description", cm.description);
+        } catch(JSONException e) {
+            Log.d("toJSON obj", e.toString());
+        }
+
+        return jsonObj;
     }
 
     public List fakeJSON(JSONArray array) {
