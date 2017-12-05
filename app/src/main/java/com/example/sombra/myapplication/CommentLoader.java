@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Sombra on 2017-11-28.
  */
@@ -37,7 +39,7 @@ public class CommentLoader {
         CommentAdapter adapter = new CommentAdapter(context,
                 R.layout.comments_listitem, commentsArray);
         comments.setAdapter(adapter);
-
+        justifyListViewHeightBasedOnChildren(comments, adapter);
     }
 
     private class CommentAdapter extends ArrayAdapter<Comment> {
@@ -88,7 +90,20 @@ public class CommentLoader {
         TextView comment;
     }
 
+    public void justifyListViewHeightBasedOnChildren (ListView listView, CommentAdapter adapter) {
 
+        ViewGroup vg = listView;
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, vg);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
 
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(par);
+        listView.requestLayout();
+    }
 
 }
