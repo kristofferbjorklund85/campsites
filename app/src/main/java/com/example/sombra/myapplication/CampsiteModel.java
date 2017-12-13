@@ -21,6 +21,7 @@ public class CampsiteModel implements Parcelable {
 
     String id;
     String location;
+    String name;
     double lat;
     double lng;
     String type;
@@ -28,11 +29,14 @@ public class CampsiteModel implements Parcelable {
     int capacity;
     String availability;
     String description;
+    double rating;
+    int views;
 
-    public CampsiteModel(String id, String location, double lat, double lng, String type, String fee,
-                         int capacity, String availability, String description){
+    public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
+                         int capacity, String availability, String description, double rating, int views){
         this.id = id;
         this.location = location;
+        this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.type = type;
@@ -40,11 +44,14 @@ public class CampsiteModel implements Parcelable {
         this.capacity = capacity;
         this.availability = availability;
         this.description = description;
+        this.rating = rating;
+        this.views = views;
     }
 
     public CampsiteModel(Parcel in) {
         this.id = in.readString();
         this.location = in.readString();
+        this.name = in.readString();
         this.lat = in.readDouble();
         this.lng = in.readDouble();
         this.type = in.readString();
@@ -52,6 +59,8 @@ public class CampsiteModel implements Parcelable {
         this.capacity = in.readInt();
         this.availability = in.readString();
         this.description = in.readString();
+        this.rating = in.readDouble();
+        this.views = in.readInt();
     }
 
     @Override
@@ -63,6 +72,7 @@ public class CampsiteModel implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.id);
         parcel.writeString(this.location);
+        parcel.writeString(this.name);
         parcel.writeDouble(this.lat);
         parcel.writeDouble(this.lng);
         parcel.writeString(this.type);
@@ -70,5 +80,7 @@ public class CampsiteModel implements Parcelable {
         parcel.writeInt(this.capacity);
         parcel.writeString(this.availability);
         parcel.writeString(this.description);
+        parcel.writeDouble(this.rating);
+        parcel.writeInt(this.views);
     }
 }

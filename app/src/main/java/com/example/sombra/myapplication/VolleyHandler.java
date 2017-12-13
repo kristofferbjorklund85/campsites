@@ -41,7 +41,7 @@ public class VolleyHandler {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url,
+                url + "?type=campsite",
                 null,
                 new Response.Listener<JSONArray>() {
 
@@ -112,13 +112,16 @@ public class VolleyHandler {
                 CampsiteModel cm = new CampsiteModel(
                         jsonObj.getString("id"),
                         jsonObj.getString("location"),
+                        jsonObj.getString("name"),
                         jsonObj.getDouble("lat"),
                         jsonObj.getDouble("lng"),
                         jsonObj.getString("type"),
                         jsonObj.getString("fee"),
                         jsonObj.getInt("capacity"),
                         jsonObj.getString("availability"),
-                        jsonObj.getString("description"));
+                        jsonObj.getString("description"),
+                        jsonObj.getDouble("rating"),
+                        jsonObj.getInt("views"));
                 campList.add(cm);
                 Log.d("fromJSON: ", "created object");
             } catch (JSONException e) {

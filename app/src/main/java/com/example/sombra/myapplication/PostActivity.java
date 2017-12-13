@@ -53,7 +53,7 @@ public class PostActivity extends AppCompatActivity {
         avail = (EditText)findViewById(R.id.EditTextAvailability);
         desc  = (EditText)findViewById(R.id.EditTextDescription);
 
-        CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
+        /*CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
                                             ln.getText().toString(),
                                             latLng.latitude,
                                             latLng.longitude,
@@ -65,6 +65,6 @@ public class PostActivity extends AppCompatActivity {
 
         vh.postCampsites(this, cm);
         Intent intent = new Intent(PostActivity.this, MapsActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }

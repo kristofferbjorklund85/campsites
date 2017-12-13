@@ -1,6 +1,8 @@
 package com.example.sombra.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,20 +17,16 @@ public class LandingActivity extends AppCompatActivity {
 
     VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        MapsActivity ma = new MapsActivity();
-
-        ma.updateLocationUI();
-        ma.getDeviceLocation();
-
         vh = new VolleyHandler();
-        vh.getCampsites(this);
 
+        LandingActivity.context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,22 +39,12 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+        new loadMaps().execute();
     }
 
-    public void loadMaps(View view) {
-        cml = (ArrayList<CampsiteModel>) vh.getCampList();
 
-        for(CampsiteModel cm : cml) {
-            Log.d("List before: ", cm.location);
-        }
-
-        Log.d("starting: ", "Maps");
-        Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
-        intent.putParcelableArrayListExtra("cmList", cml);
-        startActivity(intent);
-        //finish();
-
+    public void mapsView(View view) {
+        setContentView(R.layout.activity_maps);
     }
 
     public void loadCampsite(View view) {
@@ -69,4 +57,24 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private class loadMaps extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params) {
+            vh.getCampsites(context);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            cml = (ArrayList<CampsiteModel>) vh.getCampList();
+            for(CampsiteModel cm : cml) {
+                Log.d("List before: ", cm.location);
+            }
+
+            Log.d("starting: ", "Maps");
+            Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
+            intent.putParcelableArrayListExtra("cmList", cml);
+            startActivity(intent);
+        }
+    }
 }
