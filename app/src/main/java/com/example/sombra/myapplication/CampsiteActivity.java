@@ -27,16 +27,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import com.example.sombra.myapplication.CommentLoader.CommentChangeListener;
 
 public class CampsiteActivity extends AppCompatActivity {
 
     public static String ERROR;
     CommentLoader cl = null;
+    CampsiteModel cm;
+    private CommentChangeListener listener;
+    private List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campsite);
+
+        cl = new CommentLoader(this, (ListView) findViewById(R.id.comments_listview), cm);
+        cl.loadComments();
+
+        listener = new CommentChangeListener() {
+            @Override
+            public void onCommentChangeList(List<Comment> cList) {
+                cl.resetListView(cList);
+            }
+        };
+
+        comments = new ArrayList<>();
+        cl.resetListView(comments);
+
+        cl.getComments(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Maps");
         setSupportActionBar(toolbar);
@@ -53,7 +73,8 @@ public class CampsiteActivity extends AppCompatActivity {
             return;
         }
 
-        setCampsiteView((CampsiteModel) extras.getParcelable("cm"));
+        cm = (CampsiteModel) extras.getParcelable("cm");
+        setCampsiteView(cm);
 
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,14 +101,6 @@ public class CampsiteActivity extends AppCompatActivity {
         availabilityView.setText("Availability: " + cm.availability);
         descriptionView.setText("Description: " + cm.description);
 
-        CommentLoader cl = new CommentLoader(this, (ListView) findViewById(R.id.comments_listview), cm);
-        boolean waiting = cl.loadComments();
-        while(!waiting) {
-
-        }
-        View vg = findViewById(android.R.id.content);
-        vg.invalidate();
-        setContentView(R.layout.activity_campsite);
     }
 
 

@@ -12,6 +12,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +35,8 @@ public class CommentLoader {
     private VolleyHandler vh;
     private ListView commentsListView;
     private CampsiteModel cm;
+    private String url = String.format("http://87.96.251.140:8080/API");
+    List<Comment> comments;
     private boolean waiting = false;
 
     public CommentLoader(Context context, ListView listview, CampsiteModel cm) {
@@ -33,37 +44,13 @@ public class CommentLoader {
         this.context = context;
         commentsListView = listview;
         this.cm = cm;
+        listeners = new ArrayList<>();
 
     }
-
-    private class loadCommentsList extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... params) {
-            vh.getComments(context);
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            /*cml = (ArrayList<CampsiteModel>) vh.getCampList();
-            for(CampsiteModel cm : cml) {
-                Log.d("List ", cm.location);
-            }
-            Log.d("starting: ", "Maps");
-            Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
-            intent.putParcelableArrayListExtra("cmList", cml);
-            startActivity(intent);*/
-
-
-
-            waiting = true;
-        }
-    }
-
 
     public boolean loadComments() {
 
-        Comment[] commentsArray2 = {
+        /*Comment[] commentsArray2 = {
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "This is great campsite, many friendly people"),
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
@@ -73,12 +60,12 @@ public class CommentLoader {
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};*/
 
-        Log.d("COMMENLOADER: ", "execute");
-        new loadCommentsList().execute();
-        Log.d("COMMENLOADER: ", "waiting");
-        while(!waiting) {}
+        //Log.d("COMMENLOADER: ", "execute");
+        //new loadCommentsList().execute();
+        //Log.d("COMMENLOADER: ", "waiting");
+        //while(!waiting) {}
 
         List<Comment> list = vh.getCommentList();
         Log.d("COMMENTLOADER", "Getting: CommentList");
@@ -88,25 +75,85 @@ public class CommentLoader {
             commentsArray[i] = list.get(i);
         }
 
-        ListView comments = commentsListView;
-        CommentAdapter adapter = new CommentAdapter(context,
-                R.layout.comments_listitem, commentsArray);
-        comments.setAdapter(adapter);
-        justifyListViewHeightBasedOnChildren(comments, adapter);
-        justifyListViewHeightBasedOnChildren(comments, adapter);
+
+
 
         Log.d("COMMENLOADER: ", "return from loadcomments");
         return true;
+    }
+
+    public void resetListView(List<Comment> cList) {
+        ListView comments = commentsListView;
+        CommentAdapter adapter = new CommentAdapter(context,
+                R.layout.comments_listitem, cList);
+        comments.setAdapter(adapter);
+        justifyListViewHeightBasedOnChildren(comments, adapter);
+        //justifyListViewHeightBasedOnChildren(comments, adapter);
+    }
+
+
+    public void getComments(Context context) {
+        Log.d("COMMENTLOADER", "Entering GetComments");
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url + "?type=comment",
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray array) {
+                        Log.d("COMMENTLOADER", "on Response: setting comments");
+                        comments = commentsFromJSON(array);
+                        for (CommentChangeListener m : listeners) {
+                            m.onCommentChangeList(comments);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("GET-request cause: ", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
+
+        /*Log.d("COMMENTLOADER", "While: Started");
+        while(b == false) {}
+        Log.d("COMMENTLOADER", "While: Done");*/
+
+    }
+
+    public List commentsFromJSON(JSONArray array) {
+        List<Comment> cList = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                JSONObject jsonObj = array.getJSONObject(i);
+                Comment cm = new Comment(
+                        jsonObj.getString("id"),
+                        jsonObj.getString("campsiteId"),
+                        jsonObj.getString("date"),
+                        jsonObj.getString("username"),
+                        jsonObj.getString("commentBody"));
+                cList.add(cm);
+                Log.d("fromJSON: ", "created object");
+            } catch (JSONException e) {
+                Log.d("fromJSON Exception: ", e.getMessage());
+            }
+        }
+
+        Log.d("fromJSON: ", "Returning List of " + cList.size());
+        return cList;
     }
 
     private class CommentAdapter extends ArrayAdapter<Comment> {
 
         Context context;
         int layoutResourceId;
-        Comment data[] = null;
+        List<Comment> data = null;
 
 
-        public CommentAdapter(Context context, int layoutResourceId, Comment[] data) {
+        public CommentAdapter(Context context, int layoutResourceId, List<Comment> data) {
             super(context, layoutResourceId, data);
             this.layoutResourceId = layoutResourceId;
             this.context = context;
@@ -133,16 +180,15 @@ public class CommentLoader {
                 holder = (CommentHolder)row.getTag();
             }
 
-            holder.user.setText(data[position].username + ":");
-            holder.comment.setText(data[position].commentBody);
+            holder.user.setText(data.get(position).username + ":");
+            holder.comment.setText(data.get(position).commentBody);
 
             return row;
         }
 
     }
 
-    private class CommentHolder
-    {
+    private class CommentHolder {
         TextView user;
         TextView comment;
     }
@@ -162,5 +208,18 @@ public class CommentLoader {
         listView.setLayoutParams(par);
         listView.requestLayout();
     }
+
+    //LISTENERS FROM HENRIK
+
+    private List<CommentChangeListener> listeners;
+
+    public interface CommentChangeListener {
+        void onCommentChangeList(List<Comment> members);
+    }
+
+    public void addCommentChangeListener(CommentChangeListener l) {
+        listeners.add(l);
+    }
+
 
 }
