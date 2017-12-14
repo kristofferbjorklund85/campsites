@@ -32,55 +32,19 @@ import java.util.List;
 public class CommentLoader {
 
     private Context context;
-    private VolleyHandler vh;
     private ListView commentsListView;
     private CampsiteModel cm;
     private String url = String.format("http://87.96.251.140:8080/API");
-    List<Comment> comments;
-    private boolean waiting = false;
+    CommentChangeListener listener;
 
-    public CommentLoader(Context context, ListView listview, CampsiteModel cm) {
-        vh = new VolleyHandler();
+    public CommentLoader(Context context, ListView listview, CampsiteModel cm, CommentChangeListener listener) {
         this.context = context;
         commentsListView = listview;
         this.cm = cm;
         listeners = new ArrayList<>();
-
+        this.listener = listener;
     }
 
-    public boolean loadComments() {
-
-        /*Comment[] commentsArray2 = {
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "This is great campsite, many friendly people"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
-                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};*/
-
-        //Log.d("COMMENLOADER: ", "execute");
-        //new loadCommentsList().execute();
-        //Log.d("COMMENLOADER: ", "waiting");
-        //while(!waiting) {}
-
-        List<Comment> list = vh.getCommentList();
-        Log.d("COMMENTLOADER", "Getting: CommentList");
-        Comment[] commentsArray = new Comment[list.size()];
-
-        for(int i = 0; i < list.size(); i++) {
-            commentsArray[i] = list.get(i);
-        }
-
-
-
-
-        Log.d("COMMENLOADER: ", "return from loadcomments");
-        return true;
-    }
 
     public void resetListView(List<Comment> cList) {
         ListView comments = commentsListView;
@@ -88,7 +52,6 @@ public class CommentLoader {
                 R.layout.comments_listitem, cList);
         comments.setAdapter(adapter);
         justifyListViewHeightBasedOnChildren(comments, adapter);
-        //justifyListViewHeightBasedOnChildren(comments, adapter);
     }
 
 
@@ -97,29 +60,24 @@ public class CommentLoader {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url + "?type=comment",
+                url + "?type=comment&campsiteid='" + cm.id + "'",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
                         Log.d("COMMENTLOADER", "on Response: setting comments");
-                        comments = commentsFromJSON(array);
-                        for (CommentChangeListener m : listeners) {
-                            m.onCommentChangeList(comments);
-                        }
+                        List<Comment> list = commentsFromJSON(array);
+                        listener.onCommentChangeList(list);
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("GET-request cause: ", error.getCause().getMessage());
+                Log.d("COMMENTLOADER: ", "ERROR RESPONSE");
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
-
-        /*Log.d("COMMENTLOADER", "While: Started");
-        while(b == false) {}
-        Log.d("COMMENTLOADER", "While: Done");*/
 
     }
 
@@ -131,10 +89,10 @@ public class CommentLoader {
                 JSONObject jsonObj = array.getJSONObject(i);
                 Comment cm = new Comment(
                         jsonObj.getString("id"),
-                        jsonObj.getString("campsiteId"),
+                        jsonObj.getString("campsiteid"),
                         jsonObj.getString("date"),
                         jsonObj.getString("username"),
-                        jsonObj.getString("commentBody"));
+                        jsonObj.getString("commentbody"));
                 cList.add(cm);
                 Log.d("fromJSON: ", "created object");
             } catch (JSONException e) {
