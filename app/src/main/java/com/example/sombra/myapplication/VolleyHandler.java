@@ -25,6 +25,7 @@ public class VolleyHandler {
     private double lng =  MapsActivity.getCurrentLatLng().longitude;
     private String url = String.format("http://87.96.251.140:8080/API");
     private String urlLatLng = String.format("http://87.96.251.140:8080/API/lat%1$s/lng%2$s", String.valueOf(lat), String.valueOf(lng));
+    private static boolean v = false;
 
     public VolleyHandler() {
         //url = getString(R.string.apiURL);
@@ -37,18 +38,16 @@ public class VolleyHandler {
 
     public void getCampsites(Context context) {
 
-        Log.d("UrlLatLng: ", urlLatLng);
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url + "?type=campsite",
                 null,
                 new Response.Listener<JSONArray>() {
-
                     @Override
                     public void onResponse(JSONArray array) {
                         campsites = fakeJSON(array);
                         Log.d("on Response: ", "setting campsites");
+                        v = true;
                     }
                 }, new Response.ErrorListener() {
 
@@ -57,9 +56,8 @@ public class VolleyHandler {
                 Log.d("GET-request cause: ", error.getCause().getMessage());
             }
         });
-
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
-
+        while(v == false) {}
     }
 
     public void postCampsites(Context context, CampsiteModel cm) {

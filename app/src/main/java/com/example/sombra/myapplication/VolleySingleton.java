@@ -1,6 +1,8 @@
 package com.example.sombra.myapplication;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.android.volley.*;
 import com.android.volley.toolbox.Volley;
 
