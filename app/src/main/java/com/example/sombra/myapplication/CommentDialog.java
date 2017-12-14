@@ -3,6 +3,7 @@ package com.example.sombra.myapplication;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,14 @@ import android.widget.TextView;
 
 public class CommentDialog extends DialogFragment {
 
+    CommentLoader cl = null;
+    Context context;
+
+    public CommentDialog(Context context, CommentLoader cl) {
+        this.context = context;
+        this.cl = cl;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -31,7 +40,12 @@ public class CommentDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText comment = (EditText) getDialog().findViewById(R.id.comment_body);
                         String tempString = comment.getText().toString();
+
+
+
+
                         Log.d("submitted: ", User.getUsername() + "said: " + tempString);
+                        cl.getComments(context);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

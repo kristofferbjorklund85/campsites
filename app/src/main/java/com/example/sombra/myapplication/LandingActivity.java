@@ -50,11 +50,26 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void loadCampsite(View view) {
-        cml = (ArrayList<CampsiteModel>) vh.getCampList();
+        //cml = (ArrayList<CampsiteModel>) vh.getCampList();
+
+        CampsiteModel camp = new CampsiteModel(
+                                    "04ef19e0-db39-47ed-9e2c-6605e06e2d7c",
+                                    "Gothenburg",
+                                    "Lindholmen",
+                                    -32.952854,
+                                    116.857342,
+                                    "School",
+                                    "Free",
+                                    50,
+                                    "All year",
+                                    "Very nice place, lots of cool people",
+                                    3.5,
+                                    12312);
+
 
         Log.d("starting: ", "CampsiteActivity");
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
-        intent.putExtra("cm", cml.get(0));
+        intent.putExtra("cm", camp);
         startActivity(intent);
     }
 

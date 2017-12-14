@@ -36,14 +36,28 @@ public class CampsiteActivity extends AppCompatActivity {
     CampsiteModel cm;
     private CommentChangeListener listener;
     private List<Comment> comments;
+    Context me;
+
+    /*CampsiteModel camp = new CampsiteModel(
+            "04ef19e0-db39-47ed-9e2c-6605e06e2d7c",
+            "Gothenburg",
+            "Lindholmen",
+            -32.952854,
+            116.857342,
+            "School",
+            "Free",
+            50,
+            "All year",
+            "Very nice place, lots of cool people",
+            3.5,
+            12312);*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campsite);
 
-        cl = new CommentLoader(this, (ListView) findViewById(R.id.comments_listview), cm);
-        cl.loadComments();
+        me = this;
 
         listener = new CommentChangeListener() {
             @Override
@@ -52,20 +66,12 @@ public class CampsiteActivity extends AppCompatActivity {
             }
         };
 
-        comments = new ArrayList<>();
-        cl.resetListView(comments);
-
-        cl.getComments(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Maps");
-        setSupportActionBar(toolbar);
-        init(this);
+        init();
     }
 
 
-    public void init(final Context context) {
-        ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
+    public void init() {
+        //ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -79,11 +85,20 @@ public class CampsiteActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog();
+                DialogFragment newFragment = new CommentDialog(me, cl);
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
 
+        cl = new CommentLoader(me, (ListView) findViewById(R.id.comments_listview), cm, listener);
+
+        comments = new ArrayList<>();
+        cl.resetListView(comments);
+        cl.getComments(me);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(cm.location);
+        setSupportActionBar(toolbar);
     }
 
     public void setCampsiteView(CampsiteModel cm) {
