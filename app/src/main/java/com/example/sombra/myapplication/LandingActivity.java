@@ -50,7 +50,6 @@ public class LandingActivity extends AppCompatActivity {
     public void loadCampsite(View view) {
         cml = (ArrayList<CampsiteModel>) vh.getCampList();
 
-
         Log.d("starting: ", "CampsiteActivity");
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
         intent.putExtra("cm", cml.get(0));
@@ -68,9 +67,8 @@ public class LandingActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             cml = (ArrayList<CampsiteModel>) vh.getCampList();
             for(CampsiteModel cm : cml) {
-                Log.d("List before: ", cm.location);
+                Log.d("List ", cm.location);
             }
-
             Log.d("starting: ", "Maps");
             Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
             intent.putParcelableArrayListExtra("cmList", cml);
