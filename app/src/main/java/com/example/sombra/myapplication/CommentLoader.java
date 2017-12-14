@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +56,7 @@ public class CommentLoader {
     }
 
 
-    public void getComments(Context context) {
+    public void getComments() {
         Log.d("COMMENTLOADER", "Entering GetComments");
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -73,7 +74,7 @@ public class CommentLoader {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.getCause().getMessage());
+                //Log.d("GET-request cause: ", error.getCause().getMessage());
                 Log.d("COMMENTLOADER: ", "ERROR RESPONSE");
             }
         });
@@ -103,6 +104,45 @@ public class CommentLoader {
         Log.d("fromJSON: ", "Returning List of " + cList.size());
         return cList;
     }
+
+    public void postComment(Context context, Comment cm) {
+        JSONObject jo = toJSON(cm);
+
+        JsonObjectRequest joReq = new JsonObjectRequest(
+                Request.Method.POST,
+                url + "?type=comment&campsiteid='" + cm.id + "'",
+                jo,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        getComments();
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("POST-request cause", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(context).addToRequestQueue(joReq);
+    }
+
+    public static JSONObject toJSON(Comment c) {
+        JSONObject jsonObj = new JSONObject();
+
+        try {
+            jsonObj.put("id", c.id);
+            jsonObj.put("campsiteId", c.campsiteId);
+            jsonObj.put("date", c.date);
+            jsonObj.put("username", c.username);
+            jsonObj.put("commentBody", c.commentBody);
+        } catch(JSONException e) {
+            Log.d("toJSON obj", e.toString());
+        }
+
+        return jsonObj;
+    }
+
 
     private class CommentAdapter extends ArrayAdapter<Comment> {
 
