@@ -17,7 +17,6 @@ public class LandingActivity extends AppCompatActivity {
 
     VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
-    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +24,6 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
 
         vh = new VolleyHandler();
-
-        LandingActivity.context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,12 +36,13 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        new loadMaps().execute();
     }
 
 
     public void mapsView(View view) {
-        setContentView(R.layout.activity_maps);
+        Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
+        intent.putParcelableArrayListExtra("cmList", cml);
+        startActivity(intent);
     }
 
     public void loadCampsite(View view) {
@@ -54,25 +52,5 @@ public class LandingActivity extends AppCompatActivity {
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
         intent.putExtra("cm", cml.get(0));
         startActivity(intent);
-    }
-
-    private class loadMaps extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... params) {
-            vh.getCampsites(context);
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            cml = (ArrayList<CampsiteModel>) vh.getCampList();
-            for(CampsiteModel cm : cml) {
-                Log.d("List ", cm.location);
-            }
-            Log.d("starting: ", "Maps");
-            Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
-            intent.putParcelableArrayListExtra("cmList", cml);
-            startActivity(intent);
-        }
     }
 }

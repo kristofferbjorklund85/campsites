@@ -31,24 +31,38 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
     private static GoogleMap mMap;
+
     private static ArrayList<Marker> markerList = new ArrayList<>();
+
     private FusedLocationProviderClient mFusedLocationProviderClient;
+
     private boolean mLocationPermissionGranted = false;
+
     private Location mLastKnownLocation;
     private LatLng mDefaultLocation = new LatLng(-17.824858, 31.053028);
+
     private int DEFAULT_ZOOM = 11;
+
     private static double currentLat;
     private static double currentLng;
+
+    ArrayList<CampsiteModel> cml;
+
+    VolleyHandler vh = new VolleyHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        setContentView(R.layout.activity_maps);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -78,8 +92,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        ArrayList<CampsiteModel> cml = extras.getParcelableArrayList("cmList");
-
+        vh.getCampsites(this);
+        cml = (ArrayList<CampsiteModel>) vh.getCampList();
         createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -89,6 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent intent = new Intent(MapsActivity.this, PostActivity.class);
                     intent.putExtra("latlng", marker.getPosition());
                     startActivity(intent);
+                    marker.remove();
                 } else {
                     Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
                     intent.putExtra("cm", (CampsiteModel) marker.getTag());
