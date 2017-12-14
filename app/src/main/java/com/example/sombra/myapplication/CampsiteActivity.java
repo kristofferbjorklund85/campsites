@@ -85,7 +85,7 @@ public class CampsiteActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(me, cl);
+                DialogFragment newFragment = new CommentDialog(me, cl, cm);
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
@@ -94,7 +94,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         comments = new ArrayList<>();
         cl.resetListView(comments);
-        cl.getComments(me);
+        cl.getComments();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(cm.location);

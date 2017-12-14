@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.UUID;
+
 /**
  * Created by Sombra on 2017-12-05.
  */
@@ -21,10 +23,12 @@ public class CommentDialog extends DialogFragment {
 
     CommentLoader cl = null;
     Context context;
+    CampsiteModel cm;
 
-    public CommentDialog(Context context, CommentLoader cl) {
+    public CommentDialog(Context context, CommentLoader cl, CampsiteModel cm) {
         this.context = context;
         this.cl = cl;
+        this.cm = cm;
     }
 
     @Override
@@ -40,12 +44,15 @@ public class CommentDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText comment = (EditText) getDialog().findViewById(R.id.comment_body);
                         String tempString = comment.getText().toString();
-
-
-
+                        Comment c = new Comment(
+                                        UUID.randomUUID().toString(),
+                                        cm.id,
+                                        "2017-12-24",
+                                        User.getUsername(),
+                                        tempString);
+                        cl.postComment(context, c);
 
                         Log.d("submitted: ", User.getUsername() + "said: " + tempString);
-                        cl.getComments(context);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
