@@ -80,8 +80,14 @@ public class CampsiteActivity extends AppCompatActivity {
         availabilityView.setText("Availability: " + cm.availability);
         descriptionView.setText("Description: " + cm.description);
 
-        CommentLoader cl = new CommentLoader();
-        cl.loadComments(this, (ListView) findViewById(R.id.comments_listview), cm);
+        CommentLoader cl = new CommentLoader(this, (ListView) findViewById(R.id.comments_listview), cm);
+        boolean waiting = cl.loadComments();
+        while(!waiting) {
+
+        }
+        View vg = findViewById(android.R.id.content);
+        vg.invalidate();
+        setContentView(R.layout.activity_campsite);
     }
 
 
