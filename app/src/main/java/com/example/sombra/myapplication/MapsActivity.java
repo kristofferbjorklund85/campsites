@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private boolean vr = false;
     Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,13 +205,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("DeviceLocation ", "Start");
         try {
             if (mLocationPermissionGranted) {
-                mMap.setMyLocationEnabled(true);
                 Log.d("DeviceLocation ", "first if");
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
+                Log.d("DeviceLocation ", "getLastLocation");
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
+                        Log.d("DeviceLocation", "onComplete");
                         if (task.isSuccessful()) {
+                            Log.d("DeviceLocation ", "Success");
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = (Location) task.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
@@ -219,14 +223,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Log.d("CurrentLat: ", String.valueOf(currentLat));
                             currentLng = mLastKnownLocation.getLongitude();
                             Log.d("CurrentLng: ", String.valueOf(currentLng));
+                            vr = true;
                         } else {
+                            Log.d("DeviceLocation ", "Failure");
                             Log.d("getDeviceLocation", "Current location is null. Using defaults.");
                             Log.e("getDeviceLocation", "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            vr = true;
                         }
                     }
                 });
+                vr = false;
+                while(vr == false) {}
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
@@ -284,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
+        vr = false;
         while(vr == false){}
     }
 
