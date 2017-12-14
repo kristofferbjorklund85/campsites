@@ -40,7 +40,7 @@ public class CommentLoader {
     {
         @Override
         protected Void doInBackground(Void... params) {
-            vh.getComments(context);
+            //vh.getComments(context);
             return null;
         }
         @Override

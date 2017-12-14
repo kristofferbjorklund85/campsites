@@ -17,6 +17,7 @@ public class LandingActivity extends AppCompatActivity {
 
     VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
 
         vh = new VolleyHandler();
+
+        LandingActivity.context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -36,13 +39,14 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        //new loadMaps().execute();
     }
-
 
     public void mapsView(View view) {
         Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
         intent.putParcelableArrayListExtra("cmList", cml);
         startActivity(intent);
+        setContentView(R.layout.activity_maps);
     }
 
     public void loadCampsite(View view) {
@@ -53,4 +57,17 @@ public class LandingActivity extends AppCompatActivity {
         intent.putExtra("cm", cml.get(0));
         startActivity(intent);
     }
+
+    /*private class loadMaps extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params) {
+            vh.getCampsites(context);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            cml = (ArrayList<CampsiteModel>) vh.getCampList();
+        }
+    }*/
 }

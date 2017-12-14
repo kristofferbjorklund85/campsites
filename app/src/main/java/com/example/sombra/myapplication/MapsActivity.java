@@ -1,6 +1,7 @@
 package com.example.sombra.myapplication;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -16,6 +17,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,17 +33,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private String url = String.format("http://87.96.251.140:8080/API");
 
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
     private static GoogleMap mMap;
 
     private static ArrayList<Marker> markerList = new ArrayList<>();
+    private List<CampsiteModel> cml;
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -52,9 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double currentLat;
     private static double currentLng;
 
-    ArrayList<CampsiteModel> cml;
-
-    VolleyHandler vh = new VolleyHandler();
+    private boolean vr = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    private static void createMarker(ArrayList<CampsiteModel> list) {
+    private static void createMarker(List<CampsiteModel> list) {
         for (CampsiteModel cm : list) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
@@ -92,8 +101,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        vh.getCampsites(this);
-        cml = (ArrayList<CampsiteModel>) vh.getCampList();
+        getCampsites(this);
+
         createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -231,7 +240,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public static LatLng getCurrentLatLng() {
+        Log.d("Lat ", String.valueOf(currentLat));
+        Log.d("Lng ", String.valueOf(currentLng));
+
         LatLng latLng = new LatLng(currentLat, currentLng);
         return latLng;
+    }
+
+    public void getCampsites(Context context) {
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url + "?type=campsite" + "&param1=" + currentLat + "&param2=" + currentLng,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray array) {
+                        cml = fakeJSON(array);
+                        Log.d("on Response: ", "setting campsites");
+                        vr = true;
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("GET-request cause: ", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
+        while(vr == false){}
+    }
+
+    public List fakeJSON(JSONArray array) {
+        List<CampsiteModel> campList = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                JSONObject jsonObj = array.getJSONObject(i);
+                CampsiteModel cm = new CampsiteModel(
+                        jsonObj.getString("id"),
+                        jsonObj.getString("location"),
+                        jsonObj.getString("name"),
+                        jsonObj.getDouble("lat"),
+                        jsonObj.getDouble("lng"),
+                        jsonObj.getString("type"),
+                        jsonObj.getString("fee"),
+                        jsonObj.getInt("capacity"),
+                        jsonObj.getString("availability"),
+                        jsonObj.getString("description"),
+                        jsonObj.getDouble("rating"),
+                        jsonObj.getInt("views"));
+                campList.add(cm);
+                Log.d("fromJSON: ", "created object");
+            } catch (JSONException e) {
+                Log.d("fromJSON Exception: ", e.getMessage());
+            }
+        }
+
+        Log.d("fromJSON: ", "Returning List of " + campList.size());
+        return campList;
     }
 }
