@@ -25,10 +25,15 @@ public class CommentLoader {
     private Context context;
     private VolleyHandler vh;
     private ListView commentsListView;
+    private CampsiteModel cm;
+    private boolean waiting = false;
 
-    public CommentLoader() {
-        //this.context = context;
+    public CommentLoader(Context context, ListView listview, CampsiteModel cm) {
         vh = new VolleyHandler();
+        this.context = context;
+        commentsListView = listview;
+        this.cm = cm;
+
     }
 
     private class loadCommentsList extends AsyncTask<Void, Void, Void>
@@ -49,26 +54,14 @@ public class CommentLoader {
             intent.putParcelableArrayListExtra("cmList", cml);
             startActivity(intent);*/
 
-            List<Comment> list = vh.getCommentList();
-            Log.d("COMMENTLOADER", "Getting: CommentList");
-            Comment[] commentsArray = new Comment[list.size()];
-
-            for(int i = 0; i < list.size(); i++) {
-                commentsArray[i] = list.get(i);
-            }
-
-            ListView comments = commentsListView;
-            CommentAdapter adapter = new CommentAdapter(context,
-                    R.layout.comments_listitem, commentsArray);
-            comments.setAdapter(adapter);
-            justifyListViewHeightBasedOnChildren(comments, adapter);
 
 
+            waiting = true;
         }
     }
 
 
-    public void loadComments(Context context, ListView listview, CampsiteModel cm) {
+    public boolean loadComments() {
 
         Comment[] commentsArray2 = {
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "This is great campsite, many friendly people"),
@@ -82,11 +75,28 @@ public class CommentLoader {
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
                 new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
 
-        this.context = context;
-        commentsListView = listview;
-
+        Log.d("COMMENLOADER: ", "execute");
         new loadCommentsList().execute();
+        Log.d("COMMENLOADER: ", "waiting");
+        while(!waiting) {}
 
+        List<Comment> list = vh.getCommentList();
+        Log.d("COMMENTLOADER", "Getting: CommentList");
+        Comment[] commentsArray = new Comment[list.size()];
+
+        for(int i = 0; i < list.size(); i++) {
+            commentsArray[i] = list.get(i);
+        }
+
+        ListView comments = commentsListView;
+        CommentAdapter adapter = new CommentAdapter(context,
+                R.layout.comments_listitem, commentsArray);
+        comments.setAdapter(adapter);
+        justifyListViewHeightBasedOnChildren(comments, adapter);
+        justifyListViewHeightBasedOnChildren(comments, adapter);
+
+        Log.d("COMMENLOADER: ", "return from loadcomments");
+        return true;
     }
 
     private class CommentAdapter extends ArrayAdapter<Comment> {

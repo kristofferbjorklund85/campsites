@@ -70,6 +70,7 @@ public class VolleyHandler {
     }
 
     public void getComments(Context context) {
+        Log.d("COMMENTLOADER", "Entering GetComments");
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
