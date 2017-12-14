@@ -6,12 +6,18 @@ package com.example.sombra.myapplication;
 
 public class Comment {
 
-    public String username;
-    public String comment;
+    String id;
+    String campsiteId;
+    String date;
+    String username;
+    String commentBody;
 
-    public Comment(String user, String comment) {
-        this.username = user;
-        this.comment = comment;
+    public Comment(String id, String campsiteId, String date, String username, String commentBody){
+        this.id = id;
+        this.campsiteId = campsiteId;
+        this.date = date;
+        this.username = username;
+        this.commentBody = commentBody;
     }
 
 }

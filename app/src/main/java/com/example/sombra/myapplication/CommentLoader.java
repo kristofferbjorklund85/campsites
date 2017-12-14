@@ -2,6 +2,9 @@ package com.example.sombra.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sombra on 2017-11-28.
@@ -17,29 +22,71 @@ import java.util.ArrayList;
 
 public class CommentLoader {
 
-    public void loadComments(Context context, ListView listview) {
+    private Context context;
+    private VolleyHandler vh;
+    private ListView commentsListView;
 
-        Comment[] commentsArray = {
-                new Comment(User.getUsername(), "This is great campsite, many friendly people"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
+    public CommentLoader() {
+        //this.context = context;
+        vh = new VolleyHandler();
+    }
+
+    private class loadCommentsList extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params) {
+            vh.getComments(context);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            /*cml = (ArrayList<CampsiteModel>) vh.getCampList();
+            for(CampsiteModel cm : cml) {
+                Log.d("List ", cm.location);
+            }
+            Log.d("starting: ", "Maps");
+            Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
+            intent.putParcelableArrayListExtra("cmList", cml);
+            startActivity(intent);*/
+
+            List<Comment> list = vh.getCommentList();
+            Log.d("COMMENTLOADER", "Getting: CommentList");
+            Comment[] commentsArray = new Comment[list.size()];
+
+            for(int i = 0; i < list.size(); i++) {
+                commentsArray[i] = list.get(i);
+            }
+
+            ListView comments = commentsListView;
+            CommentAdapter adapter = new CommentAdapter(context,
+                    R.layout.comments_listitem, commentsArray);
+            comments.setAdapter(adapter);
+            justifyListViewHeightBasedOnChildren(comments, adapter);
 
 
-        ListView comments = listview;
-        CommentAdapter adapter = new CommentAdapter(context,
-                R.layout.comments_listitem, commentsArray);
-        comments.setAdapter(adapter);
-        justifyListViewHeightBasedOnChildren(comments, adapter);
+        }
+    }
+
+
+    public void loadComments(Context context, ListView listview, CampsiteModel cm) {
+
+        Comment[] commentsArray2 = {
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "This is great campsite, many friendly people"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
+
+        this.context = context;
+        commentsListView = listview;
+
+        new loadCommentsList().execute();
+
     }
 
     private class CommentAdapter extends ArrayAdapter<Comment> {
@@ -77,7 +124,7 @@ public class CommentLoader {
             }
 
             holder.user.setText(data[position].username + ":");
-            holder.comment.setText(data[position].comment);
+            holder.comment.setText(data[position].commentBody);
 
             return row;
         }
