@@ -17,22 +17,19 @@ import java.util.ArrayList;
 
 public class CommentLoader {
 
-    public void loadComments(Context context, ListView listview) {
+    public void loadComments(Context context, ListView listview, CampsiteModel cm) {
 
         Comment[] commentsArray = {
-                new Comment(User.getUsername(), "This is great campsite, many friendly people"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "Too many germans, 0/10"),
-                new Comment(User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "This is great campsite, many friendly people"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "Too many germans, 0/10"),
+                new Comment("12", cm.id, "2017-12-24", User.getUsername(), "BUY VIAGRA DELUXE NICE PRICE")};
 
 
         ListView comments = listview;
@@ -77,7 +74,7 @@ public class CommentLoader {
             }
 
             holder.user.setText(data[position].username + ":");
-            holder.comment.setText(data[position].comment);
+            holder.comment.setText(data[position].commentBody);
 
             return row;
         }

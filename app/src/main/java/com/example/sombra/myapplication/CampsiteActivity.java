@@ -82,7 +82,7 @@ public class CampsiteActivity extends AppCompatActivity {
         descriptionView.setText("Description: " + cm.description);
 
         CommentLoader cl = new CommentLoader();
-        cl.loadComments(this, (ListView) findViewById(R.id.comments_listview));
+        cl.loadComments(this, (ListView) findViewById(R.id.comments_listview), cm);
     }
 
 
