@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -64,10 +65,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double currentLng;
 
     private boolean vr = false;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = getApplicationContext();
 
         setContentView(R.layout.activity_maps);
 
@@ -92,16 +96,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        updateLocationUI();
-        getDeviceLocation();
-
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Log.d("Extras in Maps: ", " NULL");
             return;
         }
 
-        getCampsites(this);
+        //new LoadCampsites().execute();
+
+        updateLocationUI();
+        getDeviceLocation();
+
+        getCampsites(context);
 
         createMarker(cml);
 
@@ -166,10 +172,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
+            Log.d("Location Permission ", "false");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     FINE_LOCATION_PERMISSION_REQUEST);
         } else {
+            Log.d("Location Permission ", "true");
             mLocationPermissionGranted = true;
         }
     }
@@ -192,8 +200,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void getDeviceLocation() {
+        Log.d("DeviceLocation ", "Start");
         try {
             if (mLocationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                Log.d("DeviceLocation ", "first if");
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
@@ -223,14 +234,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     void updateLocationUI() {
+        Log.d("UpdateLocation ", "Start");
         if (mMap == null) {
+            Log.d("mMap ", "NULL");
             return;
         }
+        Log.d("UpdateLocation", "Before try");
         try {
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
+                Log.d("Location ", "true");
             } else {
                 mMap.setMyLocationEnabled(false);
+                Log.d("Location ", "false");
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
@@ -300,4 +316,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
     }
+
+    /*private class LoadCampsites extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            Log.d("doIn ", "Before");
+            updateLocationUI();
+            getDeviceLocation();
+            Log.d("DoIn ", "After");
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            Log.d("onPost ", "Before");
+            getCampsites(context);
+        }
+    }*/
 }
