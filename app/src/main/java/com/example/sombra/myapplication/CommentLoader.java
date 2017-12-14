@@ -66,9 +66,10 @@ public class CommentLoader {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        Log.d("COMMENTLOADER", "on Response: setting comments");
+                        Log.d("COMMENTLOADER", "on Response: setting comments 1/2");
                         List<Comment> list = commentsFromJSON(array);
                         listener.onCommentChangeList(list);
+                        Log.d("COMMENTLOADER", "on Response: setting comments 2/2");
                     }
                 }, new Response.ErrorListener() {
 
@@ -115,8 +116,10 @@ public class CommentLoader {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("COMMENTLOADER", "Response: " + response.toString());
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
                         getComments();
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment");
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
                     }
                 }, new Response.ErrorListener() {
             @Override

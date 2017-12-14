@@ -62,6 +62,7 @@ public class CampsiteActivity extends AppCompatActivity {
         listener = new CommentChangeListener() {
             @Override
             public void onCommentChangeList(List<Comment> cList) {
+                Log.d("COMMENTLOADER: ", "RESETTING LIST");
                 cl.resetListView(cList);
             }
         };
