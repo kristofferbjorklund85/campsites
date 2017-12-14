@@ -41,7 +41,6 @@ public class CampsiteActivity extends AppCompatActivity {
         toolbar.setTitle("Maps");
         setSupportActionBar(toolbar);
         init(this);
-
     }
 
 

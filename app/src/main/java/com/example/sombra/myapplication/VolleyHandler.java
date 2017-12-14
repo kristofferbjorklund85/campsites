@@ -21,19 +21,28 @@ import java.util.List;
 public class VolleyHandler {
 
     private List<CampsiteModel> campsites;
+    List<Comment> comments;
     private double lat = MapsActivity.getCurrentLatLng().latitude;
     private double lng =  MapsActivity.getCurrentLatLng().longitude;
     private String url = String.format("http://87.96.251.140:8080/API");
     private String urlLatLng = String.format("http://87.96.251.140:8080/API/lat%1$s/lng%2$s", String.valueOf(lat), String.valueOf(lng));
     private static boolean v = false;
+    private static boolean b = false;
 
     public VolleyHandler() {
+        v = false;
+        b = false;
         //url = getString(R.string.apiURL);
     }
 
     public List<CampsiteModel> getCampList() {
         Log.d("returning: ", "campsites array");
         return campsites;
+    }
+
+    public List<Comment> getCommentList() {
+        Log.d("COMMENTLOADER", "returning: comment array");
+        return comments;
     }
 
     public void getCampsites(Context context) {
@@ -58,6 +67,32 @@ public class VolleyHandler {
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
         while(v == false) {}
+    }
+
+    public void getComments(Context context) {
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url + "?type=comment",
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray array) {
+                        Log.d("COMMENTLOADER", "on Response: setting comments");
+                        b = true;
+                        comments = fakeJSON(array);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("GET-request cause: ", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
+        Log.d("COMMENTLOADER", "While: Started");
+        while(b == false) {}
+        Log.d("COMMENTLOADER", "While: Done");
     }
 
     public void postCampsites(Context context, CampsiteModel cm) {
