@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -22,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,8 +43,7 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private String url = String.format("http://87.96.251.140:8080/API");
-
+    private String url;
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
     private static GoogleMap mMap;
 
@@ -73,6 +70,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        url = getString(R.string.apiURL);
+
         context = getApplicationContext();
 
         setContentView(R.layout.activity_maps);
@@ -81,6 +80,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if(mFusedLocationProviderClient == null) {
+            Log.d("FusedLocation ", "NULL");
+        }
 
         mapFragment.getMapAsync(this);
     }
@@ -108,10 +111,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         updateLocationUI();
         getDeviceLocation();
+        Log.d("onMapReady ", "After getDeviceLocation");
 
-        getCampsites(context);
+        //getCampsites(context);
 
-        createMarker(cml);
+        //createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -210,12 +214,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("DeviceLocation ", "getLastLocation");
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
-                    public void onComplete(@NonNull Task task) {
+                    public void onComplete(@NonNull Task locationResult) {
                         Log.d("DeviceLocation", "onComplete");
-                        if (task.isSuccessful()) {
+                        if (locationResult.isSuccessful()) {
                             Log.d("DeviceLocation ", "Success");
                             // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) task.getResult();
+                            mLastKnownLocation = (Location) locationResult.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
@@ -227,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         } else {
                             Log.d("DeviceLocation ", "Failure");
                             Log.d("getDeviceLocation", "Current location is null. Using defaults.");
-                            Log.e("getDeviceLocation", "Exception: %s", task.getException());
+                            Log.e("getDeviceLocation", "Exception: %s", locationResult.getException());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                             vr = true;
@@ -252,10 +256,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
-                Log.d("Location ", "true");
+                Log.d("Location Enabled ", "true");
             } else {
                 mMap.setMyLocationEnabled(false);
-                Log.d("Location ", "false");
+                Log.d("Location Enabled ", "false");
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
