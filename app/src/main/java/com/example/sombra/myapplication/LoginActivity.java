@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(true) {
             User.setUsername("satan666");
+            User.setAppContext(this.getApplicationContext());
             Log.d("starting: ", "Landing");
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
             startActivity(intent);
