@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -111,11 +112,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         updateLocationUI();
+        //getDeviceLocation();
         Log.d("onMapReady ", "After getDeviceLocation");
 
-        getCampsites(context);
 
-        createMarker(cml);
+        //getCampsites(context);
+
+        //createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -185,6 +188,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Log.d("Location Permission ", "true");
             mLocationPermissionGranted = true;
+            updateLocationUI();
         }
     }
 
@@ -193,12 +197,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
+        Log.d("Request Permission", "Doing");
         switch (requestCode) {
             case FINE_LOCATION_PERMISSION_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
+                    Log.d("Permission request ", "true");
+                } else {
+                    Log.d("Permission request", "false");
                 }
             }
         }
@@ -258,7 +266,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 Log.d("Location Enabled ", "true");
-                getDeviceLocation();
             } else {
                 mMap.setMyLocationEnabled(false);
                 Log.d("Location Enabled ", "false");
