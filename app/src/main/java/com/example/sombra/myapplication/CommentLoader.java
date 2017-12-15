@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,8 +83,8 @@ public class CommentLoader {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.getCause().getMessage());
-                Log.d("COMMENTLOADER: ", "ERROR RESPONSE");
+                Log.d("GET-request cause: ", error.toString());
+                Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM GETCOMMENTS");
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
@@ -134,7 +135,8 @@ public class CommentLoader {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("POST-request cause", error.getCause().getMessage());
+                        Log.d("POST-request cause", error.toString());
+                        Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM POSTCOMMENTS");
                     }
                 });
 
@@ -211,6 +213,16 @@ public class CommentLoader {
 
                 holder.user = (TextView)row.findViewById(R.id.comment_user);
                 holder.comment = (TextView)row.findViewById(R.id.comment_textview);
+                holder.deleteComment = (Button)row.findViewById(R.id.deleteComment);
+                holder.deleteComment.setVisibility(View.INVISIBLE);
+
+                if(User.getUsername().equals(data.get(position).username)) {
+                    holder.deleteComment.setVisibility(View.VISIBLE);
+
+                    Log.d("GetView: ", "CURRENT USER: " + User.getUsername());
+                    Log.d("GetView: ", "DATA.GET USER: " + data.get(position).username);
+                }
+
 
                 row.setTag(holder);
 
@@ -221,6 +233,8 @@ public class CommentLoader {
             holder.user.setText(data.get(position).username + ":");
             holder.comment.setText(data.get(position).commentBody);
 
+
+
             return row;
         }
 
@@ -229,6 +243,7 @@ public class CommentLoader {
     private class CommentHolder {
         TextView user;
         TextView comment;
+        Button deleteComment;
     }
 
     public void justifyListViewHeightBasedOnChildren (ListView listView, CommentAdapter adapter) {

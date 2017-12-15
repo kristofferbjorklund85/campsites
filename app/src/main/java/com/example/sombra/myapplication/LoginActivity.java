@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         if(true) {
-            User.setUsername("420DonaldTrump69");
+            User.setUsername("satan666");
             Log.d("starting: ", "Landing");
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
             startActivity(intent);
