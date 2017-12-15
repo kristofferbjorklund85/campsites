@@ -240,8 +240,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
                 vr = false;
                 while(vr == false) {}
+            } else {
+                Log.d("Permission ", "Denied");
             }
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
