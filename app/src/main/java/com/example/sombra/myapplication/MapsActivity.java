@@ -243,7 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 Log.d("Permission ", "Denied");
             }
-        } catch (Exception e) {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
