@@ -2,6 +2,7 @@ package com.example.sombra.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,7 +36,8 @@ public class CommentLoader {
     private Context context;
     private ListView commentsListView;
     private CampsiteModel cm;
-    private String url = String.format("http://87.96.251.140:8080/API");
+    private String url;
+
     CommentChangeListener listener;
 
     public CommentLoader(Context context, ListView listview, CampsiteModel cm, CommentChangeListener listener) {
@@ -44,6 +46,8 @@ public class CommentLoader {
         this.cm = cm;
         listeners = new ArrayList<>();
         this.listener = listener;
+
+        url = context.getResources().getString(R.string.apiURL);
     }
 
 
@@ -66,9 +70,10 @@ public class CommentLoader {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        Log.d("COMMENTLOADER", "on Response: setting comments");
+                        Log.d("COMMENTLOADER", "on Response: setting comments 1/2");
                         List<Comment> list = commentsFromJSON(array);
                         listener.onCommentChangeList(list);
+                        Log.d("COMMENTLOADER", "on Response: setting comments 2/2");
                     }
                 }, new Response.ErrorListener() {
 
@@ -105,6 +110,21 @@ public class CommentLoader {
         return cList;
     }
 
+    public void postComment2(Context context, Comment cm) {
+        JSONObject jo = toJSON(cm);
+
+        GenericRequest gr = new GenericRequest(
+                Request.Method.POST,
+                url + "?type=comment&campsiteid='" + cm.id + "'",
+                null,
+                jo,
+                new Response.Listener<T>,
+                new Response.ErrorListener);
+
+
+    }
+
+
     public void postComment(Context context, Comment cm) {
         JSONObject jo = toJSON(cm);
 
@@ -115,8 +135,10 @@ public class CommentLoader {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("COMMENTLOADER", "Response: " + response.toString());
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
                         getComments();
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment");
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
                     }
                 }, new Response.ErrorListener() {
             @Override
