@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -218,11 +219,7 @@ public class CommentLoader {
 
                 if(User.getUsername().equals(data.get(position).username)) {
                     holder.deleteComment.setVisibility(View.VISIBLE);
-
-                    Log.d("GetView: ", "CURRENT USER: " + User.getUsername());
-                    Log.d("GetView: ", "DATA.GET USER: " + data.get(position).username);
                 }
-
 
                 row.setTag(holder);
 
@@ -233,7 +230,14 @@ public class CommentLoader {
             holder.user.setText(data.get(position).username + ":");
             holder.comment.setText(data.get(position).commentBody);
 
+            holder.deleteComment.setOnClickListener(new View.OnClickListener(){
 
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(User.getAppContext(), "Delete yo!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             return row;
         }
@@ -248,7 +252,7 @@ public class CommentLoader {
 
     public void justifyListViewHeightBasedOnChildren (ListView listView, CommentAdapter adapter) {
 
-        ViewGroup vg = listView;
+        /*ViewGroup vg = listView;
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
             View listItem = adapter.getView(i, null, vg);
@@ -259,7 +263,23 @@ public class CommentLoader {
         ViewGroup.LayoutParams par = listView.getLayoutParams();
         par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
         listView.setLayoutParams(par);
+        listView.requestLayout();*/
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
 
     //LISTENERS FROM HENRIK
