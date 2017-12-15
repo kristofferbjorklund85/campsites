@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,7 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private String url;
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
@@ -65,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean vr = false;
     Context context;
 
+    LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        if(mFusedLocationProviderClient == null) {
-            Log.d("FusedLocation ", "NULL");
-        }
+        //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         mapFragment.getMapAsync(this);
     }
@@ -107,15 +110,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        //new LoadCampsites().execute();
-
         updateLocationUI();
-        getDeviceLocation();
         Log.d("onMapReady ", "After getDeviceLocation");
 
-        //getCampsites(context);
+        getCampsites(context);
 
-        //createMarker(cml);
+        createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -209,43 +209,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("DeviceLocation ", "Start");
         try {
             if (mLocationPermissionGranted) {
-                Log.d("DeviceLocation ", "first if");
+                Log.d("DeviceLocation", "Permission Granted");
+                /*Log.d("DeviceLocation", "PermissionGranted");
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                Log.d("DeviceLocation", "Request updates");
+                currentLat = mLastKnownLocation.getLatitude();
+                currentLng = mLastKnownLocation.getLongitude();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLng)));*/
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
-                Log.d("DeviceLocation ", "getLastLocation");
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
-                    public void onComplete(@NonNull Task locationResult) {
-                        Log.d("DeviceLocation", "onComplete");
-                        if (locationResult.isSuccessful()) {
-                            Log.d("DeviceLocation ", "Success");
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Log.d("DeviceLocation", "onComplete");
                             // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) locationResult.getResult();
+                            mLastKnownLocation = (Location) task.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            currentLat = mLastKnownLocation.getLatitude();
-                            Log.d("CurrentLat: ", String.valueOf(currentLat));
-                            currentLng = mLastKnownLocation.getLongitude();
-                            Log.d("CurrentLng: ", String.valueOf(currentLng));
                             vr = true;
-                        } else {
-                            Log.d("DeviceLocation ", "Failure");
-                            Log.d("getDeviceLocation", "Current location is null. Using defaults.");
-                            Log.e("getDeviceLocation", "Exception: %s", locationResult.getException());
+                        }
+                        else {
+                            Log.d("DeviceLocation", "Current location is null. Using defaults.");
+                            Log.e("DeviceLocation", "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                             vr = true;
                         }
                     }
                 });
-                vr = false;
-                while(vr == false) {}
-            } else {
-                Log.d("Permission ", "Denied");
             }
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
         }
+            catch(SecurityException e){
+                Log.e("Exception: %s", e.getMessage());
+            }
+            vr = false;
+            while(vr == false){}
     }
 
     void updateLocationUI() {
@@ -259,6 +258,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 Log.d("Location Enabled ", "true");
+                getDeviceLocation();
             } else {
                 mMap.setMyLocationEnabled(false);
                 Log.d("Location Enabled ", "false");
@@ -333,19 +333,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return campList;
     }
 
-    /*private class LoadCampsites extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            Log.d("doIn ", "Before");
-            updateLocationUI();
-            getDeviceLocation();
-            Log.d("DoIn ", "After");
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            Log.d("onPost ", "Before");
-            getCampsites(context);
-        }
-    }*/
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("Setting ", "Location");
+        mLastKnownLocation = location;
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enable");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
 }
