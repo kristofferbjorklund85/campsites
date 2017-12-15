@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class CommentLoader {
     private ListView commentsListView;
     private CampsiteModel cm;
     private String url;
+    private Gson gson;
 
     CommentChangeListener listener;
 
@@ -47,6 +49,7 @@ public class CommentLoader {
         listeners = new ArrayList<>();
         this.listener = listener;
 
+        gson = new Gson();
         url = context.getResources().getString(R.string.apiURL);
     }
 
@@ -79,7 +82,7 @@ public class CommentLoader {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Log.d("GET-request cause: ", error.getCause().getMessage());
+                Log.d("GET-request cause: ", error.getCause().getMessage());
                 Log.d("COMMENTLOADER: ", "ERROR RESPONSE");
             }
         });
@@ -110,8 +113,8 @@ public class CommentLoader {
         return cList;
     }
 
-    public void postComment2(Context context, Comment cm) {
-        JSONObject jo = toJSON(cm);
+    public void postComment(Context context, Comment cm) {
+        String jo = gson.toJson(cm);
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.POST,
@@ -122,7 +125,6 @@ public class CommentLoader {
 
                     @Override
                     public void onResponse(String response) {
-                        //Log.d("COMMENTLOADER", "Response: " + response.toString());
                         Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
                         getComments();
                         Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
@@ -141,7 +143,7 @@ public class CommentLoader {
     }
 
 
-    public void postComment(Context context, Comment cm) {
+    /*public void postComment(Context context, Comment cm) {
         JSONObject jo = toJSON(cm);
 
         JsonObjectRequest joReq = new JsonObjectRequest(
@@ -163,9 +165,9 @@ public class CommentLoader {
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(joReq);
-    }
+    }*/
 
-    public static JSONObject toJSON(Comment c) {
+    /*public static JSONObject toJSON(Comment c) {
         JSONObject jsonObj = new JSONObject();
 
         try {
@@ -179,7 +181,7 @@ public class CommentLoader {
         }
 
         return jsonObj;
-    }
+    }*/
 
 
     private class CommentAdapter extends ArrayAdapter<Comment> {

@@ -46,12 +46,18 @@ public class CommentDialog extends DialogFragment {
                         String tempString = comment.getText().toString();
                         Comment c = new Comment(
                                         UUID.randomUUID().toString(),
-                                        cm.id,
+                                        cm.id.toString(),
                                         "2017-12-24",
                                         User.getUsername(),
                                         tempString);
-                        cl.postComment2(context, c);
 
+                        Log.d("POST COMMENT ID: ", c.id);
+                        Log.d("POST COMMENT CSID: ", c.campsiteId);
+                        Log.d("POST COMMENT DATE: ", c.date);
+                        Log.d("POST COMMENT USER: ", c.username);
+                        Log.d("POST COMMENT BODY: ", c.commentBody);
+
+                        cl.postComment(context, c);
                         Log.d("submitted: ", User.getUsername() + "said: " + tempString);
                     }
                 })
