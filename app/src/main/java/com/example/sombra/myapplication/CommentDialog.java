@@ -50,7 +50,7 @@ public class CommentDialog extends DialogFragment {
                                         "2017-12-24",
                                         User.getUsername(),
                                         tempString);
-                        cl.postComment(context, c);
+                        cl.postComment2(context, c);
 
                         Log.d("submitted: ", User.getUsername() + "said: " + tempString);
                     }

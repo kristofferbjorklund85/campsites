@@ -116,11 +116,27 @@ public class CommentLoader {
         GenericRequest gr = new GenericRequest(
                 Request.Method.POST,
                 url + "?type=comment&campsiteid='" + cm.id + "'",
-                null,
+                String.class,
                 jo,
-                new Response.Listener<T>,
-                new Response.ErrorListener);
+                new Response.Listener<String>(){
 
+                    @Override
+                    public void onResponse(String response) {
+                        //Log.d("COMMENTLOADER", "Response: " + response.toString());
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
+                        getComments();
+                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("POST-request cause", error.getCause().getMessage());
+                    }
+                });
+
+        VolleySingleton.getInstance(context).addToRequestQueue(gr);
 
     }
 
