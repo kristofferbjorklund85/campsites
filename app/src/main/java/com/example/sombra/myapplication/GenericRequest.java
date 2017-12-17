@@ -115,6 +115,18 @@ public class GenericRequest<T> extends JsonRequest<T> {
     }
 
     /**
+     * Method to be called if you want to GET something from the server and receive the POJO directly after the call (no JSON). (Without header)
+     *
+     * @param url:           URL to be called
+     * @param classtype:     Classtype to parse the JSON returned from the server
+     * @param listener:      Listener of the request
+     * @param errorListener: Error handler of the request
+     */
+    public GenericRequest(String url, int method, Class<T> classtype, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+        this(method, url, classtype, "", listener, errorListener);
+    }
+
+    /**
      * Method to be called if you want to GET something from the server and receive the POJO directly after the call (no JSON). (With headers)
      *
      * @param url:           URL to be called
