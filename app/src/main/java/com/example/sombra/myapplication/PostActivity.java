@@ -72,14 +72,15 @@ public class PostActivity extends AppCompatActivity {
                                             fee.getText().toString(),
                                             Integer.parseInt(cap.getText().toString()),
                                             avail.getText().toString(),
-                                            desc.getText().toString());
+                                            desc.getText().toString(),
+                                            User.getUsername());
 
         vh.postCampsites(this, cm);
         Intent intent = new Intent(PostActivity.this, MapsActivity.class);
         startActivity(intent);*/
     }
 
-    public void postCampsites(Context context, CampsiteModel cm) {
+    public void postCampsite(Context context, CampsiteModel cm) {
         JSONObject jo = toJSON(cm);
 
         JsonObjectRequest joReq = new JsonObjectRequest(

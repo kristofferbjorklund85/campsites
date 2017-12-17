@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.sombra.myapplication.CommentLoader.CommentChangeListener;
 
 public class CampsiteActivity extends AppCompatActivity {
@@ -37,6 +41,10 @@ public class CampsiteActivity extends AppCompatActivity {
     private CommentChangeListener listener;
     private List<Comment> comments;
     Context me;
+    private String url;
+    private String cId;
+
+    Button deleteCM;
 
     /*CampsiteModel camp = new CampsiteModel(
             "04ef19e0-db39-47ed-9e2c-6605e06e2d7c",
@@ -57,6 +65,8 @@ public class CampsiteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campsite);
 
+        url = this.getResources().getString(R.string.apiURL);
+
         me = this;
 
         listener = new CommentChangeListener() {
@@ -69,7 +79,6 @@ public class CampsiteActivity extends AppCompatActivity {
 
         init();
     }
-
 
     public void init() {
         //ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
@@ -90,6 +99,17 @@ public class CampsiteActivity extends AppCompatActivity {
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
+
+        deleteCM = (Button) findViewById(R.id.delete_button);
+        deleteCM.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                deleteCampsite(cm);
+            }
+        });
+
+        if(User.getUsername().equals(cm.username)) {
+            deleteCM.setVisibility(View.VISIBLE);
+        }
 
         cl = new CommentLoader(me, (ListView) findViewById(R.id.comments_listview), cm, listener);
 
@@ -119,23 +139,32 @@ public class CampsiteActivity extends AppCompatActivity {
 
     }
 
+    public void deleteCampsite(CampsiteModel cm) {
 
+        GenericRequest gr = new GenericRequest(
+                Request.Method.DELETE,
+                url + "?type=campsite&campsiteId='" + cm.id + "'",
+                String.class,
+                "",
+                new Response.Listener<String>(){
 
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
+                    }
+                },
+                new Response.ErrorListener(){
 
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("POST-request cause", error.toString());
+                        Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM DELETECAMPSITE");
+                    }
+                });
 
+        VolleySingleton.getInstance(this).addToRequestQueue(gr);
 
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
    /*
     public CampsiteModel createCampsite(String jsonStr) {
