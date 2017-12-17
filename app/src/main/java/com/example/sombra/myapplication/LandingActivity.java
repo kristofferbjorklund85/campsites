@@ -53,7 +53,7 @@ public class LandingActivity extends AppCompatActivity {
         //cml = (ArrayList<CampsiteModel>) vh.getCampList();
 
         CampsiteModel camp = new CampsiteModel(
-                                    "04ef19e0-db39-47ed-9e2c-6605e06e2d7c",
+                                    "860f729e-5a4f-4398-ba05-0062cdf875b3",
                                     "Gothenburg",
                                     "Lindholmen",
                                     -32.952854,
