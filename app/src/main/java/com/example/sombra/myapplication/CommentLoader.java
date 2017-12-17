@@ -147,11 +147,14 @@ public class CommentLoader {
 
     public void deleteComment(Comment c) {
 
+        String body = "type=comment&commentId=" + c.id;
+        Log.d("COMMENTLOADER: Body: ", body);
+
         GenericRequest gr = new GenericRequest(
                 Request.Method.DELETE,
-                url + "?type=comment&commentId='" + c.id + "'",
+                url,
                 String.class,
-                "",
+                body,
                 new Response.Listener<String>(){
 
                     @Override

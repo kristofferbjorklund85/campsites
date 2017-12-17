@@ -328,7 +328,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         jsonObj.getString("availability"),
                         jsonObj.getString("description"),
                         jsonObj.getDouble("rating"),
-                        jsonObj.getInt("views"));
+                        jsonObj.getInt("views"),
+                        jsonObj.getString("username"));
                 campList.add(cm);
                 Log.d("fromJSON: ", "created object");
             } catch (JSONException e) {
