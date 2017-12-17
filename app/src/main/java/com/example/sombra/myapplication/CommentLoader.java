@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sombra on 2017-11-28.
@@ -147,11 +148,14 @@ public class CommentLoader {
 
     public void deleteComment(Comment c) {
 
+        String body = "type=comment&commentId=" + c.id;
+        Log.d("COMMENTLOADER: Body: ", body);
+
         GenericRequest gr = new GenericRequest(
                 Request.Method.DELETE,
-                url + "?type=comment&commentId='" + c.id + "'",
+                url,
                 String.class,
-                "",
+                body,
                 new Response.Listener<String>(){
 
                     @Override
