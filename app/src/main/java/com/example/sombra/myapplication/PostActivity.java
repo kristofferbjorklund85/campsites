@@ -55,8 +55,6 @@ public class PostActivity extends AppCompatActivity {
 
     public void createCampsite() {
 
-        VolleyHandler vh = new VolleyHandler();
-
         ln    = (EditText)findViewById(R.id.EditTextLocationName);
         type  = (EditText)findViewById(R.id.EditTextType);
         fee   = (EditText)findViewById(R.id.EditTextFee);
@@ -64,8 +62,11 @@ public class PostActivity extends AppCompatActivity {
         avail = (EditText)findViewById(R.id.EditTextAvailability);
         desc  = (EditText)findViewById(R.id.EditTextDescription);
 
-        /*CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
+        Log.d("Username ", User.getUsername());
+
+        CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
                                             ln.getText().toString(),
+                                            "Hard coded 'name'",
                                             latLng.latitude,
                                             latLng.longitude,
                                             type.getText().toString(),
@@ -73,19 +74,21 @@ public class PostActivity extends AppCompatActivity {
                                             Integer.parseInt(cap.getText().toString()),
                                             avail.getText().toString(),
                                             desc.getText().toString(),
+                                            0.0,
+                                            0,
                                             User.getUsername());
 
-        vh.postCampsites(this, cm);
+        postCampsites(this, cm);
         Intent intent = new Intent(PostActivity.this, MapsActivity.class);
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
-    public void postCampsite(Context context, CampsiteModel cm) {
+    public void postCampsites(Context context, CampsiteModel cm) {
         JSONObject jo = toJSON(cm);
 
         JsonObjectRequest joReq = new JsonObjectRequest(
                 Request.Method.POST,
-                url,
+                url + "?type=campsite",
                 jo,
                 new Response.Listener<JSONObject>() {
                     @Override

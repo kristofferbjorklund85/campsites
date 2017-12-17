@@ -11,13 +11,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class LandingActivity extends AppCompatActivity {
 
     VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
     private static Context context;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,8 @@ public class LandingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        url = getString(R.string.apiURL);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +52,8 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        //new loadMaps().execute();
+        User.setUsername("JanBanan");
+        getCampsites();
     }
 
     public void mapsView(View view) {
@@ -70,8 +84,64 @@ public class LandingActivity extends AppCompatActivity {
 
         Log.d("starting: ", "CampsiteActivity");
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
-        intent.putExtra("cm", camp);
+        intent.putExtra("cml", camp);
         startActivity(intent);
+    }
+
+    public void getCampsites() {
+
+        Log.d("getCampsites ", "starting");
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url + "?type=campsite", //+ "&param1=" + currentLat + "&param2=" + currentLng,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray array) {
+                        cml = (ArrayList) fakeJSON(array);
+                        Log.d("on Response: ", "setting campsites");
+                        Log.d("campsitemodeListLanding", String.valueOf(cml.size()));
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("GET-request cause: ", error.getCause().getMessage());
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public List fakeJSON(JSONArray array) {
+        List<CampsiteModel> campList = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                JSONObject jsonObj = array.getJSONObject(i);
+                CampsiteModel cm = new CampsiteModel(
+                        jsonObj.getString("id"),
+                        jsonObj.getString("location"),
+                        jsonObj.getString("name"),
+                        jsonObj.getDouble("lat"),
+                        jsonObj.getDouble("lng"),
+                        jsonObj.getString("type"),
+                        jsonObj.getString("fee"),
+                        jsonObj.getInt("capacity"),
+                        jsonObj.getString("availability"),
+                        jsonObj.getString("description"),
+                        jsonObj.getDouble("rating"),
+                        jsonObj.getInt("views"),
+                        jsonObj.getString("username"));
+                campList.add(cm);
+                Log.d("fromJSON: ", "created object");
+            } catch (JSONException e) {
+                Log.d("fromJSON Exception: ", e.getMessage());
+            }
+        }
+
+        Log.d("fromJSON: ", "Returning List of " + campList.size());
+        return campList;
     }
 
     /*private class loadMaps extends AsyncTask<Void, Void, Void>

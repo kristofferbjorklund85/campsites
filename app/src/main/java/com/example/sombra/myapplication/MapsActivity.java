@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -16,14 +15,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -37,17 +31,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
-
-    private String url;
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
     private static GoogleMap mMap;
 
@@ -67,18 +55,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double currentLng;
 
     private boolean vr = false;
-    Context context;
-
-    LocationManager locationManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        url = getString(R.string.apiURL);
-
-        context = getApplicationContext();
 
         setContentView(R.layout.activity_maps);
 
@@ -87,17 +67,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
         mapFragment.getMapAsync(this);
     }
 
     private static void createMarker(List<CampsiteModel> list) {
+        int i = 0;
         for (CampsiteModel cm : list) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.location));
             m.setTag(cm);
+            i++;
+            Log.d("Markers ", "created " + i + " markers");
         }
     }
 
@@ -111,14 +92,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        updateLocationUI();
-        //getDeviceLocation();
-        Log.d("onMapReady ", "After getDeviceLocation");
+        cml = extras.getParcelableArrayList("cmList");
 
-
-        getCampsites(context);
+        Log.d("campsitemodelList size ", String.valueOf(cml.size()));
 
         createMarker(cml);
+
+        updateLocationUI();
+        //getDeviceLocation();
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -218,12 +199,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (mLocationPermissionGranted) {
                 Log.d("DeviceLocation", "Permission Granted");
-                /*Log.d("DeviceLocation", "PermissionGranted");
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                Log.d("DeviceLocation", "Request updates");
-                currentLat = mLastKnownLocation.getLatitude();
-                currentLng = mLastKnownLocation.getLongitude();
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLng)));*/
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
@@ -285,77 +260,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return latLng;
     }
 
-    public void getCampsites(Context context) {
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url + "?type=campsite", //+ "&param1=" + currentLat + "&param2=" + currentLng,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray array) {
-                        cml = fakeJSON(array);
-                        Log.d("on Response: ", "setting campsites");
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.getCause().getMessage());
-            }
-        });
-        VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
-    }
-
-    public List fakeJSON(JSONArray array) {
-        List<CampsiteModel> campList = new ArrayList<>();
-
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                JSONObject jsonObj = array.getJSONObject(i);
-                CampsiteModel cm = new CampsiteModel(
-                        jsonObj.getString("id"),
-                        jsonObj.getString("location"),
-                        jsonObj.getString("name"),
-                        jsonObj.getDouble("lat"),
-                        jsonObj.getDouble("lng"),
-                        jsonObj.getString("type"),
-                        jsonObj.getString("fee"),
-                        jsonObj.getInt("capacity"),
-                        jsonObj.getString("availability"),
-                        jsonObj.getString("description"),
-                        jsonObj.getDouble("rating"),
-                        jsonObj.getInt("views"),
-                        jsonObj.getString("username"));
-                campList.add(cm);
-                Log.d("fromJSON: ", "created object");
-            } catch (JSONException e) {
-                Log.d("fromJSON Exception: ", e.getMessage());
-            }
-        }
-
-        Log.d("fromJSON: ", "Returning List of " + campList.size());
-        return campList;
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d("Setting ", "Location");
-        mLastKnownLocation = location;
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
-    }
 }
