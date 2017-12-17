@@ -79,7 +79,7 @@ public class LandingActivity extends AppCompatActivity {
                                     "Very nice place, lots of cool people",
                                     3.5,
                                     12312,
-                                    User.getUsername());
+                                    "Satan666");
 
 
         Log.d("starting: ", "CampsiteActivity");

@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -148,77 +149,28 @@ public class CommentLoader {
 
     public void deleteComment(Comment c) {
 
-        String body = "type=comment&commentId=" + c.id;
-        Log.d("COMMENTLOADER: Body: ", body);
-
         GenericRequest gr = new GenericRequest(
+                url + "?type=comment&commentId=" + c.id + "",
                 Request.Method.DELETE,
-                url,
                 String.class,
-                body,
-                new Response.Listener<String>(){
-
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 1/2");
                         getComments();
                         Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 2/2");
                     }
-                },
-                new Response.ErrorListener(){
+                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("POST-request cause", error.toString());
-                        Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM DELETECOMMENTS");
-                    }
-                });
-
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("DELETE-request cause", error.toString());
+                Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM DELETECOMMENTS");
+            }
+        });
         VolleySingleton.getInstance(context).addToRequestQueue(gr);
 
     }
-
-
-    /*public void postComment(Context context, Comment cm) {
-        JSONObject jo = toJSON(cm);
-
-        JsonObjectRequest joReq = new JsonObjectRequest(
-                Request.Method.POST,
-                url + "?type=comment&campsiteid='" + cm.id + "'",
-                jo,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("COMMENTLOADER", "Response: " + response.toString());
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
-                        getComments();
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("POST-request cause", error.getCause().getMessage());
-            }
-        });
-        VolleySingleton.getInstance(context).addToRequestQueue(joReq);
-    }*/
-
-    /*public static JSONObject toJSON(Comment c) {
-        JSONObject jsonObj = new JSONObject();
-
-        try {
-            jsonObj.put("id", c.id);
-            jsonObj.put("campsiteId", c.campsiteId);
-            jsonObj.put("date", c.date);
-            jsonObj.put("username", c.username);
-            jsonObj.put("commentBody", c.commentBody);
-        } catch(JSONException e) {
-            Log.d("toJSON obj", e.toString());
-        }
-
-        return jsonObj;
-    }*/
-
 
     private class CommentAdapter extends ArrayAdapter<Comment> {
 
@@ -285,19 +237,6 @@ public class CommentLoader {
     }
 
     public void justifyListViewHeightBasedOnChildren (ListView listView, CommentAdapter adapter) {
-
-        /*ViewGroup vg = listView;
-        int totalHeight = 0;
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams par = listView.getLayoutParams();
-        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
-        listView.setLayoutParams(par);
-        listView.requestLayout();*/
 
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),

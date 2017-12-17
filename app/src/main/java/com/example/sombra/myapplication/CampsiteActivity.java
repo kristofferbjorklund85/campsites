@@ -100,6 +100,7 @@ public class CampsiteActivity extends AppCompatActivity {
             }
         });
 
+
         deleteCM = (Button) findViewById(R.id.delete_button);
         deleteCM.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -107,8 +108,13 @@ public class CampsiteActivity extends AppCompatActivity {
             }
         });
 
+        Log.d("Username: ", User.getUsername());
+        Log.d("CM Username: ", cm.username);
+
         if(User.getUsername().equals(cm.username)) {
             deleteCM.setVisibility(View.VISIBLE);
+        } else {
+            deleteCM.setVisibility(View.INVISIBLE);
         }
 
         cl = new CommentLoader(me, (ListView) findViewById(R.id.comments_listview), cm, listener);
@@ -150,6 +156,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
+                        finish();
                         Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
                     }
                 },
