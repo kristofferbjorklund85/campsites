@@ -145,6 +145,35 @@ public class CommentLoader {
 
     }
 
+    public void deleteComment(Comment c) {
+
+        GenericRequest gr = new GenericRequest(
+                Request.Method.DELETE,
+                url + "?type=comment&commentId='" + c.id + "'",
+                String.class,
+                "",
+                new Response.Listener<String>(){
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 1/2");
+                        getComments();
+                        Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 2/2");
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("POST-request cause", error.toString());
+                        Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM DELETECOMMENTS");
+                    }
+                });
+
+        VolleySingleton.getInstance(context).addToRequestQueue(gr);
+
+    }
+
 
     /*public void postComment(Context context, Comment cm) {
         JSONObject jo = toJSON(cm);
@@ -202,7 +231,7 @@ public class CommentLoader {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View row = convertView;
             CommentHolder holder = null;
 
@@ -234,6 +263,7 @@ public class CommentLoader {
 
                 @Override
                 public void onClick(View view) {
+                    deleteComment(data.get(position));
                     Toast.makeText(User.getAppContext(), "Delete yo!", Toast.LENGTH_SHORT).show();
 
                 }
