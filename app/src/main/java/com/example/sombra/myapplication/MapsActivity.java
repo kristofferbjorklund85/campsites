@@ -116,9 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("onMapReady ", "After getDeviceLocation");
 
 
-        //getCampsites(context);
+        getCampsites(context);
 
-        //createMarker(cml);
+        createMarker(cml);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -289,14 +289,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url + "?type=campsite" + "&param1=" + currentLat + "&param2=" + currentLng,
+                url + "?type=campsite", //+ "&param1=" + currentLat + "&param2=" + currentLng,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
                         cml = fakeJSON(array);
                         Log.d("on Response: ", "setting campsites");
-                        vr = true;
                     }
                 }, new Response.ErrorListener() {
 
@@ -306,8 +305,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
-        vr = false;
-        while(vr == false){}
     }
 
     public List fakeJSON(JSONArray array) {
@@ -328,7 +325,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         jsonObj.getString("availability"),
                         jsonObj.getString("description"),
                         jsonObj.getDouble("rating"),
-                        jsonObj.getInt("views"));
+                        jsonObj.getInt("views"),
+                        jsonObj.getString("username"));
                 campList.add(cm);
                 Log.d("fromJSON: ", "created object");
             } catch (JSONException e) {
