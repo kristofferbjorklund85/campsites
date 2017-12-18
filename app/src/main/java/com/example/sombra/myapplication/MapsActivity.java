@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,23 +41,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static ArrayList<Marker> markerList = new ArrayList<>();
     private List<CampsiteModel> cml;
 
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-
     private boolean mLocationPermissionGranted = false;
-
-    private Location mLastKnownLocation;
-    private LatLng mDefaultLocation = new LatLng(-17.824858, 31.053028);
-
-    private int DEFAULT_ZOOM = 11;
-
-    private static double currentLat;
-    private static double currentLng;
 
     private static CampsiteModel newCM = null;
     private static Marker deleteM = null;
     private static boolean markerDelete = false;
 
-    private boolean vr = false;
+    private LatLng defaultLatLng = new LatLng(70887000, 11.97456000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +57,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         mapFragment.getMapAsync(this);
     }
@@ -108,6 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        updateLocationUI();
+
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Log.d("Extras in Maps: ", " NULL");
@@ -120,8 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         createMarker(cml);
 
-        updateLocationUI();
-        //getDeviceLocation();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLatLng));
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -192,6 +182,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
+            location_tf.setText("");
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -231,42 +224,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateLocationUI();
     }
 
-    public void getDeviceLocation() {
-        Log.d("DeviceLocation ", "Start");
-        try {
-            if (mLocationPermissionGranted) {
-                Log.d("DeviceLocation", "Permission Granted");
-                Task locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Log.d("DeviceLocation", "onComplete");
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            vr = true;
-                        }
-                        else {
-                            Log.d("DeviceLocation", "Current location is null. Using defaults.");
-                            Log.e("DeviceLocation", "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                            vr = true;
-                        }
-                    }
-                });
-            }
-        }
-            catch(SecurityException e){
-                Log.e("Exception: %s", e.getMessage());
-            }
-            vr = false;
-            while(vr == false){}
-    }
-
     void updateLocationUI() {
         Log.d("UpdateLocation ", "Start");
         if (mMap == null) {
@@ -281,20 +238,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 mMap.setMyLocationEnabled(false);
                 Log.d("Location Enabled ", "false");
-                mLastKnownLocation = null;
                 getLocationPermission();
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
-    }
-
-    public static LatLng getCurrentLatLng() {
-        Log.d("Lat ", String.valueOf(currentLat));
-        Log.d("Lng ", String.valueOf(currentLng));
-
-        LatLng latLng = new LatLng(currentLat, currentLng);
-        return latLng;
     }
 
     public static void setNewCM(CampsiteModel cm) {
@@ -310,5 +258,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
         startActivity(intent);
     }
-
 }
