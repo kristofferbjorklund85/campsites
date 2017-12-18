@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -54,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double currentLng;
 
     private static CampsiteModel newCM = null;
+    private static Marker deleteM = null;
+    private static boolean markerDelete = false;
 
     private boolean vr = false;
 
@@ -76,6 +77,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
         if(newCM != null) {
             createMarker(newCM);
+        }
+        if (markerDelete == true && deleteM != null) {
+            deleteM.remove();
         }
     }
 
@@ -128,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     startActivity(intent);
                     marker.remove();
                 } else {
+                    deleteM = marker;
                     Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
                     intent.putExtra("cm", (CampsiteModel) marker.getTag());
                     startActivity(intent);
@@ -291,6 +296,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static void setNewCM(CampsiteModel cm) {
         newCM = cm;
+    }
+
+    public static void setDeleteM() {
+        markerDelete = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
+        startActivity(intent);
     }
 
 }
