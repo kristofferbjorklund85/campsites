@@ -2,7 +2,6 @@ package com.example.sombra.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LandingActivity extends AppCompatActivity {
-
-    VolleyHandler vh;
     ArrayList<CampsiteModel> cml;
     private static Context context;
     String url;
@@ -34,10 +31,6 @@ public class LandingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-
-        vh = new VolleyHandler();
-
-        LandingActivity.context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,7 +45,6 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
         getCampsites();
     }
 
@@ -113,7 +105,7 @@ public class LandingActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.getCause().getMessage());
+                Log.d("GET-request cause: ", error.toString());
             }
         });
         VolleySingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
