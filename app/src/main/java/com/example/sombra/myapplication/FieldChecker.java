@@ -31,12 +31,10 @@ public class FieldChecker {
 
     public static void toast(Context c, String s, String length) {
         if(length == "short") {
-            Toast toast = Toast.makeText(c, s, Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast toast = Toast.makeText(c, s, Toast.LENGTH_LONG);
-            toast.show();
+            Toast.makeText(c, s, Toast.LENGTH_LONG).show();
         }
     }
 }
