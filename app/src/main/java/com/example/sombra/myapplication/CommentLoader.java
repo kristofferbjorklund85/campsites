@@ -70,7 +70,6 @@ public class CommentLoader {
 
 
     public void getComments() {
-        Log.d("COMMENTLOADER", "Entering GetComments");
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -79,17 +78,15 @@ public class CommentLoader {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        Log.d("COMMENTLOADER", "on Response: setting comments 1/2");
                         List<Comment> list = commentsFromJSON(array);
                         listener.onCommentChangeList(list);
-                        Log.d("COMMENTLOADER", "on Response: setting comments 2/2");
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("GET-request cause: ", error.toString());
-                Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM GETCOMMENTS");
+                Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
@@ -109,13 +106,12 @@ public class CommentLoader {
                         jsonObj.getString("username"),
                         jsonObj.getString("commentbody"));
                 cList.add(cm);
-                Log.d("fromJSON: ", "created object");
+
             } catch (JSONException e) {
                 Log.d("fromJSON Exception: ", e.getMessage());
             }
         }
 
-        Log.d("fromJSON: ", "Returning List of " + cList.size());
         return cList;
     }
 
@@ -131,9 +127,8 @@ public class CommentLoader {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 1/2");
+                        Toast.makeText(User.getAppContext(), "Comment Posted!", Toast.LENGTH_SHORT).show();
                         getComments();
-                        Log.d("COMMENTLOADER", "on Repsonse POST: sent Comment 2/2");
                     }
                 },
                 new Response.ErrorListener(){
@@ -141,7 +136,7 @@ public class CommentLoader {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("POST-request cause", error.toString());
-                        Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM POSTCOMMENTS");
+                        Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -158,16 +153,15 @@ public class CommentLoader {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 1/2");
+                        Toast.makeText(User.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
                         getComments();
-                        Log.d("COMMENTLOADER", "on Repsonse DELETE: sent Comment 2/2");
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("DELETE-request cause", error.toString());
-                Log.d("COMMENTLOADER: ", "ERROR RESPONSE FROM DELETECOMMENTS");
+                Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(gr);
@@ -205,7 +199,6 @@ public class CommentLoader {
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         deleteComment(data.get(position));
-                        Toast.makeText(User.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
                     }});
 
                 builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
