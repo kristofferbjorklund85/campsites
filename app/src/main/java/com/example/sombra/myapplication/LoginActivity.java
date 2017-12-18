@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         EditText un = findViewById(R.id.input_username);
         EditText pw = findViewById(R.id.input_password);
-        if (FieldChecker.checkString(this, un.getText().toString(), "Username") &&
-                FieldChecker.checkString(this, pw.getText().toString(), "Password")) {
+        if (Utils.checkString(this, un.getText().toString(), "Username") &&
+                Utils.checkString(this, pw.getText().toString(), "Password")) {
             User.setUsername(un.getText().toString());
             User.setAppContext(this.getApplicationContext());
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);

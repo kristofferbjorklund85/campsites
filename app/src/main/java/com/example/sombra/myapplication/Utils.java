@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Created by Samuel on 2017-12-18.
  */
 
-public class FieldChecker {
+public class Utils {
     public static boolean checkString(Context c, String s, String cs) {
         Pattern pattern = Pattern.compile("[~#@*+%{}<>\\[\\]|\"\\_^]");
         Matcher matcher = pattern.matcher(s);
