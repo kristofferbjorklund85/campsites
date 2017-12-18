@@ -205,7 +205,7 @@ public class CommentLoader {
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         deleteComment(data.get(position));
-                        Toast.makeText(User.getAppContext(), "Delete yo!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(User.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
                     }});
 
                 builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
