@@ -36,29 +36,13 @@ import com.example.sombra.myapplication.CommentLoader.CommentChangeListener;
 
 public class CampsiteActivity extends AppCompatActivity {
 
-    public static String ERROR;
     CommentLoader cl = null;
     CampsiteModel cm;
     private CommentChangeListener listener;
     private List<Comment> comments;
-    Context me;
     private String url;
 
     Button deleteCM;
-
-    /*CampsiteModel camp = new CampsiteModel(
-            "04ef19e0-db39-47ed-9e2c-6605e06e2d7c",
-            "Gothenburg",
-            "Lindholmen",
-            -32.952854,
-            116.857342,
-            "School",
-            "Free",
-            50,
-            "All year",
-            "Very nice place, lots of cool people",
-            3.5,
-            12312);*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +50,6 @@ public class CampsiteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_campsite);
 
         url = this.getResources().getString(R.string.apiURL);
-        me = this;
 
         listener = new CommentChangeListener() {
             @Override
@@ -99,7 +82,7 @@ public class CampsiteActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(me, cl, cm);
+                DialogFragment newFragment = new CommentDialog(User.getAppContext(), cl, cm);
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
@@ -134,7 +117,7 @@ public class CampsiteActivity extends AppCompatActivity {
             deleteCM.setVisibility(View.INVISIBLE);
         }
 
-        cl = new CommentLoader(me, (ListView) findViewById(R.id.comments_listview), cm, listener);
+        cl = new CommentLoader(User.getAppContext(), (ListView) findViewById(R.id.comments_listview), cm, listener);
 
         comments = new ArrayList<>();
         cl.resetListView(comments);
@@ -175,7 +158,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(me, "Campsite Deleted!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(User.getAppContext(), "Campsite Deleted!", Toast.LENGTH_LONG).show();
                         MapsActivity.setDeleteM();
                         finish();
                         Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
@@ -187,7 +170,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("DELETE-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM DELETECAMPSITE");
-                        Toast.makeText(me, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -214,7 +197,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("PUT-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM UPDATECAMPSITE");
-                        Toast.makeText(me, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 

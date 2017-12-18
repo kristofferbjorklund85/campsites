@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -16,10 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,8 +23,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,27 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (markerDelete == true && deleteM != null) {
             deleteM.remove();
         }
-    }
-
-    private static void createMarker(List<CampsiteModel> list) {
-        int i = 0;
-        for (CampsiteModel cm : list) {
-            Marker m = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(cm.lat, cm.lng))
-                    .title(cm.name)
-                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
-            m.setTag(cm);
-            i++;
-            Log.d("Markers ", "created " + i + " markers");
-        }
-    }
-
-    private static void createMarker(CampsiteModel cm) {
-        Marker m = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(cm.lat, cm.lng))
-                    .title(cm.name)
-                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
-            m.setTag(cm);
     }
 
     @Override
@@ -156,6 +129,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
+    }
+
+    private static void createMarker(List<CampsiteModel> list) {
+        int i = 0;
+        for (CampsiteModel cm : list) {
+            Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(cm.lat, cm.lng))
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
+            m.setTag(cm);
+            i++;
+            Log.d("Markers ", "created " + i + " markers");
+        }
+    }
+
+    private static void createMarker(CampsiteModel cm) {
+        Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(cm.lat, cm.lng))
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
+            m.setTag(cm);
     }
 
     public void onSearch(View view) {
