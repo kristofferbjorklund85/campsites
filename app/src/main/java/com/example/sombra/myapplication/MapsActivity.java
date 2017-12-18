@@ -179,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 addressList = gc.getFromLocationName(location, 1);
                 if(addressList == null) {
                     Utils.toast("That place doesn't exist", "short");
+                    return;
                 }
             } catch (IOException | IllegalStateException | IllegalArgumentException e) {
                 Log.d("Search Maps: ", e.toString());
