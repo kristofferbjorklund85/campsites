@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -182,7 +183,10 @@ public class CampsiteActivity extends AppCompatActivity {
                 });
 
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
-
+        Toast toast = Toast.makeText(this, "Campsite Deleted!", Toast.LENGTH_LONG);
+        toast.show();
+        MapsActivity.setDeleteM();
+        finish();
     }
 
    /*
