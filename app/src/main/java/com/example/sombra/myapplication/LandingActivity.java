@@ -48,7 +48,7 @@ public class LandingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Scooby dooby doo", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -84,7 +84,7 @@ public class LandingActivity extends AppCompatActivity {
 
         Log.d("starting: ", "CampsiteActivity");
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
-        intent.putExtra("cml", camp);
+        intent.putExtra("cm", camp);
         startActivity(intent);
     }
 
