@@ -81,8 +81,8 @@ public class PostActivity extends AppCompatActivity {
                                             User.getUsername());
 
         postCampsites(this, cm);
-        Intent intent = new Intent(PostActivity.this, MapsActivity.class);
-        startActivity(intent);
+        MapsActivity.setNewCM(cm);
+        finish();
     }
 
     public void postCampsites(Context context, CampsiteModel cm) {
