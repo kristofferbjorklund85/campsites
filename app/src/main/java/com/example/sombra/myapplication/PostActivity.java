@@ -1,21 +1,19 @@
 package com.example.sombra.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,12 +99,12 @@ public class PostActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("on Repsonse POST: ", "sent Campsite");
+                        Toast.makeText(User.getAppContext(), "Campsite posted!", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("POST-request cause", error.getCause().getMessage());
+                Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(joReq);
@@ -132,7 +130,6 @@ public class PostActivity extends AppCompatActivity {
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }
-
         return jsonObj;
     }
 }

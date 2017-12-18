@@ -1,6 +1,5 @@
 package com.example.sombra.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -72,6 +71,7 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_maps);
     }
 
+    //Remove for production
     public void loadCampsite(View view) {
         CampsiteModel camp = new CampsiteModel(
                                     "860f729e-5a4f-4398-ba05-0062cdf875b3",
@@ -100,12 +100,12 @@ public class LandingActivity extends AppCompatActivity {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url + "?type=campsite", //+ "&param1=" + currentLat + "&param2=" + currentLng,
+                url + "?type=campsite",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        cml = (ArrayList) fakeJSON(array);
+                        cml = (ArrayList) fromJson(array);
                         Log.d("on Response: ", "setting campsites");
                         Log.d("campsitemodeListLanding", String.valueOf(cml.size()));
                     }
@@ -119,7 +119,7 @@ public class LandingActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
     }
 
-    public List fakeJSON(JSONArray array) {
+    public List fromJson(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
 
         for (int i = 0; i < array.length(); i++) {

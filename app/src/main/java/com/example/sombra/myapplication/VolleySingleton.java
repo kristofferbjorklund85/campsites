@@ -1,7 +1,6 @@
 package com.example.sombra.myapplication;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.*;
 import com.android.volley.toolbox.Volley;
@@ -16,12 +15,9 @@ public class VolleySingleton {
     private RequestQueue mRequestQueue;
     private static Context mCtx;
 
-
     private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
-
-
     }
 
     public static synchronized VolleySingleton getInstance(Context context) {
@@ -33,8 +29,6 @@ public class VolleySingleton {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
@@ -43,6 +37,4 @@ public class VolleySingleton {
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
-
-
 }

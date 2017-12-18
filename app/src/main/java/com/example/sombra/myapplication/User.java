@@ -7,7 +7,6 @@ import android.content.Context;
  */
 
 public class User {
-
     private static String username = null;
     private static Context context;
 
@@ -26,5 +25,4 @@ public class User {
     public static String getUsername() {
         return username;
     }
-
 }

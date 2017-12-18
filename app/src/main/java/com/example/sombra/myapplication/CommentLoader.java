@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.os.AsyncTask;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +18,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Sombra on 2017-11-28.
@@ -59,7 +52,6 @@ public class CommentLoader {
         url = context.getResources().getString(R.string.apiURL);
     }
 
-
     public void resetListView(List<Comment> cList) {
         ListView comments = commentsListView;
         CommentAdapter adapter = new CommentAdapter(context,
@@ -67,7 +59,6 @@ public class CommentLoader {
         comments.setAdapter(adapter);
         justifyListViewHeightBasedOnChildren(comments, adapter);
     }
-
 
     public void getComments() {
 

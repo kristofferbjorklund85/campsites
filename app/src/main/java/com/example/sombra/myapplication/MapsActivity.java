@@ -77,13 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.d("Extras in Maps: ", " NULL");
             return;
         }
 
         cml = extras.getParcelableArrayList("cmList");
-
-        Log.d("campsitemodelList size ", String.valueOf(cml.size()));
 
         createMarker(cml);
 
@@ -136,15 +133,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private static void createMarker(List<CampsiteModel> list) {
-        int i = 0;
         for (CampsiteModel cm : list) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
                     .snippet("Type: " + cm.type + " Rating: " + cm.rating));
             m.setTag(cm);
-            i++;
-            Log.d("Markers ", "created " + i + " markers");
         }
     }
 
@@ -170,7 +164,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return;
                 }
             } catch (IOException | IllegalStateException | IllegalArgumentException e) {
-                Log.d("Search Maps: ", e.toString());
                 Utils.toast("That place doesn't exist", "short");
                 return;
             }
@@ -190,12 +183,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            Log.d("Location Permission ", "false");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     FINE_LOCATION_PERMISSION_REQUEST);
         } else {
-            Log.d("Location Permission ", "true");
             mLocationPermissionGranted = true;
             updateLocationUI();
         }
@@ -206,16 +197,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
-        Log.d("Request Permission", "Doing");
         switch (requestCode) {
             case FINE_LOCATION_PERMISSION_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
-                    Log.d("Permission request ", "true");
                 } else {
-                    Log.d("Permission request", "false");
+
                 }
             }
         }
@@ -223,19 +212,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     void updateLocationUI() {
-        Log.d("UpdateLocation ", "Start");
         if (mMap == null) {
-            Log.d("mMap ", "NULL");
             return;
         }
-        Log.d("UpdateLocation", "Before try");
         try {
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
-                Log.d("Location Enabled ", "true");
             } else {
                 mMap.setMyLocationEnabled(false);
-                Log.d("Location Enabled ", "false");
                 getLocationPermission();
             }
         } catch (SecurityException e)  {

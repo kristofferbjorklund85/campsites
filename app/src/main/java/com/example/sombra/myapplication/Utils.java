@@ -1,7 +1,5 @@
 package com.example.sombra.myapplication;
 
-import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
@@ -10,7 +8,6 @@ import java.util.regex.Pattern;
 /**
  * Created by Samuel on 2017-12-18.
  */
-
 public class Utils {
     public static boolean checkString(String s, String cs) {
         Pattern pattern = Pattern.compile("[~#@*+%{}<>\\[\\]|\"\\_^]");
@@ -28,7 +25,6 @@ public class Utils {
         }
 
     }
-
     public static void toast(String s, String length) {
         if(length == "short") {
             Toast.makeText(User.getAppContext(), s, Toast.LENGTH_SHORT).show();
