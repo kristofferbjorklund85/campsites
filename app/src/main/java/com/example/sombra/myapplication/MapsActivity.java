@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -54,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double currentLat;
     private static double currentLng;
 
+    private static CampsiteModel newCM = null;
+
     private boolean vr = false;
 
     @Override
@@ -70,6 +71,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(newCM != null) {
+            createMarker(newCM);
+        }
+    }
+
     private static void createMarker(List<CampsiteModel> list) {
         int i = 0;
         for (CampsiteModel cm : list) {
@@ -81,6 +90,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             i++;
             Log.d("Markers ", "created " + i + " markers");
         }
+    }
+
+    private static void createMarker(CampsiteModel cm) {
+        Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(cm.lat, cm.lng))
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
+            m.setTag(cm);
     }
 
     @Override
@@ -270,6 +287,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng latLng = new LatLng(currentLat, currentLng);
         return latLng;
+    }
+
+    public static void setNewCM(CampsiteModel cm) {
+        newCM = cm;
     }
 
 }
