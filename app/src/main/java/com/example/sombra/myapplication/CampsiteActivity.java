@@ -193,7 +193,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.PUT,
-                url + "?type='" + property + "'&campsiteId='" + cm.id + "'",
+                url + "?type=" + property + "&campsiteId=" + cm.id,
                 String.class,
                 "",
                 new Response.Listener<String>(){
