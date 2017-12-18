@@ -135,6 +135,8 @@ public class CampsiteActivity extends AppCompatActivity {
         comments = new ArrayList<>();
         cl.resetListView(comments);
         cl.getComments();
+        updateCampsite("views", cm);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(cm.location);
@@ -169,6 +171,8 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
+                        Toast.makeText(me, "Campsite Deleted!", Toast.LENGTH_LONG).show();
+                        MapsActivity.setDeleteM();
                         finish();
                         Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
                     }
@@ -177,17 +181,43 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("POST-request cause", error.toString());
+                        Log.d("DELETE-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM DELETECAMPSITE");
+                        Toast.makeText(me, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
-        Toast toast = Toast.makeText(this, "Campsite Deleted!", Toast.LENGTH_LONG);
-        toast.show();
-        MapsActivity.setDeleteM();
-        finish();
     }
+
+    public void updateCampsite(String property, CampsiteModel cm) {
+
+        GenericRequest gr = new GenericRequest(
+                Request.Method.PUT,
+                url + "?type='" + property + "'&campsiteId='" + cm.id + "'",
+                String.class,
+                "",
+                new Response.Listener<String>(){
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("CampsiteActivity", "on Repsonse PUT: Campsite was updated");
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("PUT-request cause", error.toString());
+                        Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM UPDATECAMPSITE");
+                        Toast.makeText(me, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        VolleySingleton.getInstance(this).addToRequestQueue(gr);
+    }
+
+
 
    /*
     public CampsiteModel createCampsite(String jsonStr) {
