@@ -42,7 +42,6 @@ public class CampsiteActivity extends AppCompatActivity {
     private List<Comment> comments;
     Context me;
     private String url;
-    private String cId;
 
     Button deleteCM;
 
@@ -100,12 +99,25 @@ public class CampsiteActivity extends AppCompatActivity {
             }
         });
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Delete Campsite");
+            builder.setMessage("Are you sure you want to delete campsite " + cm.name + "?");
+            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    deleteCampsite(cm);
+                }});
+            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    return;
+                }});
+            builder.create();
 
         deleteCM = (Button) findViewById(R.id.delete_button);
         deleteCM.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                deleteCampsite(cm);
+                builder.show();
             }
+
         });
 
         Log.d("Username: ", User.getUsername());

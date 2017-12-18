@@ -75,7 +75,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (CampsiteModel cm : list) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
-                    .title(cm.location));
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
             m.setTag(cm);
             i++;
             Log.d("Markers ", "created " + i + " markers");
@@ -130,6 +131,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 markerList.add(m);
                 m.showInfoWindow();
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (markerList.size() != 0 && marker != markerList.get(0)) {
+                    markerList.get(0).remove();
+                }
+                marker.showInfoWindow();
+                return true;
             }
         });
     }

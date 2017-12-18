@@ -33,6 +33,7 @@ public class PostActivity extends AppCompatActivity {
     EditText cap;
     EditText avail;
     EditText desc;
+    EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +62,13 @@ public class PostActivity extends AppCompatActivity {
         cap   = (EditText)findViewById(R.id.EditTextCapacity);
         avail = (EditText)findViewById(R.id.EditTextAvailability);
         desc  = (EditText)findViewById(R.id.EditTextDescription);
+        name  = (EditText)findViewById(R.id.EditTextName);
 
         Log.d("Username ", User.getUsername());
 
         CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
                                             ln.getText().toString(),
-                                            "Hard coded 'name'",
+                                            name.getText().toString(),
                                             latLng.latitude,
                                             latLng.longitude,
                                             type.getText().toString(),
@@ -110,6 +112,7 @@ public class PostActivity extends AppCompatActivity {
         try {
             jsonObj.put("id", cm.id);
             jsonObj.put("location", cm.location);
+            jsonObj.put("name", cm.name);
             jsonObj.put("lat", cm.lat);
             jsonObj.put("lng", cm.lng);
             jsonObj.put("type", cm.type);
@@ -117,6 +120,7 @@ public class PostActivity extends AppCompatActivity {
             jsonObj.put("capacity", cm.capacity);
             jsonObj.put("availability", cm.availability);
             jsonObj.put("description", cm.description);
+            jsonObj.put("username", cm.username);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }
