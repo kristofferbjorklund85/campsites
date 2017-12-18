@@ -79,7 +79,7 @@ public class PostActivity extends AppCompatActivity {
                                             latLng.longitude,
                                             type.getText().toString(),
                                             fee.getText().toString(),
-                                            Integer.parseInt(cap.getText().toString()),
+                                            cap.getText().toString(),
                                             avail.getText().toString(),
                                             desc.getText().toString(),
                                             0.0,
