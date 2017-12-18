@@ -177,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Geocoder gc = new Geocoder(this);
             try {
                 addressList = gc.getFromLocationName(location, 1);
-                if(addressList == null) {
+                if(addressList.isEmpty()) {
                     Utils.toast("That place doesn't exist", "short");
                     return;
                 }
