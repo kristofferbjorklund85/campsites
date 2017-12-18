@@ -66,7 +66,6 @@ public class CampsiteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_campsite);
 
         url = this.getResources().getString(R.string.apiURL);
-
         me = this;
 
         listener = new CommentChangeListener() {
