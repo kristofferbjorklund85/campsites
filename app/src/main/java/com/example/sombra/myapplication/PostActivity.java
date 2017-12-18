@@ -55,6 +55,11 @@ public class PostActivity extends AppCompatActivity {
         latLng = extras.getParcelable("latlng");
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     public void createCampsite() {
 
         ln    = (EditText)findViewById(R.id.EditTextLocationName);

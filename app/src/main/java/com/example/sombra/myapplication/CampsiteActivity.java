@@ -79,6 +79,11 @@ public class CampsiteActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     public void init() {
         //ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
 
