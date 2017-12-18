@@ -173,14 +173,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String location = location_tf.getText().toString();
         List<Address> addressList = null;
 
-        if (location != null || !location.equals("")) {
+        if (Utils.checkString(location, "Search field")) {
             Geocoder gc = new Geocoder(this);
             try {
                 addressList = gc.getFromLocationName(location, 1);
+                if(addressList == null) {
+                    Utils.toast("That place doesn't exist", "short");
+                }
             } catch (IOException | IllegalStateException | IllegalArgumentException e) {
                 Log.d("Search Maps: ", e.toString());
-                Toast toast = Toast.makeText(this, "That place doesn't exist", Toast.LENGTH_SHORT);
-                toast.show();
+                Utils.toast("That place doesn't exist", "short");
                 return;
             }
 

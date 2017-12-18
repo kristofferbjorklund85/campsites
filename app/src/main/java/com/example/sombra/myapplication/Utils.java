@@ -12,15 +12,15 @@ import java.util.regex.Pattern;
  */
 
 public class Utils {
-    public static boolean checkString(Context c, String s, String cs) {
+    public static boolean checkString(String s, String cs) {
         Pattern pattern = Pattern.compile("[~#@*+%{}<>\\[\\]|\"\\_^]");
         Matcher matcher = pattern.matcher(s);
         if(s.isEmpty() || s == null) {
-            toast(c, cs + " cannot be empty", "short");
+            toast(cs + " cannot be empty", "short");
             return false;
         }
         else if(matcher.find()) {
-            toast(c, cs + " cannot contain [~#@*+%{}<>[]|\"_^!?]", "short");
+            toast(cs + " cannot contain [~#@*+%{}<>[]|\"_^!?]", "short");
             return false;
         }
         else {
@@ -29,12 +29,12 @@ public class Utils {
 
     }
 
-    public static void toast(Context c, String s, String length) {
+    public static void toast(String s, String length) {
         if(length == "short") {
-            Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
+            Toast.makeText(User.getAppContext(), s, Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(c, s, Toast.LENGTH_LONG).show();
+            Toast.makeText(User.getAppContext(), s, Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -28,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         EditText un = findViewById(R.id.input_username);
         EditText pw = findViewById(R.id.input_password);
-        if (Utils.checkString(this, un.getText().toString(), "Username") &&
-                Utils.checkString(this, pw.getText().toString(), "Password")) {
+        if (Utils.checkString(un.getText().toString(), "Username") &&
+                Utils.checkString(pw.getText().toString(), "Password")) {
             User.setUsername(un.getText().toString());
             User.setAppContext(this.getApplicationContext());
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
