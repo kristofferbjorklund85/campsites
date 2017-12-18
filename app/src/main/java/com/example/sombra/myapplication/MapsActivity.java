@@ -41,7 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static Marker deleteM = null;
     private static boolean markerDelete = false;
 
-    private LatLng defaultLatLng = new LatLng(70887000, 11.97456000);
+    private LatLng defaultLatLng = new LatLng(57.850894, 12.033463);
+    private int defaultZoom = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
         if(newCM != null) {
             createMarker(newCM);
+            newCM = null;
         }
         if (markerDelete == true && deleteM != null) {
             deleteM.remove();
+            markerDelete = false;
         }
     }
 
@@ -84,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         createMarker(cml);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLatLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, defaultZoom));
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -98,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     deleteM = marker;
                     Intent intent = new Intent(MapsActivity.this, CampsiteActivity.class);
                     intent.putExtra("cm", (CampsiteModel) marker.getTag());
+                    marker.hideInfoWindow();
                     startActivity(intent);
                 }
             }

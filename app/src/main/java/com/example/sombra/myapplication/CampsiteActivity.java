@@ -204,38 +204,4 @@ public class CampsiteActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
     }
 
-
-
-   /*
-    public CampsiteModel createCampsite(String jsonStr) {
-
-    String test_JSON = getString(R.string.test_JSON);
-
-        JSONObject jsonObj = null;
-
-        try {
-            jsonObj = new JSONObject(jsonStr);
-        } catch (JSONException e) {
-            Log.d("error 1", e.getMessage());
-        }
-
-        try {
-            return new CampsiteModel(
-                    jsonObj.getString("id"),
-                    jsonObj.getString("location"),
-                    jsonObj.getDouble("lat"),
-                    jsonObj.getDouble("lng"),
-                    jsonObj.getString("type"),
-                    jsonObj.getString("fee"),
-                    jsonObj.getInt("capacity"),
-                    jsonObj.getString("availability"),
-                    jsonObj.getString("description"));
-
-        } catch (JSONException e) {
-            Log.d("error 2", e.getMessage());
-        }
-        return null;
-    }
-    */
-
 }
