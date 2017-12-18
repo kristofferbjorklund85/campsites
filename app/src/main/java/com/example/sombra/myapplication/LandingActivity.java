@@ -57,7 +57,7 @@ public class LandingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (back_pressed + 1000 > System.currentTimeMillis()){
+        if (back_pressed + 1500 > System.currentTimeMillis()){
             super.onBackPressed();
         }
         else{
