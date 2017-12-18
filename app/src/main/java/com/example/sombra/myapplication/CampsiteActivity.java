@@ -148,9 +148,6 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView availabilityView = (TextView) findViewById(R.id.availability);
         TextView descriptionView = (TextView) findViewById(R.id.description);
 
-        Log.d("CM id: ", cm.id);
-        Log.d("CM Type: ", cm.type);
-
         locationView.setText("Location: " + cm.location);
         typeView.setText("Type: " + cm.type);
         feeView.setText("Fee: " + cm.fee);
