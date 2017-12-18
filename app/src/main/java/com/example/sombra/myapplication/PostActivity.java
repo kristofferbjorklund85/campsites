@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +78,7 @@ public class PostActivity extends AppCompatActivity {
                                             avail.getText().toString(),
                                             desc.getText().toString(),
                                             0.0,
-                                            0,
+                                            1,
                                             User.getUsername());
 
         postCampsites(this, cm);
@@ -120,6 +121,8 @@ public class PostActivity extends AppCompatActivity {
             jsonObj.put("capacity", cm.capacity);
             jsonObj.put("availability", cm.availability);
             jsonObj.put("description", cm.description);
+            jsonObj.put("rating", cm.rating);
+            jsonObj.put("views", cm.views);
             jsonObj.put("username", cm.username);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
