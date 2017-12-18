@@ -1,7 +1,9 @@
 package com.example.sombra.myapplication;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.widget.Toolbar;
@@ -197,14 +199,38 @@ public class CommentLoader {
 
                 holder = new CommentHolder();
 
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Delete Comment");
+                builder.setMessage("Are you sure you want to delete your comment ?");
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deleteComment(data.get(position));
+                        Toast.makeText(User.getAppContext(), "Delete yo!", Toast.LENGTH_SHORT).show();
+                    }});
+
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        return;
+                    }});
+
+                builder.create();
+
+
                 holder.user = (TextView)row.findViewById(R.id.comment_user);
                 holder.comment = (TextView)row.findViewById(R.id.comment_textview);
                 holder.deleteComment = (Button)row.findViewById(R.id.deleteComment);
                 holder.deleteComment.setVisibility(View.INVISIBLE);
 
+                holder.deleteComment.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        builder.show();
+                    }
+                });
+
                 if(User.getUsername().equals(data.get(position).username)) {
                     holder.deleteComment.setVisibility(View.VISIBLE);
                 }
+
 
                 row.setTag(holder);
 
@@ -214,16 +240,6 @@ public class CommentLoader {
 
             holder.user.setText(data.get(position).username + ":");
             holder.comment.setText(data.get(position).commentBody);
-
-            holder.deleteComment.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    deleteComment(data.get(position));
-                    Toast.makeText(User.getAppContext(), "Delete yo!", Toast.LENGTH_SHORT).show();
-
-                }
-            });
 
             return row;
         }
