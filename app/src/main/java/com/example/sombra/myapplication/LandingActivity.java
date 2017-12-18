@@ -56,6 +56,12 @@ public class LandingActivity extends AppCompatActivity {
         getCampsites();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCampsites();
+    }
+
     public void mapsView(View view) {
         Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
         intent.putParcelableArrayListExtra("cmList", cml);
