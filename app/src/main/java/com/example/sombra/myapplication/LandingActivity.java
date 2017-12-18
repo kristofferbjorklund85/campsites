@@ -26,6 +26,7 @@ public class LandingActivity extends AppCompatActivity {
     ArrayList<CampsiteModel> cml;
     private static Context context;
     String url;
+    Long back_pressed = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,17 @@ public class LandingActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getCampsites();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 1000 > System.currentTimeMillis()){
+            super.onBackPressed();
+        }
+        else{
+            Utils.toast("Press once again to exit!", "short");
+        }
+        back_pressed = System.currentTimeMillis();
     }
 
     public void mapsView(View view) {
