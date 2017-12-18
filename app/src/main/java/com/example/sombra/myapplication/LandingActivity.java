@@ -24,7 +24,6 @@ import java.util.List;
 
 public class LandingActivity extends AppCompatActivity {
     ArrayList<CampsiteModel> cml;
-    private static Context context;
     String url;
     Long back_pressed = 0L;
 
@@ -74,8 +73,6 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void loadCampsite(View view) {
-        //cml = (ArrayList<CampsiteModel>) vh.getCampList();
-
         CampsiteModel camp = new CampsiteModel(
                                     "860f729e-5a4f-4398-ba05-0062cdf875b3",
                                     "Gothenburg",
@@ -84,7 +81,7 @@ public class LandingActivity extends AppCompatActivity {
                                     116.857342,
                                     "School",
                                     "Free",
-                                    50,
+                                    "50",
                                     "All year",
                                     "Very nice place, lots of cool people",
                                     3.5,
@@ -99,7 +96,6 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void getCampsites() {
-
         Log.d("getCampsites ", "starting");
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -137,7 +133,7 @@ public class LandingActivity extends AppCompatActivity {
                         jsonObj.getDouble("lng"),
                         jsonObj.getString("type"),
                         jsonObj.getString("fee"),
-                        jsonObj.getInt("capacity"),
+                        jsonObj.getString("capacity"),
                         jsonObj.getString("availability"),
                         jsonObj.getString("description"),
                         jsonObj.getDouble("rating"),
@@ -153,17 +149,4 @@ public class LandingActivity extends AppCompatActivity {
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
     }
-
-    /*private class loadMaps extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... params) {
-            vh.getCampsites(context);
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            cml = (ArrayList<CampsiteModel>) vh.getCampList();
-        }
-    }*/
 }
