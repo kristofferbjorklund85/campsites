@@ -18,6 +18,12 @@
             android:textSize="10pt" />
 
         <EditText
+            android:id="@+id/EditTextName"
+            android:layout_width="fill_parent"
+            android:layout_height="65dp"
+            android:hint="Name" />
+
+        <EditText
             android:id="@+id/EditTextLocationName"
             android:layout_width="fill_parent"
             android:layout_height="65dp"
