@@ -8,10 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.UUID;
 
@@ -48,7 +45,7 @@ public class CommentDialog extends DialogFragment {
                                         UUID.randomUUID().toString(),
                                         cm.id.toString(),
                                         "2017-12-24",
-                                        User.getUsername(),
+                                        UserSingleton.getUsername(),
                                         tempString);
 
                         Log.d("POST COMMENT ID: ", c.id);
@@ -58,12 +55,12 @@ public class CommentDialog extends DialogFragment {
                         Log.d("POST COMMENT BODY: ", c.commentBody);
 
                         cl.postComment(context, c);
-                        Log.d("submitted: ", User.getUsername() + "said: " + tempString);
+                        Log.d("submitted: ", UserSingleton.getUsername() + "said: " + tempString);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        // UserSingleton cancelled the dialog
                         CommentDialog.this.getDialog().cancel();
                     }
                 });

@@ -10,14 +10,9 @@ import android.widget.EditText;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,14 +24,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        User.setAppContext(this.getApplicationContext());
+        UserSingleton.setAppContext(this.getApplicationContext());
 
         url = this.getResources().getString(R.string.apiURL);
 
         //Remove for production
         if (false) {
-            User.setUsername("JanBanan");
-            User.setAppContext(this.getApplicationContext());
+            UserSingleton.setUsername("JanBanan");
+            UserSingleton.setAppContext(this.getApplicationContext());
             Log.d("starting: ", "Landing");
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
             startActivity(intent);
@@ -51,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 Utils.checkString(pw.getText().toString(), "Password")) {
             userExists(un.getText().toString(), pw.getText().toString());
             if(confirmedUser) {
-                User.setUsername(un.getText().toString());
+                UserSingleton.setUsername(un.getText().toString());
             }
         }
     }

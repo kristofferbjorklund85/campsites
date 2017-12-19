@@ -1,8 +1,6 @@
 package com.example.sombra.myapplication;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,23 +8,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import com.android.volley.Request;
@@ -85,7 +73,7 @@ public class CampsiteActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(User.getAppContext(), cl, cm);
+                DialogFragment newFragment = new CommentDialog(UserSingleton.getAppContext(), cl, cm);
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
@@ -111,10 +99,10 @@ public class CampsiteActivity extends AppCompatActivity {
 
         });
 
-        Log.d("Username: ", User.getUsername());
+        Log.d("Username: ", UserSingleton.getUsername());
         Log.d("CM Username: ", cm.username);
 
-        if(User.getUsername().equals(cm.username)) {
+        if(UserSingleton.getUsername().equals(cm.username)) {
             deleteCM.setVisibility(View.VISIBLE);
         } else {
             deleteCM.setVisibility(View.INVISIBLE);
@@ -161,7 +149,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(User.getAppContext(), "Campsite Deleted!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "Campsite Deleted!", Toast.LENGTH_LONG).show();
                         MapsActivity.setDeleteM();
                         finish();
                         Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
@@ -173,7 +161,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("DELETE-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM DELETECAMPSITE");
-                        Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -200,7 +188,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("PUT-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM UPDATECAMPSITE");
-                        Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 

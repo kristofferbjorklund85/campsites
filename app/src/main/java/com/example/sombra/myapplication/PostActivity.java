@@ -68,7 +68,7 @@ public class PostActivity extends AppCompatActivity {
         desc  = (EditText)findViewById(R.id.EditTextDescription);
         name  = (EditText)findViewById(R.id.EditTextName);
 
-        Log.d("Username ", User.getUsername());
+        Log.d("Username ", UserSingleton.getUsername());
 
         CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
                                             ln.getText().toString(),
@@ -82,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
                                             desc.getText().toString(),
                                             0.0,
                                             1,
-                                            User.getUsername());
+                                            UserSingleton.getUsername());
 
         postCampsites(this, cm);
         MapsActivity.setNewCM(cm);
@@ -99,12 +99,12 @@ public class PostActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(User.getAppContext(), "Campsite posted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "Campsite posted!", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(joReq);

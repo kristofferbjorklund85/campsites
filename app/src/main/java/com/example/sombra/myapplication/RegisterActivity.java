@@ -64,16 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);
-                        Toast.makeText(User.getAppContext(), "User created!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "UserSingleton created!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(User.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
-        VolleySingleton.getInstance(User.getAppContext()).addToRequestQueue(joReq);
+        VolleySingleton.getInstance(UserSingleton.getAppContext()).addToRequestQueue(joReq);
     }
 
     private JSONObject toJson(UserModel user) {
@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
             jo.put("username", user.username);
             jo.put("password", user.password);
         } catch(JSONException e) {
-            Log.d("toJSON User", e.toString());
+            Log.d("toJSON UserSingleton", e.toString());
         }
         return jo;
     }

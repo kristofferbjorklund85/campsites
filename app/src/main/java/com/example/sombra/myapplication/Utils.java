@@ -27,10 +27,10 @@ public class Utils {
     }
     public static void toast(String s, String length) {
         if(length == "short") {
-            Toast.makeText(User.getAppContext(), s, Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(User.getAppContext(), s, Toast.LENGTH_LONG).show();
+            Toast.makeText(UserSingleton.getAppContext(), s, Toast.LENGTH_LONG).show();
         }
     }
 }
