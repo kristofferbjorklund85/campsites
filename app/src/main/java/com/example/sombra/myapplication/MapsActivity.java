@@ -70,6 +70,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -235,9 +242,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerDelete = true;
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
-        startActivity(intent);
-    }
+
 }
