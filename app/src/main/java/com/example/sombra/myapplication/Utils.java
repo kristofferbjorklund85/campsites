@@ -18,8 +18,10 @@ public class Utils {
         } else if (matcher.find()) {
             toast(cs + " cannot contain [~#@*+%{}<>[]|\"_^!?öäå]", "short");
             return false;
-        } else if (s.length() < min || s.length() > max && min != 0 && max != 0) {
-            toast(cs + "cannot be short than " + min + " or longer than " + max, "short");
+        } else if (s.length() < min && min != 0 ) {
+            toast(cs + "cannot be short than " + min, "short");
+        } else if (s.length() > max && max != 0) {
+            toast(cs + " or longer than " + max, "short");
         } else {
             return true;
         }
