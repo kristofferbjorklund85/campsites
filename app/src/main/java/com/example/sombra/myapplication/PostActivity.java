@@ -111,25 +111,25 @@ public class PostActivity extends AppCompatActivity {
     }
 
     public static JSONObject toJSON(CampsiteModel cm) {
-        JSONObject jsonObj = new JSONObject();
+        JSONObject jo = new JSONObject();
 
         try {
-            jsonObj.put("id", cm.id);
-            jsonObj.put("location", cm.location);
-            jsonObj.put("name", cm.name);
-            jsonObj.put("lat", cm.lat);
-            jsonObj.put("lng", cm.lng);
-            jsonObj.put("type", cm.type);
-            jsonObj.put("fee", cm.fee);
-            jsonObj.put("capacity", cm.capacity);
-            jsonObj.put("availability", cm.availability);
-            jsonObj.put("description", cm.description);
-            jsonObj.put("rating", cm.rating);
-            jsonObj.put("views", cm.views);
-            jsonObj.put("username", cm.username);
+            jo.put("id", cm.id);
+            jo.put("location", cm.location);
+            jo.put("name", cm.name);
+            jo.put("lat", cm.lat);
+            jo.put("lng", cm.lng);
+            jo.put("type", cm.type);
+            jo.put("fee", cm.fee);
+            jo.put("capacity", cm.capacity);
+            jo.put("availability", cm.availability);
+            jo.put("description", cm.description);
+            jo.put("rating", cm.rating);
+            jo.put("views", cm.views);
+            jo.put("username", cm.username);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }
-        return jsonObj;
+        return jo;
     }
 }

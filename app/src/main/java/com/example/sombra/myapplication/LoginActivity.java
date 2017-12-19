@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        EditText un = findViewById(R.id.input_username);
-        EditText pw = findViewById(R.id.input_password);
+        EditText un = (EditText) findViewById(R.id.input_username);
+        EditText pw = (EditText) findViewById(R.id.input_password);
         if (Utils.checkString(un.getText().toString(), "Username") &&
                 Utils.checkString(pw.getText().toString(), "Password")) {
             User.setUsername(un.getText().toString());
