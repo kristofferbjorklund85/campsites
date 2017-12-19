@@ -41,6 +41,7 @@ public class CampsiteActivity extends AppCompatActivity {
     private CommentChangeListener listener;
     private List<Comment> comments;
     private String url;
+    private Context context;
 
     Button deleteCM;
 
@@ -58,6 +59,8 @@ public class CampsiteActivity extends AppCompatActivity {
                 cl.resetListView(cList);
             }
         };
+
+        context = this;
 
         init();
     }
@@ -117,7 +120,7 @@ public class CampsiteActivity extends AppCompatActivity {
             deleteCM.setVisibility(View.INVISIBLE);
         }
 
-        cl = new CommentLoader(User.getAppContext(), (ListView) findViewById(R.id.comments_listview), cm, listener);
+        cl = new CommentLoader(context, (ListView) findViewById(R.id.comments_listview), cm, listener);
 
         comments = new ArrayList<>();
         cl.resetListView(comments);
