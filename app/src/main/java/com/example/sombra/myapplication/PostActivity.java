@@ -24,7 +24,7 @@ public class PostActivity extends AppCompatActivity {
 
     static LatLng latLng = null;
 
-    private String url = String.format("http://87.96.251.140:8080/API");
+    private String url;
 
     EditText ln;
     EditText type;
@@ -38,6 +38,8 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        url = this.getResources().getString(R.string.apiURL);
         Button bt = (Button)findViewById(R.id.ButtonCreateCampsite);
 
         bt.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
                                             cap.getText().toString(),
                                             avail.getText().toString(),
                                             desc.getText().toString(),
-                                            0.0,
+                                            //Notera att views är 1
                                             1,
                                             UserSingleton.getUsername());
 
@@ -124,7 +126,6 @@ public class PostActivity extends AppCompatActivity {
             jo.put("capacity", cm.capacity);
             jo.put("availability", cm.availability);
             jo.put("description", cm.description);
-            jo.put("rating", cm.rating);
             jo.put("views", cm.views);
             jo.put("username", cm.username);
         } catch(JSONException e) {

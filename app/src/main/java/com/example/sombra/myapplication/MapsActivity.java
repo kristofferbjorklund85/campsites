@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
+                    .snippet("Type: " + cm.type));
             m.setTag(cm);
         }
     }
@@ -153,7 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type + " Rating: " + cm.rating));
+                    .snippet("Type: " + cm.type));
             m.setTag(cm);
     }
 

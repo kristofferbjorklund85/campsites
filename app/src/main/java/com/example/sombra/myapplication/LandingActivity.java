@@ -84,7 +84,6 @@ public class LandingActivity extends AppCompatActivity {
                                     "50",
                                     "All year",
                                     "Very nice place, lots of cool people",
-                                    3.5,
                                     12312,
                                     "Satan666");
 
@@ -136,7 +135,6 @@ public class LandingActivity extends AppCompatActivity {
                         jsonObj.getString("capacity"),
                         jsonObj.getString("availability"),
                         jsonObj.getString("description"),
-                        jsonObj.getDouble("rating"),
                         jsonObj.getInt("views"),
                         jsonObj.getString("username"));
                 campList.add(cm);
