@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //Remove for production
-        if (true) {
+        if (false) {
             User.setUsername("JanBanan");
             User.setAppContext(this.getApplicationContext());
             Log.d("starting: ", "Landing");
