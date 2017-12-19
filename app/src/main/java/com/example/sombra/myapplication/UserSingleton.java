@@ -7,7 +7,7 @@ import android.content.Context;
  */
 
 public class UserSingleton {
-    private static String username = null;
+    private static String username = "guest";
     private static String id = null;
     private static Context context;
 
