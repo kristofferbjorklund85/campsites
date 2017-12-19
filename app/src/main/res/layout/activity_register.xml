@@ -9,7 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:text="Register New User"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/input_username"
@@ -19,8 +32,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Enter username"
+            android:inputType="textPersonName"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="37dp" />
 
@@ -57,6 +70,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
+            android:onClick="registerUser"
             android:text="Register"
             tools:layout_editor_absoluteX="125dp"
             tools:layout_editor_absoluteY="156dp" />

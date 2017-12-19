@@ -27,18 +27,16 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         url = this.getResources().getString(R.string.apiURL);
-
-        Button register = (Button) findViewById(R.id.register_button);
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerUser();
-            }
-        });
     }
 
-    public void registerUser() {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void registerUser(View view) {
         EditText username       = (EditText) findViewById(R.id.input_username);
         EditText password       = (EditText) findViewById(R.id.input_username);
         EditText repeatPassword = (EditText) findViewById(R.id.input_username);

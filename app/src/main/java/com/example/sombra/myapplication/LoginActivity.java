@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String url;
     boolean confirmedUser = false;
+    Long back_pressed = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 1500 > System.currentTimeMillis()){
+            super.onBackPressed();
+            System.exit(0);
+        }
+        else{
+            Utils.toast("Press once again to exit!", "short");
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
     public void login(View view) {
         EditText un = (EditText) findViewById(R.id.input_username);
         EditText pw = (EditText) findViewById(R.id.input_password);
@@ -49,6 +62,17 @@ public class LoginActivity extends AppCompatActivity {
                 UserSingleton.setUsername(un.getText().toString());
             }
         }
+    }
+
+    public void register(View view) {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void guest(View view) {
+        Log.d("Guest ", "Clicked");
+        //Continue using app as guest
     }
 
     public void userExists(String username, String pw) {
