@@ -68,7 +68,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void guest(View view) {
-        Log.d("Guest ", "Clicked");
+        Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+        startActivity(intent);
+        finish();
         //Continue using app as guest
     }
 
