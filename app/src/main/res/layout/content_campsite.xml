@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="location"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="type"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="fee"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="capacity"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="availability"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
@@ -78,21 +78,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30px"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="description"
                 android:textSize="12pt"
                 tools:layout_editor_absoluteX="14dp"
                 tools:layout_editor_absoluteY="229dp" />
 
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="20dp"
-                android:gravity="right|center_vertical"
-                android:text="Delete Campsite"
-                android:textSize="10sp" />
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/positiveRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dip"
+                    android:text="TextView" />
+
+                <ImageButton
+                    android:id="@+id/upVoteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dip"
+                    app:srcCompat="@android:drawable/arrow_up_float" />
+
+                <TextView
+                    android:id="@+id/negativeRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dip"
+                    android:text="TextView" />
+
+                <ImageButton
+                    android:id="@+id/downVoteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dip"
+                    app:srcCompat="@android:drawable/arrow_down_float" />
+
+                <Button
+                    android:id="@+id/delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="20dp"
+                    android:gravity="right|center_vertical"
+                    android:text="Delete Campsite"
+                    android:textSize="10sp" />
+            </GridLayout>
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -122,7 +159,7 @@
 
             <ListView
                 android:id="@+id/comments_listview"
-                android:layout_width="395dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarAlwaysDrawHorizontalTrack="false"
                 android:scrollbars="none|vertical"
