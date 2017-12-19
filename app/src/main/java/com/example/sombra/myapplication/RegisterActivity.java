@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +39,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void registerUser(View view) {
         EditText username       = (EditText) findViewById(R.id.input_username);
-        EditText password       = (EditText) findViewById(R.id.input_username);
-        EditText repeatPassword = (EditText) findViewById(R.id.input_username);
+        EditText password       = (EditText) findViewById(R.id.input_password);
+        EditText repeatPassword = (EditText) findViewById(R.id.input_repeat_password);
 
-        if(     Utils.checkString(username.getText().toString(), "Username") &&
-                Utils.checkString(password.getText().toString(), "Password") &&
-                Utils.checkString(repeatPassword.getText().toString(), "Password") &&
+        if(     Utils.checkString(username.getText().toString(), "Username", 3, 30) &&
+                Utils.checkString(password.getText().toString(), "Password", 3, 0) &&
+                Utils.checkString(repeatPassword.getText().toString(), "Password", 3, 0) &&
                 password.getText().toString().equals(repeatPassword.getText().toString())) {
 
                 postUser(new UserModel(username.getText().toString(), password.getText().toString()));
@@ -51,39 +52,32 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void postUser(UserModel user) {
-        JSONObject jo = toJson(user);
+        Gson gson = new Gson();
+        String jo = gson.toJson(user);
 
-        JsonObjectRequest joReq = new JsonObjectRequest(
+        GenericRequest gr = new GenericRequest(
                 Request.Method.POST,
                 url + "?type=user",
+                String.class,
                 jo,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>(){
+
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);
-                        Toast.makeText(UserSingleton.getAppContext(), "UserSingleton created!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSingleton.getAppContext(), "User created!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        VolleySingleton.getInstance(UserSingleton.getAppContext()).addToRequestQueue(joReq);
-    }
+                },
+                new Response.ErrorListener(){
 
-    private JSONObject toJson(UserModel user) {
-        JSONObject jo = new JSONObject();
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Utils.toast("Something went wrong!", "short");
+                    }
+                });
 
-        try {
-            jo.put("id", user.id);
-            jo.put("username", user.username);
-            jo.put("password", user.password);
-        } catch(JSONException e) {
-            Log.d("toJSON UserSingleton", e.toString());
+        VolleySingleton.getInstance(this).addToRequestQueue(gr);
         }
-        return jo;
-    }
 }

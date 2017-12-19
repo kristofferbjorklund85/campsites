@@ -12,12 +12,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
     String url;
-    boolean confirmedUser = false;
     Long back_pressed = 0L;
 
     @Override
@@ -55,12 +55,9 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         EditText un = (EditText) findViewById(R.id.input_username);
         EditText pw = (EditText) findViewById(R.id.input_password);
-        if (Utils.checkString(un.getText().toString(), "Username") &&
-                Utils.checkString(pw.getText().toString(), "Password")) {
+        if (Utils.checkString(un.getText().toString(), "Username", 0 , 0) &&
+                Utils.checkString(pw.getText().toString(), "Password", 0, 0)) {
             userExists(un.getText().toString(), pw.getText().toString());
-            if(confirmedUser) {
-                UserSingleton.setUsername(un.getText().toString());
-            }
         }
     }
 
@@ -83,11 +80,16 @@ public class LoginActivity extends AppCompatActivity {
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject jo) {
+                    public void onResponse(JSONObject response) {
+                        try {
+                            UserSingleton.setId(response.getString("id"));
+                            UserSingleton.setUsername(response.getString("username"));
+                        } catch(JSONException e) {
+                            Utils.toast(e.toString(), "short");
+                        }
                         Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
                         startActivity(intent);
                         finish();
-                        confirmedUser = true;
                     }
                 }, new Response.ErrorListener() {
 

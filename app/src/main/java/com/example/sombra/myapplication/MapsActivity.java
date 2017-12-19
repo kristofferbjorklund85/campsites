@@ -162,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String location = location_tf.getText().toString();
         List<Address> addressList = null;
 
-        if (Utils.checkString(location, "Search field")) {
+        if (Utils.checkString(location, "Search field", 0, 0)) {
             Geocoder gc = new Geocoder(this);
             try {
                 addressList = gc.getFromLocationName(location, 1);
