@@ -37,9 +37,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="146dp"
         android:gravity="center|bottom"
-        tools:layout_editor_absoluteY="264dp">
+        tools:layout_editor_absoluteY="548dp">
 
         <Button
             android:id="@+id/log_out"
