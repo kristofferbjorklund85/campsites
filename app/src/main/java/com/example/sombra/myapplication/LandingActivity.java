@@ -94,6 +94,15 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void logOut(View view) {
+        Intent intent = new Intent(LandingActivity.this, LoginActivity.class);
+        startActivity(intent);
+        UserSingleton.setAppContext(null);
+        UserSingleton.setUsername(null);
+        UserSingleton.setId(null);
+        finish();
+    }
+
     public void getCampsites() {
         Log.d("getCampsites ", "starting");
 
