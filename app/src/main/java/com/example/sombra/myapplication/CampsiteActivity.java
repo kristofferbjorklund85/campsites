@@ -70,44 +70,6 @@ public class CampsiteActivity extends AppCompatActivity {
         cm = (CampsiteModel) extras.getParcelable("cm");
         setCampsiteView(cm);
 
-        Button button = (Button) findViewById(R.id.comment_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(UserSingleton.getAppContext(), cl, cm);
-                newFragment.show(getFragmentManager(), "comment");
-            }
-        });
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Delete Campsite");
-            builder.setMessage("Are you sure you want to delete campsite " + cm.name + "?");
-            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    deleteCampsite(cm);
-                }});
-            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    return;
-                }});
-            builder.create();
-
-        deleteCM = (Button) findViewById(R.id.delete_button);
-        deleteCM.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                builder.show();
-            }
-
-        });
-
-        Log.d("Username: ", UserSingleton.getUsername());
-        Log.d("CM Username: ", cm.username);
-
-        if(UserSingleton.getUsername().equals(cm.username)) {
-            deleteCM.setVisibility(View.VISIBLE);
-        } else {
-            deleteCM.setVisibility(View.INVISIBLE);
-        }
-
         cl = new CommentLoader(context, (ListView) findViewById(R.id.comments_listview), cm, listener);
 
         comments = new ArrayList<>();
@@ -121,7 +83,7 @@ public class CampsiteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    public void setCampsiteView(CampsiteModel cm) {
+    public void setCampsiteView(final CampsiteModel cm) {
         TextView locationView = (TextView) findViewById(R.id.location);
         TextView typeView = (TextView) findViewById(R.id.type);
         TextView feeView = (TextView) findViewById(R.id.fee);
@@ -135,6 +97,44 @@ public class CampsiteActivity extends AppCompatActivity {
         capacityView.setText("Capacity: " + cm.capacity);
         availabilityView.setText("Availability: " + cm.availability);
         descriptionView.setText("Description: " + cm.description);
+
+        Button button = (Button) findViewById(R.id.comment_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DialogFragment newFragment = new CommentDialog(UserSingleton.getAppContext(), cl, cm);
+                newFragment.show(getFragmentManager(), "comment");
+            }
+        });
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Campsite");
+        builder.setMessage("Are you sure you want to delete campsite " + cm.name + "?");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                deleteCampsite(cm);
+            }});
+        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                return;
+            }});
+        builder.create();
+
+        deleteCM = (Button) findViewById(R.id.delete_button);
+        deleteCM.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                builder.show();
+            }
+
+        });
+
+        Log.d("Username: ", UserSingleton.getId());
+        Log.d("CM UserId: ", cm.userId);
+
+        if(UserSingleton.getId().equals(cm.id)) {
+            deleteCM.setVisibility(View.VISIBLE);
+        } else {
+            deleteCM.setVisibility(View.INVISIBLE);
+        }
 
     }
 

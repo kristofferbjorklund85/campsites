@@ -30,10 +30,10 @@ public class CampsiteModel implements Parcelable {
     String availability;
     String description;
     int views;
-    String username;
+    String userId;
 
     public CampsiteModel(String id, String location, String name, double lat, double lng, String type, String fee,
-                         String capacity, String availability, String description, int views, String username){
+                         String capacity, String availability, String description, int views, String userId){
         this.id = id;
         this.location = location;
         this.name = name;
@@ -45,7 +45,7 @@ public class CampsiteModel implements Parcelable {
         this.availability = availability;
         this.description = description;
         this.views = views;
-        this.username = username;
+        this.userId = userId;
     }
 
     public CampsiteModel(Parcel in) {
@@ -60,7 +60,7 @@ public class CampsiteModel implements Parcelable {
         this.availability = in.readString();
         this.description = in.readString();
         this.views = in.readInt();
-        this.username = in.readString();
+        this.userId = in.readString();
     }
 
     @Override
@@ -81,6 +81,6 @@ public class CampsiteModel implements Parcelable {
         parcel.writeString(this.availability);
         parcel.writeString(this.description);
         parcel.writeInt(this.views);
-        parcel.writeString(this.username);
+        parcel.writeString(this.userId);
     }
 }
