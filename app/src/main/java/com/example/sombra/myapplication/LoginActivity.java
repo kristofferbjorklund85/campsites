@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void promptLogin(String activity) {
+    public void promptLogin(String activity) {
         if(UserSingleton.getUsername().equals("guest") && UserSingleton.getPromptLogin() == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(UserSingleton.getAppContext());
             builder.setTitle("You are not logged in");
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public static void loginWindow() {
+    public void loginWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(UserSingleton.getAppContext());
         LinearLayout layout = new LinearLayout(UserSingleton.getAppContext());
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -139,7 +139,15 @@ public class LoginActivity extends AppCompatActivity {
 
         dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                loginWindow();
+                if (Utils.checkString(titleBox.getText().toString(), "Username", 0 , 0) &&
+                        Utils.checkString(descriptionBox.getText().toString(), "Password", 0, 0)) {
+                    userExists(titleBox.getText().toString(), descriptionBox.getText().toString());
+                }
+        }});
+
+        dialog.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                return;
         }});
 
         dialog.setView(layout);
