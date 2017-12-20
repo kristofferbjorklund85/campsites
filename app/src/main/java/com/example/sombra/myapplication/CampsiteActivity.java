@@ -216,6 +216,10 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     private void postRating(int rate) {
+        if(LoginActivity.promptLogin("rate", context)) {
+            return;
+        }
+
         com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(SessionSingleton.getId(), rate);
 
         Log.d("UserId: ", rating.getUserId());
