@@ -49,12 +49,6 @@ public class CommentDialog extends DialogFragment {
                                         SessionSingleton.getUsername(),
                                         tempString);
 
-                        Log.d("POST COMMENT ID: ", c.id);
-                        Log.d("POST COMMENT CSID: ", c.campsiteId);
-                        Log.d("POST COMMENT DATE: ", c.date);
-                        Log.d("POST COMMENT USER: ", c.username);
-                        Log.d("POST COMMENT BODY: ", c.commentBody);
-
                         cl.postComment(context, c);
                         Log.d("submitted: ", SessionSingleton.getUsername() + "said: " + tempString);
                     }
