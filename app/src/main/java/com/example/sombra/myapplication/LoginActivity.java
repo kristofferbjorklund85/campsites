@@ -1,11 +1,14 @@
 package com.example.sombra.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -103,9 +106,42 @@ public class LoginActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void promptLogin() {
+    public static void promptLogin(String activity) {
         if(UserSingleton.getUsername().equals("guest") && UserSingleton.getPromptLogin() == true) {
-
+            final AlertDialog.Builder builder = new AlertDialog.Builder(UserSingleton.getAppContext());
+            builder.setTitle("You are not logged in");
+            builder.setMessage("You need to log in to " + activity + ". Do you want to log in?");
+            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    loginWindow();
+                }});
+            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    UserSingleton.setPromptLogin(false);
+                    return;
+                }});
+            builder.create();
         }
+    }
+
+    public static void loginWindow() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(UserSingleton.getAppContext());
+        LinearLayout layout = new LinearLayout(UserSingleton.getAppContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText titleBox = new EditText(UserSingleton.getAppContext());
+        titleBox.setHint("Login");
+        layout.addView(titleBox);
+
+        final EditText descriptionBox = new EditText(UserSingleton.getAppContext());
+        descriptionBox.setHint("Username");
+        layout.addView(descriptionBox);
+
+        dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                loginWindow();
+        }});
+
+        dialog.setView(layout);
     }
 }
