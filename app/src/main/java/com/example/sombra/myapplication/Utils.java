@@ -29,10 +29,10 @@ public class Utils {
     }
     public static void toast(String s, String length) {
         if(length == "short") {
-            Toast.makeText(UserSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SessionSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(UserSingleton.getAppContext(), s, Toast.LENGTH_LONG).show();
+            Toast.makeText(SessionSingleton.getAppContext(), s, Toast.LENGTH_LONG).show();
         }
     }
 }

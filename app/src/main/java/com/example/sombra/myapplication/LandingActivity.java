@@ -1,6 +1,7 @@
 package com.example.sombra.myapplication;
 
 import android.content.Intent;
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,8 +34,6 @@ public class LandingActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        url = this.getResources().getString(R.string.apiURL);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -97,9 +96,9 @@ public class LandingActivity extends AppCompatActivity {
     public void logOut(View view) {
         Intent intent = new Intent(LandingActivity.this, LoginActivity.class);
         startActivity(intent);
-        UserSingleton.setAppContext(null);
-        UserSingleton.setUsername(null);
-        UserSingleton.setId(null);
+        SessionSingleton.setAppContext(null);
+        SessionSingleton.setUsername("guest");
+        SessionSingleton.setId(null);
         finish();
     }
 

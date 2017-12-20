@@ -103,7 +103,7 @@ public class CampsiteActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.comment_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(UserSingleton.getAppContext(), cl, cm);
+                DialogFragment newFragment = new CommentDialog(SessionSingleton.getAppContext(), cl, cm);
                 newFragment.show(getFragmentManager(), "comment");
             }
         });
@@ -129,10 +129,10 @@ public class CampsiteActivity extends AppCompatActivity {
 
         });
 
-        Log.d("Username: ", UserSingleton.getId());
+        Log.d("Username: ", SessionSingleton.getId());
         Log.d("CM UserId: ", cm.userId);
 
-        if(UserSingleton.getId().equals(cm.id)) {
+        if(SessionSingleton.getId().equals(cm.id)) {
             deleteCM.setVisibility(View.VISIBLE);
         } else {
             deleteCM.setVisibility(View.INVISIBLE);
@@ -151,7 +151,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(UserSingleton.getAppContext(), "Campsite Deleted!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Campsite Deleted!", Toast.LENGTH_LONG).show();
                         MapsActivity.setDeleteM();
                         finish();
                         Log.d("CampsiteActivity", "on Repsonse DELETE: Campsite was deleted");
@@ -163,7 +163,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("DELETE-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM DELETECAMPSITE");
-                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -190,7 +190,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("PUT-request cause", error.toString());
                         Log.d("CAMPSITEACTIVITY: ", "ERROR RESPONSE FROM UPDATECAMPSITE");
-                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 

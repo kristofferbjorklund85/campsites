@@ -3,20 +3,14 @@ package com.example.sombra.myapplication;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -68,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);
-                        Toast.makeText(UserSingleton.getAppContext(), "User created!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "User created!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 },
