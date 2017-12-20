@@ -170,6 +170,8 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
             startActivity(intent);
             finish();
+        } else {
+            Utils.toast("You are now logged in!", "short");
         }
     }
 }
