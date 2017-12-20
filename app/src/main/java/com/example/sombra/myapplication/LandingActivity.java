@@ -73,7 +73,7 @@ public class LandingActivity extends AppCompatActivity {
 
     //Remove for production
     public void loadCampsite(View view) {
-        CampsiteModel camp = new CampsiteModel(
+        /*CampsiteModel camp = new CampsiteModel(
                                     "860f729e-5a4f-4398-ba05-0062cdf875b3",
                                     "Gothenburg",
                                     "Lindholmen",
@@ -85,12 +85,12 @@ public class LandingActivity extends AppCompatActivity {
                                     "All year",
                                     "Very nice place, lots of cool people",
                                     12312,
-                                    "Satan666");
+                                    "Satan666");*/
 
 
         Log.d("starting: ", "CampsiteActivity");
         Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
-        intent.putExtra("cm", camp);
+        intent.putExtra("cm", cml.get(0));
         startActivity(intent);
     }
 
