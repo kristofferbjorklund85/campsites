@@ -144,7 +144,7 @@ public class LandingActivity extends AppCompatActivity {
                         jsonObj.getString("availability"),
                         jsonObj.getString("description"),
                         jsonObj.getInt("views"),
-                        jsonObj.getString("username"));
+                        jsonObj.getString("userId"));
                 campList.add(cm);
                 Log.d("fromJSON: ", "created object");
             } catch (JSONException e) {
