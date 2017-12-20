@@ -60,10 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText pw = (EditText) findViewById(R.id.input_password);
         if (Utils.checkString(un.getText().toString(), "Username", 0 , 0) &&
                 Utils.checkString(pw.getText().toString(), "Password", 0, 0)) {
-            userExists(un.getText().toString(), pw.getText().toString());
-            Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
-            startActivity(intent);
-            finish();
+            userExists(un.getText().toString(), pw.getText().toString(), this);
         }
     }
 
@@ -83,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         //Continue using app as guest
     }
 
-    public void userExists(String username, String pw) {
+    public void userExists(String username, String pw, Context context) {
+        final Context c = context;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -98,12 +96,13 @@ public class LoginActivity extends AppCompatActivity {
                         } catch(JSONException e) {
                             Utils.toast(e.toString(), "short");
                         }
+                        checkActvity(c);
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.toString());
+                Utils.toast("That user does not exist or the password is incorrect", "short");
             }
         });
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
@@ -130,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void loginWindow(Context context) {
+    public void loginWindow(final Context context) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -152,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (Utils.checkString(titleBox.getText().toString(), "Username", 0 , 0) &&
                         Utils.checkString(descriptionBox.getText().toString(), "Password", 0, 0)) {
-                    userExists(titleBox.getText().toString(), descriptionBox.getText().toString());
+                    userExists(titleBox.getText().toString(), descriptionBox.getText().toString(), context);
                 }
         }});
 
@@ -164,5 +163,13 @@ public class LoginActivity extends AppCompatActivity {
 
         dialog.setView(layout);
         dialog.show();
+    }
+
+    public void checkActvity(Context context) {
+        if(context instanceof LoginActivity) {
+            Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
