@@ -139,8 +139,10 @@ public class CampsiteActivity extends AppCompatActivity {
         Button commentButton = (Button) findViewById(R.id.comment_button);
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CommentDialog(SessionSingleton.getAppContext(), cl, cm);
-                newFragment.show(getFragmentManager(), "comment");
+                if(!LoginActivity.promptLogin()) {
+                    DialogFragment newFragment = new CommentDialog(SessionSingleton.getAppContext(), cl, cm);
+                    newFragment.show(getFragmentManager(), "comment");
+                }
             }
         });
 
