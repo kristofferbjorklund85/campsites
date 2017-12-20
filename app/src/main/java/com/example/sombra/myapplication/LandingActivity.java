@@ -44,9 +44,6 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        if(UserSingleton.getUsername().equals("guest")) {
-            UserSingleton.setPromptLogin(true);
-        }
         getCampsites();
     }
 

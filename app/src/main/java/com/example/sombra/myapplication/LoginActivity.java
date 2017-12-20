@@ -1,6 +1,8 @@
 package com.example.sombra.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -89,6 +91,9 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             UserSingleton.setId(response.getString("id"));
                             UserSingleton.setUsername(response.getString("username"));
+                            if(UserSingleton.getUsername().equals("guest")) {
+                                UserSingleton.setPromptLogin(true);
+                            }
                         } catch(JSONException e) {
                             Utils.toast(e.toString(), "short");
                         }
@@ -106,14 +111,16 @@ public class LoginActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void promptLogin(String activity) {
+    public static void promptLogin(String activity, Context context) {
+        final Context c = context;
         if(UserSingleton.getUsername().equals("guest") && UserSingleton.getPromptLogin() == true) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(UserSingleton.getAppContext());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(c);
             builder.setTitle("You are not logged in");
             builder.setMessage("You need to log in to " + activity + ". Do you want to log in?");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    loginWindow();
+                    LoginActivity la = new LoginActivity();
+                    la.loginWindow(c);
                 }});
             builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -121,19 +128,20 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }});
             builder.create();
+            builder.show();
         }
     }
 
-    public void loginWindow() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(UserSingleton.getAppContext());
-        LinearLayout layout = new LinearLayout(UserSingleton.getAppContext());
+    public void loginWindow(Context context) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        final EditText titleBox = new EditText(UserSingleton.getAppContext());
+        final EditText titleBox = new EditText(context);
         titleBox.setHint("Login");
         layout.addView(titleBox);
 
-        final EditText descriptionBox = new EditText(UserSingleton.getAppContext());
+        final EditText descriptionBox = new EditText(context);
         descriptionBox.setHint("Username");
         layout.addView(descriptionBox);
 
