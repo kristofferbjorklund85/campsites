@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void promptLogin(String activity, Context context) {
+    public static boolean promptLogin(String activity, Context context) {
         final Context c = context;
         if(SessionSingleton.getUsername().equals("guest") && SessionSingleton.getPromptLogin() == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(c);
@@ -126,6 +126,9 @@ public class LoginActivity extends AppCompatActivity {
                 }});
             builder.create();
             builder.show();
+            return true;
+        } else {
+            return false;
         }
     }
 
