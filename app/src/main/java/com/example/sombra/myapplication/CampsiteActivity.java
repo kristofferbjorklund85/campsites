@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.sombra.myapplication.CommentLoader.CommentChangeListener;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +32,8 @@ import org.json.JSONObject;
 
 public class CampsiteActivity extends AppCompatActivity {
 
+    TextView upVotes;
+    TextView downVotes;
     CommentLoader cl = null;
     CampsiteModel cm;
     private CommentChangeListener listener;
@@ -37,6 +41,7 @@ public class CampsiteActivity extends AppCompatActivity {
     private List<Comment> comments;
     private String url;
     private Context context;
+    private Gson gson;
 
     Button deleteCM;
 
@@ -44,7 +49,6 @@ public class CampsiteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campsite);
-
         url = this.getResources().getString(R.string.apiURL);
 
         listener = new CommentChangeListener() {
@@ -57,12 +61,13 @@ public class CampsiteActivity extends AppCompatActivity {
 
         ratingListener = new RatingChangeListener() {
             @Override
-            public void onRatingChangeList(List<Rating> ratingList) {
+            public void onRatingChangeList(List<com.example.sombra.myapplication.Rating> ratingList) {
                 Log.d("CAMPSITE ACTIVITY: ", "RESETTING RATINGLIST");
                 resetRating(ratingList);
             }
         };
 
+        gson = new Gson();
         context = this;
 
         init();
@@ -107,6 +112,8 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView capacityView = (TextView) findViewById(R.id.capacity);
         TextView availabilityView = (TextView) findViewById(R.id.availability);
         TextView descriptionView = (TextView) findViewById(R.id.description);
+        upVotes = (TextView) findViewById(R.id.positiveRating);
+        downVotes = (TextView) findViewById(R.id.negativeRating);
 
         locationView.setText("Location: " + cm.location);
         typeView.setText("Type: " + cm.type);
@@ -115,8 +122,22 @@ public class CampsiteActivity extends AppCompatActivity {
         availabilityView.setText("Availability: " + cm.availability);
         descriptionView.setText("Description: " + cm.description);
 
-        Button button = (Button) findViewById(R.id.comment_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        ImageButton upVoteButton = (ImageButton) findViewById(R.id.upVoteButton);
+        upVoteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                postRating(1);
+            }
+        });
+        
+        ImageButton downVoteButton = (ImageButton) findViewById(R.id.downVoteButton);
+        downVoteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                postRating(0);
+            }
+        });
+
+        Button commentButton = (Button) findViewById(R.id.comment_button);
+        commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DialogFragment newFragment = new CommentDialog(UserSingleton.getAppContext(), cl, cm);
                 newFragment.show(getFragmentManager(), "comment");
@@ -153,13 +174,29 @@ public class CampsiteActivity extends AppCompatActivity {
             deleteCM.setVisibility(View.INVISIBLE);
         }
 
+
+
     }
 
-    private void resetRating(List<Rating> ratingList) {
-        
+    private void resetRating(List<com.example.sombra.myapplication.Rating> ratingList) {
+
+        int positive = 0;
+        int negative = 0;
+
+        for (com.example.sombra.myapplication.Rating r : ratingList) {
+            if(r.getRating() == 1) {
+                positive++;
+            } else {
+                negative++;
+            }
+        }
+
+        upVotes.setText(positive);
+        downVotes.setText(negative);
+
     }
 
-    private void getRating(CampsiteModel cm) {
+    private void getRating() {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -181,6 +218,36 @@ public class CampsiteActivity extends AppCompatActivity {
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
 
+    }
+
+    private void postRating(int rate) {
+        com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(UserSingleton.getId(), rate);
+
+        String jo = gson.toJson(rating);
+
+        GenericRequest gr = new GenericRequest(
+                Request.Method.POST,
+                url + "?type=rating&campsiteid='" + cm.id + "'",
+                String.class,
+                jo,
+                new Response.Listener<String>(){
+
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(UserSingleton.getAppContext(), "Campsite Rated!", Toast.LENGTH_SHORT).show();
+                        getRating();
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("POST-request cause", error.toString());
+                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        VolleySingleton.getInstance(context).addToRequestQueue(gr);
     }
 
     private void deleteCampsite(CampsiteModel cm) {
