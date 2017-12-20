@@ -78,7 +78,7 @@ public class CommentLoader {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("GET-request cause: ", error.toString());
-                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
@@ -119,7 +119,7 @@ public class CommentLoader {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(UserSingleton.getAppContext(), "Comment Posted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Comment Posted!", Toast.LENGTH_SHORT).show();
                         getComments();
                     }
                 },
@@ -128,7 +128,7 @@ public class CommentLoader {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("POST-request cause", error.toString());
-                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -145,7 +145,7 @@ public class CommentLoader {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(UserSingleton.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
                         getComments();
                     }
                 }, new Response.ErrorListener() {
@@ -153,7 +153,7 @@ public class CommentLoader {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("DELETE-request cause", error.toString());
-                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(gr);
@@ -212,7 +212,7 @@ public class CommentLoader {
                     }
                 });
 
-                if(UserSingleton.getUsername().equals(data.get(position).username)) {
+                if(SessionSingleton.getUsername().equals(data.get(position).username)) {
                     holder.deleteComment.setVisibility(View.VISIBLE);
                 }
 

@@ -45,7 +45,7 @@ public class CommentDialog extends DialogFragment {
                                         UUID.randomUUID().toString(),
                                         cm.id.toString(),
                                         "2017-12-24",
-                                        UserSingleton.getUsername(),
+                                        SessionSingleton.getUsername(),
                                         tempString);
 
                         Log.d("POST COMMENT ID: ", c.id);
@@ -55,12 +55,12 @@ public class CommentDialog extends DialogFragment {
                         Log.d("POST COMMENT BODY: ", c.commentBody);
 
                         cl.postComment(context, c);
-                        Log.d("submitted: ", UserSingleton.getUsername() + "said: " + tempString);
+                        Log.d("submitted: ", SessionSingleton.getUsername() + "said: " + tempString);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // UserSingleton cancelled the dialog
+                        // SessionSingleton cancelled the dialog
                         CommentDialog.this.getDialog().cancel();
                     }
                 });
