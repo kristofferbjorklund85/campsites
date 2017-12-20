@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static boolean promptLogin(String activity, Context context) {
         final Context c = context;
-        if(SessionSingleton.getUsername().equals("guest") && SessionSingleton.getPromptLogin() == true) {
+        if (SessionSingleton.getUsername().equals("guest") && SessionSingleton.getPromptLogin() == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(c);
             builder.setTitle("You are not logged in");
             builder.setMessage("You need to log in to " + activity + ". Do you want to log in?");
@@ -118,14 +118,19 @@ public class LoginActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     LoginActivity la = new LoginActivity();
                     la.loginWindow(c);
-                }});
+                }
+            });
             builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     SessionSingleton.setPromptLogin(false);
                     return;
-                }});
+                }
+            });
             builder.create();
             builder.show();
+            return true;
+        } else if (SessionSingleton.getUsername().equals("guest")) {
+            Utils.toast("You need to log in to " + activity, "short");
             return true;
         } else {
             return false;
