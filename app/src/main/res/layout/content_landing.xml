@@ -23,19 +23,38 @@
             android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:onClick="mapsView"
-            android:text="View Campsites" />
+            android:text="View Campsites"
+
+            android:background="@drawable/button_shape"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            />
+
 
         <Button
             android:id="@+id/goto_campsite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
+
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_weight="1"
             android:onClick="loadCampsite"
-            android:text="My Profile" />
+            android:text="My Profile"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            />
 
         <Space
             android:layout_width="match_parent"
@@ -52,9 +71,17 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
+            android:background="@drawable/button_cancel"
             android:onClick="logOut"
-            android:paddingBottom="8sp"
-            android:text="Log Out" />
+
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Log Out"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
