@@ -95,6 +95,7 @@ public class CommentLoader {
                         jsonObj.getString("id"),
                         jsonObj.getString("campsiteid"),
                         jsonObj.getString("date"),
+                        jsonObj.getString("userId"),
                         jsonObj.getString("username"),
                         jsonObj.getString("commentbody"));
                 cList.add(cm);

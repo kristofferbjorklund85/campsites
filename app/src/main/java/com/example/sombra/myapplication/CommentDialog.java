@@ -45,6 +45,7 @@ public class CommentDialog extends DialogFragment {
                                         UUID.randomUUID().toString(),
                                         cm.id.toString(),
                                         "2017-12-24",
+                                        SessionSingleton.getId(),
                                         SessionSingleton.getUsername(),
                                         tempString);
 
