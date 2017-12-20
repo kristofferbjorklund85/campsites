@@ -25,19 +25,14 @@
             android:onClick="mapsView"
             android:text="View Campsites" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/goto_campsite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:onClick="loadCampsite"
             android:text="My Profile" />
@@ -45,7 +40,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6" />
+            android:layout_weight="14" />
 
         <Button
             android:id="@+id/log_out"
