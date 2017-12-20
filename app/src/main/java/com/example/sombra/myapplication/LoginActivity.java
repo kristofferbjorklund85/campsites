@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         if (Utils.checkString(un.getText().toString(), "Username", 0 , 0) &&
                 Utils.checkString(pw.getText().toString(), "Password", 0, 0)) {
             userExists(un.getText().toString(), pw.getText().toString());
+            Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -95,9 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                         } catch(JSONException e) {
                             Utils.toast(e.toString(), "short");
                         }
-                        Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
-                        startActivity(intent);
-                        finish();
                     }
                 }, new Response.ErrorListener() {
 
