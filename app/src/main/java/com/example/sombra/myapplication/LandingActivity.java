@@ -107,7 +107,7 @@ public class LandingActivity extends AppCompatActivity {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url + "?type=campsite",
+                SessionSingleton.getURL() + "?type=campsite",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
