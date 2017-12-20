@@ -27,4 +27,6 @@ public class UserSingleton {
     public static String getId() {return id;}
 
     public static Context getAppContext() {return context;}
+
+    public static boolean getPromptLogin() {return promptLogin;}
 }

@@ -102,4 +102,10 @@ public class LoginActivity extends AppCompatActivity {
         });
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void promptLogin() {
+        if(UserSingleton.getUsername().equals("guest") && UserSingleton.getPromptLogin() == true) {
+
+        }
+    }
 }
