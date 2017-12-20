@@ -3,49 +3,41 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="10dp">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingBottom="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingBottom="2dp">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Samuels Apartment"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp">
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="2dp">
 
                 <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Type: Camping"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/fee"
+                    android:id="@+id/snippet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Fee: Free"
-                    android:textSize="20dp" />
+                    android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
 </LinearLayout>

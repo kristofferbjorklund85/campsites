@@ -155,7 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type));
+                    .snippet("Type: " + cm.type + "\nFee: " + cm.fee));
             m.setTag(cm);
         }
     }
@@ -164,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type));
+                    .snippet("Type: " + cm.type + "\nFee: " + cm.fee));
             m.setTag(cm);
     }
 
@@ -257,10 +257,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private final View myContentsView;
 
-        String title;
-        String type;
-        String fee;
-
         MyInfoWindowAdapter() {
             myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
         }
@@ -268,12 +264,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public View getInfoContents(Marker marker) {
 
-            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.name));
-            tvTitle.setText(title);
-            TextView tvType = (TextView)myContentsView.findViewById(R.id.type);
-            tvType.setText("Type: " + type);
-            TextView tvFee = (TextView)myContentsView.findViewById(R.id.fee);
-            tvFee.setText("Fee: " + fee);
+            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
+            tvTitle.setText(marker.getTitle());
+            TextView tvsnippet = (TextView)myContentsView.findViewById(R.id.snippet);
+            tvsnippet.setText(marker.getSnippet());
 
             return myContentsView;
         }
