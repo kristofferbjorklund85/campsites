@@ -49,7 +49,7 @@ public class CampsiteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campsite);
-        url = this.getResources().getString(R.string.apiURL);
+        url = SessionSingleton.getURL();
 
         listener = new CommentChangeListener() {
             @Override
@@ -97,7 +97,7 @@ public class CampsiteActivity extends AppCompatActivity {
         cl.getComments();
         updateCampsite("views", cm);
 
-        getRating(cm);
+        getRating();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -213,7 +213,7 @@ public class CampsiteActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("GET-request cause: ", error.toString());
-                Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
@@ -221,7 +221,7 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     private void postRating(int rate) {
-        com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(UserSingleton.getId(), rate);
+        com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(SessionSingleton.getId(), rate);
 
         String jo = gson.toJson(rating);
 
@@ -234,7 +234,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(UserSingleton.getAppContext(), "Campsite Rated!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Campsite Rated!", Toast.LENGTH_SHORT).show();
                         getRating();
                     }
                 },
@@ -243,7 +243,7 @@ public class CampsiteActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("POST-request cause", error.toString());
-                        Toast.makeText(UserSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
