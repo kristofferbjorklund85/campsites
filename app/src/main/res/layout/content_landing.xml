@@ -3,54 +3,84 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.sombra.myapplication.LandingActivity"
     tools:showIn="@layout/activity_landing">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/goto_maps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="40dp"
+            android:layout_weight="1"
             android:onClick="mapsView"
-            android:text="View Campsites" />
+            android:text="View Campsites"
+
+            android:background="@drawable/button_shape"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            />
+
 
         <Button
             android:id="@+id/goto_campsite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_weight="1"
             android:onClick="loadCampsite"
-            android:text="View Campsite" />
+            android:text="My Profile"
 
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="146dp"
-        android:gravity="center|bottom"
-        tools:layout_editor_absoluteY="548dp">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="14" />
 
         <Button
             android:id="@+id/log_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_cancel"
             android:onClick="logOut"
-            android:paddingBottom="8sp"
-            android:text="Log Out" />
+
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Log Out"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
