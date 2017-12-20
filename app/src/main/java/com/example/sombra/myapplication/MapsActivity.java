@@ -119,7 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                if(!SessionSingleton.getUsername().equals("guest")) {
+                if(!LoginActivity.promptLogin("create a campsite", MapsActivity.this)) {
                     if (!markerList.isEmpty()) {
                         markerList.get(0).remove();
                         markerList.remove(0);
@@ -130,8 +130,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     markerList.add(m);
                     m.showInfoWindow();
-                } else if(SessionSingleton.getPromptLogin() == true){
-                    LoginActivity.promptLogin("create campsite", MapsActivity.this);
                 }
             }
         });
