@@ -167,17 +167,11 @@ public class CampsiteActivity extends AppCompatActivity {
 
         });
 
-        Log.d("Username: ", SessionSingleton.getId());
-        Log.d("CM UserId: ", cm.userId);
-
-        if(SessionSingleton.getId().equals(cm.id)) {
+        if(SessionSingleton.getId() != null && SessionSingleton.getId().equals(cm.id)) {
             deleteCM.setVisibility(View.VISIBLE);
         } else {
             deleteCM.setVisibility(View.INVISIBLE);
         }
-
-
-
     }
 
     private void resetRating(List<com.example.sombra.myapplication.Rating> ratingList) {
