@@ -87,6 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+
         updateLocationUI();
 
         Bundle extras = getIntent().getExtras();
@@ -150,12 +152,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static void createMarker(List<CampsiteModel> list) {
         for (CampsiteModel cm : list) {
-            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(cm));
+            Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(cm.lat, cm.lng))
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type));
+            m.setTag(cm);
         }
     }
 
     private static void createMarker(CampsiteModel cm) {
-        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(cm));
+        Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(cm.lat, cm.lng))
+                    .title(cm.name)
+                    .snippet("Type: " + cm.type));
+            m.setTag(cm);
     }
 
     public void onSearch(View view) {
@@ -251,11 +261,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String type;
         String fee;
 
-        MyInfoWindowAdapter(CampsiteModel cm) {
+        MyInfoWindowAdapter() {
             myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-            this.title = cm.name;
-            this.type = cm.type;
-            this.fee = cm.fee;
         }
 
         @Override
