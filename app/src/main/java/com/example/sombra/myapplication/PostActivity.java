@@ -84,7 +84,7 @@ public class PostActivity extends AppCompatActivity {
                                             desc.getText().toString(),
                                             //Notera att views är 1
                                             1,
-                                            UserSingleton.getUsername());
+                                            UserSingleton.getId());
 
         postCampsites(this, cm);
         MapsActivity.setNewCM(cm);
@@ -127,7 +127,7 @@ public class PostActivity extends AppCompatActivity {
             jo.put("availability", cm.availability);
             jo.put("description", cm.description);
             jo.put("views", cm.views);
-            jo.put("username", cm.username);
+            jo.put("username", cm.userId);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }

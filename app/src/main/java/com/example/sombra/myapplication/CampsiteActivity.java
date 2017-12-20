@@ -78,6 +78,8 @@ public class CampsiteActivity extends AppCompatActivity {
         updateCampsite("views", cm);
 
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(cm.location);
         setSupportActionBar(toolbar);
