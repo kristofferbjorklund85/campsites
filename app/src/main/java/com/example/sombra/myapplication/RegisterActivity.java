@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 public class RegisterActivity extends AppCompatActivity {
 
     String url;
@@ -47,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Utils.checkString(repeatPassword.getText().toString(), "Password", 3, 0) &&
                 password.getText().toString().equals(repeatPassword.getText().toString())) {
 
-                postUser(new UserModel(username.getText().toString(), password.getText().toString()));
+                postUser(new UserModel(UUID.randomUUID().toString(), username.getText().toString(), password.getText().toString()));
         }
     }
 

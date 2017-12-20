@@ -12,8 +12,8 @@ public class UserModel {
     String username;
     String password;
 
-    public UserModel(String username, String password) {
-        this.id = UUID.randomUUID().toString();
+    public UserModel(String id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
