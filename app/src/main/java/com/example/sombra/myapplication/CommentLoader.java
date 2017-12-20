@@ -41,15 +41,16 @@ public class CommentLoader {
 
     CommentChangeListener listener;
 
-    public CommentLoader(Context context, ListView listview, CampsiteModel cm, CommentChangeListener listener) {
+    public CommentLoader(Context context, ListView listview, CampsiteModel cm, CommentChangeListener listener, String url) {
         this.context = context;
         commentsListView = listview;
         this.cm = cm;
-        listeners = new ArrayList<>();
         this.listener = listener;
+        this.url = url;
+        //url = context.getResources().getString(R.string.apiURL);
 
         gson = new Gson();
-        url = context.getResources().getString(R.string.apiURL);
+        listeners = new ArrayList<>();
     }
 
     public void resetListView(List<Comment> cList) {
