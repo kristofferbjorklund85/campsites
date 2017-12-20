@@ -112,8 +112,6 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView capacityView = (TextView) findViewById(R.id.capacity);
         TextView availabilityView = (TextView) findViewById(R.id.availability);
         TextView descriptionView = (TextView) findViewById(R.id.description);
-        upVotes = (TextView) findViewById(R.id.positiveRating);
-        downVotes = (TextView) findViewById(R.id.negativeRating);
 
         locationView.setText("Location: " + cm.location);
         typeView.setText("Type: " + cm.type);
@@ -181,6 +179,8 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     private void resetRating(List<com.example.sombra.myapplication.Rating> ratingList) {
+        upVotes = (TextView) findViewById(R.id.positiveRating);
+        downVotes = (TextView) findViewById(R.id.negativeRating);
 
         int positive = 0;
         int negative = 0;
@@ -193,16 +193,15 @@ public class CampsiteActivity extends AppCompatActivity {
             }
         }
 
-        upVotes.setText(positive);
-        downVotes.setText(negative);
-
+        upVotes.setText("" + positive);
+        downVotes.setText("" + negative);
     }
 
     private void getRating() {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url + "?type=rating&campsiteid='" + cm.id + "'",
+                url + "?type=rating&campsiteId='" + cm.id + "'",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -225,11 +224,14 @@ public class CampsiteActivity extends AppCompatActivity {
     private void postRating(int rate) {
         com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(SessionSingleton.getId(), rate);
 
+        Log.d("UserId: ", rating.getUserId());
+        Log.d("Rating: ", "" + rating.getRating());
+
         String jo = gson.toJson(rating);
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.POST,
-                url + "?type=rating&campsiteid='" + cm.id + "'",
+                url + "?type=rating&campsiteId='" + cm.id + "'",
                 String.class,
                 jo,
                 new Response.Listener<String>(){
