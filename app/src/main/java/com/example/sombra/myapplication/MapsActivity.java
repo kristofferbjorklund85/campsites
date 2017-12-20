@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,54 +146,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
-
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-            @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-
-                LinearLayout info = new LinearLayout(MapsActivity.this);
-                info.setOrientation(LinearLayout.VERTICAL);
-
-                TextView title = new TextView(MapsActivity.this);
-                title.setTextColor(Color.BLACK);
-                title.setGravity(Gravity.CENTER);
-                title.setTypeface(null, Typeface.BOLD);
-                title.setText(marker.getTitle());
-
-                TextView snippet = new TextView(MapsActivity.this);
-                snippet.setTextColor(Color.GRAY);
-                snippet.setText(marker.getSnippet());
-
-                info.addView(title);
-                info.addView(snippet);
-
-                return info;
-            }
-        });
     }
 
     private static void createMarker(List<CampsiteModel> list) {
         for (CampsiteModel cm : list) {
-            Marker m = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(cm.lat, cm.lng))
-                    .title(cm.name)
-                    .snippet("Type: " + cm.type));
-            m.setTag(cm);
+            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(cm));
         }
     }
 
     private static void createMarker(CampsiteModel cm) {
-        Marker m = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(cm.lat, cm.lng))
-                    .title(cm.name)
-                    .snippet("Type: " + cm.type));
-            m.setTag(cm);
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(cm));
     }
 
     public void onSearch(View view) {
@@ -277,5 +241,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static void setDeleteM() {
         markerDelete = true;
+    }
+
+    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        String title;
+        String type;
+        String fee;
+
+        MyInfoWindowAdapter(CampsiteModel cm) {
+            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+            this.title = cm.name;
+            this.type = cm.type;
+            this.fee = cm.fee;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.name));
+            tvTitle.setText(title);
+            TextView tvType = (TextView)myContentsView.findViewById(R.id.type);
+            tvType.setText("Type: " + type);
+            TextView tvFee = (TextView)myContentsView.findViewById(R.id.fee);
+            tvFee.setText("Fee: " + fee);
+
+            return myContentsView;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 }
