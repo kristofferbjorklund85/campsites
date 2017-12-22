@@ -2,6 +2,7 @@ package com.example.sombra.myapplication;
 
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,7 @@ public class Utils {
         }
         return false;
     }
+
     public static void toast(String s, String length) {
         if(length == "short") {
             Toast.makeText(SessionSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();

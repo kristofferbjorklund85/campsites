@@ -78,9 +78,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
-        startActivity(intent);
-        finish();
+        if (!markerList.isEmpty()) {
+            markerList.get(0).remove();
+            markerList.remove(0);
+        } else {
+            Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -130,7 +135,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(point)
-                            .title("Create new Campsite"));
+                            .title("Create new Campsite")
+                            .snippet(""));
 
                     markerList.add(m);
                     m.showInfoWindow();
@@ -155,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type + "\nFee: " + cm.fee));
+                    .snippet(cm.fee + "-" + cm.type));
             m.setTag(cm);
         }
     }
@@ -164,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type + "\nFee: " + cm.fee));
+                    .snippet(cm.fee + "-" + cm.type));
             m.setTag(cm);
     }
 
@@ -266,8 +272,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
             tvTitle.setText(marker.getTitle());
-            TextView tvsnippet = (TextView)myContentsView.findViewById(R.id.snippet);
-            tvsnippet.setText(marker.getSnippet());
+            TextView tvFee = (TextView) myContentsView.findViewById(R.id.fee);
+            TextView tvType = (TextView) myContentsView.findViewById(R.id.type);
+            if(marker.getSnippet() != null && !marker.getSnippet().equals("")) {
+                tvFee.setVisibility(View.VISIBLE);
+                tvType.setVisibility(View.VISIBLE);
+                String[]splitString = marker.getSnippet().split("-");
+                tvFee.setText("Fee: " + splitString[0]);
+                tvType.setText("Type: " + splitString[1]);
+            } else {
+                tvFee.setVisibility(View.GONE);
+                tvType.setVisibility(View.GONE);
+            }
 
             return myContentsView;
         }
