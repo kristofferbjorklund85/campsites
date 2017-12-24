@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class CampsiteActivity extends AppCompatActivity {
 
@@ -106,6 +107,7 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     private void setCampsiteView(final CampsiteModel cm) {
+        TextView nameView = (TextView) findViewById(R.id.name);
         TextView locationView = (TextView) findViewById(R.id.location);
         TextView typeView = (TextView) findViewById(R.id.type);
         TextView feeView = (TextView) findViewById(R.id.fee);
@@ -113,6 +115,7 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView availabilityView = (TextView) findViewById(R.id.availability);
         TextView descriptionView = (TextView) findViewById(R.id.description);
 
+        nameView.setText(cm.name);
         locationView.setText("Location: " + cm.location);
         typeView.setText("Type: " + cm.type);
         feeView.setText("Fee: " + cm.fee);
