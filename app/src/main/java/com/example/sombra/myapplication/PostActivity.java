@@ -71,12 +71,11 @@ public class PostActivity extends AppCompatActivity {
         desc  = (EditText)findViewById(R.id.EditTextDescription);
         name  = (EditText)findViewById(R.id.EditTextName);
 
-
-        if( Utils.checkString(ln.getText().toString(), "Location name", 3, 30) &&
+        if( Utils.checkString(ln.getText().toString(), "Location name", 2, 30) &&
             Utils.checkString(name.getText().toString(), "Campsite name", 3, 20) &&
-            Utils.checkString(type.getText().toString(), "Type", 3, 20) &&
-            Utils.checkString(fee.getText().toString(), "Fee", 3, 30) &&
-            Utils.checkString(cap.getText().toString(), "Capacity", 3, 30) &&
+            Utils.checkString(type.getText().toString(), "Type", 2, 20) &&
+            Utils.checkString(fee.getText().toString(), "Fee", 1, 30) &&
+            Utils.checkString(cap.getText().toString(), "Capacity", 1, 30) &&
             Utils.checkString(avail .getText().toString(), "Availability", 3, 20) &&
             Utils.checkString(desc.getText().toString(), "Description", 3, 100)) {
                 CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
@@ -89,7 +88,6 @@ public class PostActivity extends AppCompatActivity {
                         cap.getText().toString(),
                         avail.getText().toString(),
                         desc.getText().toString(),
-                        //Notera att views är 1
                         1,
                         SessionSingleton.getId());
 
@@ -135,7 +133,7 @@ public class PostActivity extends AppCompatActivity {
             jo.put("availability", cm.availability);
             jo.put("description", cm.description);
             jo.put("views", cm.views);
-            jo.put("username", cm.userId);
+            jo.put("userId", cm.userId);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }

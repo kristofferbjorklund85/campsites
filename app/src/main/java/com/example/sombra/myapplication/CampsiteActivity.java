@@ -168,7 +168,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         });
 
-        if(SessionSingleton.getId() != null && SessionSingleton.getId().equals(cm.id)) {
+        if(SessionSingleton.getId() != null && SessionSingleton.getId().equals(cm.userId)) {
             deleteCM.setVisibility(View.VISIBLE);
         } else {
             deleteCM.setVisibility(View.INVISIBLE);
@@ -259,7 +259,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.DELETE,
-                url + "?type=campsite&campsiteId='" + cm.id + "'",
+                url + "?type=campsite&campsiteId=" + cm.id,
                 String.class,
                 "",
                 new Response.Listener<String>(){

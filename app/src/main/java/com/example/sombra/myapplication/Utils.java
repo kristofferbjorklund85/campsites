@@ -20,7 +20,7 @@ public class Utils {
             toast(cs + " cannot contain [~#@*+%{}<>[]|\"_^!?öäå]", "short");
             return false;
         } else if (s.length() < min && min != 0 ) {
-            toast(cs + "cannot be short than " + min, "short");
+            toast(cs + " cannot be short than " + min, "short");
         } else if (s.length() > max && max != 0) {
             toast(cs + " or longer than " + max, "short");
         } else {
