@@ -116,7 +116,7 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView descriptionView = (TextView) findViewById(R.id.description);
 
         nameView.setText(cm.name);
-        locationView.setText("Location: " + cm.location);
+        locationView.setText(cm.location);
         typeView.setText("Type: " + cm.type);
         feeView.setText("Fee: " + cm.fee);
         capacityView.setText("Capacity: " + cm.capacity);
