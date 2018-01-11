@@ -197,7 +197,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
-            location_tf.setText("");
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }

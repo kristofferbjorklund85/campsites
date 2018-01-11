@@ -72,7 +72,7 @@ public class PostActivity extends AppCompatActivity {
         name  = (EditText)findViewById(R.id.EditTextName);
 
         if( Utils.checkString(ln.getText().toString(), "Location name", 2, 30) &&
-            Utils.checkString(name.getText().toString(), "Campsite name", 3, 20) &&
+            Utils.checkString(name.getText().toString(), "Campsite name", 3, 30) &&
             Utils.checkString(type.getText().toString(), "Type", 2, 20) &&
             Utils.checkString(fee.getText().toString(), "Fee", 1, 30) &&
             Utils.checkString(cap.getText().toString(), "Capacity", 1, 30) &&

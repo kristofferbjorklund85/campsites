@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 
@@ -70,15 +71,17 @@ public class CommentLoader {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        List<Comment> list = commentsFromJSON(array);
-                        listener.onCommentChangeList(list);
+                            List<Comment> list = commentsFromJSON(array);
+                            listener.onCommentChangeList(list);
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.toString());
-                Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Log.d("GET-request com cause: ", error.toString());
+                if(error.networkResponse.statusCode != 404) {
+                    Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);

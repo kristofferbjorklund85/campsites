@@ -210,8 +210,10 @@ public class CampsiteActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("GET-request cause: ", error.toString());
-                Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Log.d("GET-request rat cause: ", error.toString());
+                if(error.networkResponse.statusCode == 404) {
+                    Toast.makeText(SessionSingleton.getAppContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
