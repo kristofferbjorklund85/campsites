@@ -70,6 +70,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if(error.networkResponse.statusCode == 403) {
+                            Utils.toast("That username already exists!", "long");
+                        }
                         Utils.toast("Something went wrong!", "short");
                     }
                 });
