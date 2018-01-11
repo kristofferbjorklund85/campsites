@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PostActivity extends AppCompatActivity {
@@ -70,25 +71,30 @@ public class PostActivity extends AppCompatActivity {
         desc  = (EditText)findViewById(R.id.EditTextDescription);
         name  = (EditText)findViewById(R.id.EditTextName);
 
-        Log.d("Username ", SessionSingleton.getUsername());
+        if( Utils.checkString(ln.getText().toString(), "Location name", 2, 30) &&
+            Utils.checkString(name.getText().toString(), "Campsite name", 3, 20) &&
+            Utils.checkString(type.getText().toString(), "Type", 2, 20) &&
+            Utils.checkString(fee.getText().toString(), "Fee", 1, 30) &&
+            Utils.checkString(cap.getText().toString(), "Capacity", 1, 30) &&
+            Utils.checkString(avail .getText().toString(), "Availability", 3, 20) &&
+            Utils.checkString(desc.getText().toString(), "Description", 3, 100)) {
+                CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
+                        ln.getText().toString(),
+                        name.getText().toString(),
+                        latLng.latitude,
+                        latLng.longitude,
+                        type.getText().toString(),
+                        fee.getText().toString(),
+                        cap.getText().toString(),
+                        avail.getText().toString(),
+                        desc.getText().toString(),
+                        1,
+                        SessionSingleton.getId());
 
-        CampsiteModel cm = new CampsiteModel(UUID.randomUUID().toString(),
-                                            ln.getText().toString(),
-                                            name.getText().toString(),
-                                            latLng.latitude,
-                                            latLng.longitude,
-                                            type.getText().toString(),
-                                            fee.getText().toString(),
-                                            cap.getText().toString(),
-                                            avail.getText().toString(),
-                                            desc.getText().toString(),
-                                            //Notera att views är 1
-                                            1,
-                                            SessionSingleton.getId());
-
-        postCampsites(this, cm);
-        MapsActivity.setNewCM(cm);
-        finish();
+                postCampsites(this, cm);
+                MapsActivity.setNewCM(cm);
+                finish();
+        }
     }
 
     public void postCampsites(Context context, CampsiteModel cm) {
@@ -127,7 +133,7 @@ public class PostActivity extends AppCompatActivity {
             jo.put("availability", cm.availability);
             jo.put("description", cm.description);
             jo.put("views", cm.views);
-            jo.put("username", cm.userId);
+            jo.put("userId", cm.userId);
         } catch(JSONException e) {
             Log.d("toJSON obj", e.toString());
         }

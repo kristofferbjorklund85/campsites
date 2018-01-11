@@ -59,7 +59,8 @@
             android:label="@string/title_activity_landing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PostActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MyProfileActivity"></activity>
     </application>
 
 </manifest>

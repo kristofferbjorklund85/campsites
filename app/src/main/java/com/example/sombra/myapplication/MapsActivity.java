@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +78,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
-        startActivity(intent);
-        finish();
+        if (!markerList.isEmpty()) {
+            markerList.get(0).remove();
+            markerList.remove(0);
+        } else {
+            Intent intent = new Intent(MapsActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
 
         updateLocationUI();
 
@@ -126,7 +135,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     Marker m = mMap.addMarker(new MarkerOptions()
                             .position(point)
-                            .title("Create new Campsite"));
+                            .title("Create new Campsite")
+                            .snippet(""));
 
                     markerList.add(m);
                     m.showInfoWindow();
@@ -144,36 +154,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
-
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-            @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-
-                LinearLayout info = new LinearLayout(MapsActivity.this);
-                info.setOrientation(LinearLayout.VERTICAL);
-
-                TextView title = new TextView(MapsActivity.this);
-                title.setTextColor(Color.BLACK);
-                title.setGravity(Gravity.CENTER);
-                title.setTypeface(null, Typeface.BOLD);
-                title.setText(marker.getTitle());
-
-                TextView snippet = new TextView(MapsActivity.this);
-                snippet.setTextColor(Color.GRAY);
-                snippet.setText(marker.getSnippet());
-
-                info.addView(title);
-                info.addView(snippet);
-
-                return info;
-            }
-        });
     }
 
     private static void createMarker(List<CampsiteModel> list) {
@@ -181,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type));
+                    .snippet(cm.fee + "-" + cm.type));
             m.setTag(cm);
         }
     }
@@ -190,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(cm.lat, cm.lng))
                     .title(cm.name)
-                    .snippet("Type: " + cm.type));
+                    .snippet(cm.fee + "-" + cm.type));
             m.setTag(cm);
     }
 
@@ -277,5 +257,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static void setDeleteM() {
         markerDelete = true;
+    }
+
+    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        MyInfoWindowAdapter() {
+            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
+            tvTitle.setText(marker.getTitle());
+            TextView tvFee = (TextView) myContentsView.findViewById(R.id.fee);
+            TextView tvType = (TextView) myContentsView.findViewById(R.id.type);
+            if(marker.getSnippet() != null && !marker.getSnippet().equals("")) {
+                tvFee.setVisibility(View.VISIBLE);
+                tvType.setVisibility(View.VISIBLE);
+                String[]splitString = marker.getSnippet().split("-");
+                tvFee.setText("Fee: " + splitString[0]);
+                tvType.setText("Type: " + splitString[1]);
+            } else {
+                tvFee.setVisibility(View.GONE);
+                tvType.setVisibility(View.GONE);
+            }
+
+            return myContentsView;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 }

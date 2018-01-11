@@ -2,6 +2,7 @@ package com.example.sombra.myapplication;
 
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +20,7 @@ public class Utils {
             toast(cs + " cannot contain [~#@*+%{}<>[]|\"_^!?öäå]", "short");
             return false;
         } else if (s.length() < min && min != 0 ) {
-            toast(cs + "cannot be short than " + min, "short");
+            toast(cs + " cannot be short than " + min, "short");
         } else if (s.length() > max && max != 0) {
             toast(cs + " or longer than " + max, "short");
         } else {
@@ -27,6 +28,7 @@ public class Utils {
         }
         return false;
     }
+
     public static void toast(String s, String length) {
         if(length == "short") {
             Toast.makeText(SessionSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();

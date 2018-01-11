@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class CampsiteActivity extends AppCompatActivity {
 
@@ -106,6 +107,7 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     private void setCampsiteView(final CampsiteModel cm) {
+        TextView nameView = (TextView) findViewById(R.id.name);
         TextView locationView = (TextView) findViewById(R.id.location);
         TextView typeView = (TextView) findViewById(R.id.type);
         TextView feeView = (TextView) findViewById(R.id.fee);
@@ -113,7 +115,8 @@ public class CampsiteActivity extends AppCompatActivity {
         TextView availabilityView = (TextView) findViewById(R.id.availability);
         TextView descriptionView = (TextView) findViewById(R.id.description);
 
-        locationView.setText("Location: " + cm.location);
+        nameView.setText(cm.name);
+        locationView.setText(cm.location);
         typeView.setText("Type: " + cm.type);
         feeView.setText("Fee: " + cm.fee);
         capacityView.setText("Capacity: " + cm.capacity);
@@ -165,7 +168,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         });
 
-        if(SessionSingleton.getId() != null && SessionSingleton.getId().equals(cm.id)) {
+        if(SessionSingleton.getId() != null && SessionSingleton.getId().equals(cm.userId)) {
             deleteCM.setVisibility(View.VISIBLE);
         } else {
             deleteCM.setVisibility(View.INVISIBLE);
@@ -256,7 +259,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.DELETE,
-                url + "?type=campsite&campsiteId='" + cm.id + "'",
+                url + "?type=campsite&campsiteId=" + cm.id,
                 String.class,
                 "",
                 new Response.Listener<String>(){

@@ -18,71 +18,113 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/location"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="location"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="type"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="name"
+                    android:textSize="14pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp"/>
 
-            <TextView
-                android:id="@+id/fee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="fee"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="right"
+                    android:text="location"
+                    android:textSize="9pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp"/>
 
-            <TextView
-                android:id="@+id/capacity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="capacity"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/availability"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="availability"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/description"
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="left"
+                    android:text="type"
+                    android:textSize="10pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
+
+                <TextView
+                    android:id="@+id/fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="right"
+                    android:text="fee"
+                    android:textSize="10pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30px"
-                android:gravity="left|center"
-                android:text="description"
-                android:textSize="12pt"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="229dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/capacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="left|center"
+                    android:text="capacity"
+                    android:textSize="10pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
+
+                <TextView
+                    android:id="@+id/availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="left|center"
+                    android:text="availability"
+                    android:textSize="10pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30px"
+                    android:gravity="left|center"
+                    android:text="description"
+                    android:textSize="9pt"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="229dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,10 +137,10 @@
                     android:id="@+id/ratingText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:layout_gravity="left"
                     android:layout_marginLeft="35dip"
                     android:text="Rating:"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <GridLayout
                     android:layout_width="match_parent"
@@ -111,7 +153,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dip"
                         android:layout_marginLeft="15dip"
-                        android:text="TextView" />
+                        android:text="0" />
 
                     <ImageButton
                         android:id="@+id/upVoteButton"
@@ -127,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dip"
-                        android:text="TextView" />
+                        android:text="0" />
 
                     <ImageButton
                         android:id="@+id/downVoteButton"
