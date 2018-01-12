@@ -35,6 +35,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The core functionality of the app. We use the Google Maps API to create a map, populate it with
+ * markers generated from our campsiteModel objects. We also have a search function and a lot of code
+ * to handle different conditions being present to make a smooth as possible user experience.
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final int FINE_LOCATION_PERMISSION_REQUEST = 1;
     private static GoogleMap mMap;
@@ -375,6 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
         }
 
+        // Sets the text and style of our info window.
         @Override
         public View getInfoContents(Marker marker) {
 
