@@ -36,12 +36,12 @@ public class CommentDialog extends DialogFragment {
 
 
         builder.setView(inflater.inflate(R.layout.dialog_comment, null))
-                .setMessage("Comment")
+                .setMessage("CommentModel")
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText comment = (EditText) getDialog().findViewById(R.id.comment_body);
                         String tempString = comment.getText().toString();
-                        Comment c = new Comment(
+                        CommentModel c = new CommentModel(
                                         UUID.randomUUID().toString(),
                                         cm.id.toString(),
                                         "2017-12-24",

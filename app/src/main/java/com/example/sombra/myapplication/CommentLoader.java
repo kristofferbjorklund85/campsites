@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 
@@ -28,10 +27,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sombra on 2017-11-28.
+/** Class for handling comments for campsites.
+ *
  */
-
 public class CommentLoader {
 
     private Context context;
@@ -39,22 +37,32 @@ public class CommentLoader {
     private CampsiteModel cm;
     private String url;
     private Gson gson;
+    private CommentChangeListener listener;
 
-    CommentChangeListener listener;
-
+    /** Initializes the commentloader with necessary data to handle comments.
+     *
+     * @param context the context of the CampsiteActivity.
+     * @param listview the listview that will hold all comments.
+     * @param cm the Campsite to which the comments are posted
+     * @param listener used for updating the list of comments
+     * @param url the url to the API
+     */
     public CommentLoader(Context context, ListView listview, CampsiteModel cm, CommentChangeListener listener, String url) {
         this.context = context;
         commentsListView = listview;
         this.cm = cm;
         this.listener = listener;
         this.url = url;
-        //url = context.getResources().getString(R.string.apiURL);
 
         gson = new Gson();
         listeners = new ArrayList<>();
     }
 
-    public void resetListView(List<Comment> cList) {
+    /** Creates/Updates the Listview with comments.
+     *
+     * @param cList list of Comm
+     */
+    public void resetListView(List<CommentModel> cList) {
         ListView comments = commentsListView;
         CommentAdapter adapter = new CommentAdapter(context,
                 R.layout.comments_listitem, cList);
@@ -71,7 +79,7 @@ public class CommentLoader {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                            List<Comment> list = commentsFromJSON(array);
+                            List<CommentModel> list = commentsFromJSON(array);
                             listener.onCommentChangeList(list);
                     }
                 }, new Response.ErrorListener() {
@@ -89,12 +97,12 @@ public class CommentLoader {
     }
 
     public List commentsFromJSON(JSONArray array) {
-        List<Comment> cList = new ArrayList<>();
+        List<CommentModel> cList = new ArrayList<>();
 
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObj = array.getJSONObject(i);
-                Comment cm = new Comment(
+                CommentModel cm = new CommentModel(
                         jsonObj.getString("id"),
                         jsonObj.getString("campsiteid"),
                         jsonObj.getString("date"),
@@ -111,7 +119,7 @@ public class CommentLoader {
         return cList;
     }
 
-    public void postComment(Context context, Comment cm) {
+    public void postComment(Context context, CommentModel cm) {
         String jo = gson.toJson(cm);
 
         GenericRequest gr = new GenericRequest(
@@ -123,7 +131,7 @@ public class CommentLoader {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(SessionSingleton.getAppContext(), "Comment Posted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "CommentModel Posted!", Toast.LENGTH_SHORT).show();
                         getComments();
                     }
                 },
@@ -140,7 +148,7 @@ public class CommentLoader {
 
     }
 
-    public void deleteComment(Comment c) {
+    public void deleteComment(CommentModel c) {
 
         GenericRequest gr = new GenericRequest(
                 url + "?type=comment&commentId=" + c.id + "",
@@ -149,7 +157,7 @@ public class CommentLoader {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(SessionSingleton.getAppContext(), "Deleted Comment!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SessionSingleton.getAppContext(), "Deleted CommentModel!", Toast.LENGTH_SHORT).show();
                         getComments();
                     }
                 }, new Response.ErrorListener() {
@@ -164,14 +172,14 @@ public class CommentLoader {
 
     }
 
-    private class CommentAdapter extends ArrayAdapter<Comment> {
+    private class CommentAdapter extends ArrayAdapter<CommentModel> {
 
         Context context;
         int layoutResourceId;
-        List<Comment> data = null;
+        List<CommentModel> data = null;
 
 
-        public CommentAdapter(Context context, int layoutResourceId, List<Comment> data) {
+        public CommentAdapter(Context context, int layoutResourceId, List<CommentModel> data) {
             super(context, layoutResourceId, data);
             this.layoutResourceId = layoutResourceId;
             this.context = context;
@@ -190,7 +198,7 @@ public class CommentLoader {
                 holder = new CommentHolder();
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Delete Comment");
+                builder.setTitle("Delete CommentModel");
                 builder.setMessage("Are you sure you want to delete your comment ?");
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -265,7 +273,7 @@ public class CommentLoader {
     private List<CommentChangeListener> listeners;
 
     public interface CommentChangeListener {
-        void onCommentChangeList(List<Comment> members);
+        void onCommentChangeList(List<CommentModel> members);
     }
 
     public void addCommentChangeListener(CommentChangeListener l) {

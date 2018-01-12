@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +28,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 /**
  * The Activity responsible for displaying the chosen campsite. It also have the options of deleting
@@ -46,7 +44,7 @@ public class CampsiteActivity extends AppCompatActivity {
     private CommentChangeListener listener;
     private RatingChangeListener ratingListener;
 
-    private List<Comment> comments;
+    private List<CommentModel> comments;
     private String url;
     private Context context;
     private Gson gson;
@@ -67,7 +65,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         listener = new CommentChangeListener() {
             @Override
-            public void onCommentChangeList(List<Comment> cList) {
+            public void onCommentChangeList(List<CommentModel> cList) {
                 Log.d("COMMENTLOADER: ", "RESETTING LIST");
                 cl.resetListView(cList);
             }
