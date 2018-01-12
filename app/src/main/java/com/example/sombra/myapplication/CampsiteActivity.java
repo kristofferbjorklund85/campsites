@@ -31,6 +31,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+/**
+ * The Activity responsible for displaying the chosen campsite. It also have the options of deleting
+ * the campsite if the user is the creator and rate the campsite. The comments
+ */
 public class CampsiteActivity extends AppCompatActivity {
     TextView upVotes;
     TextView downVotes;
@@ -92,7 +96,12 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     /**
+     * init() retrieves the campsiteModel to be displayed from the Bundle.
+     * It sets the campsiteView by calling {@link #setCampsiteView(CampsiteModel)}
+     * and if there is comments or ratings it also retrieves them from the databse through
+     * getComments() and getRating().
      *
+     * Finally it sets the toolbar for the view.
      */
     public void init() {
         Bundle extras = getIntent().getExtras();
@@ -116,6 +125,15 @@ public class CampsiteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    /**
+     * setCampsiteView() populates the different views with the data from the campsiteModel.
+     * Rating and comment button is created and set visible depending on the user, if its a guest or
+     * the user that created the campsite.
+     *
+     * The method also creates the AlertDialog handling the deletion of the campsite.
+     *
+     * @param cm with the data about the campsite.
+     */
     private void setCampsiteView(final CampsiteModel cm) {
         TextView nameView = (TextView) findViewById(R.id.name);
         TextView locationView = (TextView) findViewById(R.id.location);
@@ -185,6 +203,11 @@ public class CampsiteActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * resetRating() sets the rating and if there is no rating in the databse it is set to 0.
+     *
+     * @param ratingList containing the ratings.
+     */
     private void resetRating(List<com.example.sombra.myapplication.Rating> ratingList) {
         upVotes = (TextView) findViewById(R.id.positiveRating);
         downVotes = (TextView) findViewById(R.id.negativeRating);
@@ -204,6 +227,9 @@ public class CampsiteActivity extends AppCompatActivity {
         downVotes.setText("" + negative);
     }
 
+    /**
+     * 
+     */
     private void getRating() {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
