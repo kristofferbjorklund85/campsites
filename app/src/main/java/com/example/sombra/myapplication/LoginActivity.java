@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,10 +19,18 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Handles all methods revolving around logging in and the actual LoginActivity.
+ */
 public class LoginActivity extends AppCompatActivity {
-
     Long back_pressed = 0L;
 
+    /**
+     * onCreate() sets the view for the activity.
+     * SessionSingletons appContext and servlett URL is also set here.
+     *
+     * @param savedInstanceState the standard Bundle from previous class.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,45 +38,44 @@ public class LoginActivity extends AppCompatActivity {
 
         SessionSingleton.setAppContext(this.getApplicationContext());
         SessionSingleton.setURL(this.getResources().getString(R.string.apiURL));
-
-        //Remove for production
-        if (false) {
-            SessionSingleton.setUsername("JanBanan");
-            SessionSingleton.setAppContext(this.getApplicationContext());
-            Log.d("starting: ", "Landing");
-            Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
+    /**
+     * If the back button is pressed once the user is warned
+     * that one more press will exit the app.
+     * A second press within 1500 milliseconds will exit the app.
+     */
     @Override
     public void onBackPressed() {
-        if (back_pressed + 1500 > System.currentTimeMillis()){
+        if (back_pressed + 1500 > System.currentTimeMillis()) {
             super.onBackPressed();
             System.exit(0);
         }
-        else{
+        else {
             Utils.toast("Press once again to exit!", "short");
         }
         back_pressed = System.currentTimeMillis();
     }
 
-    public void login(View view) {
-        EditText un = (EditText) findViewById(R.id.input_username);
-        EditText pw = (EditText) findViewById(R.id.input_password);
-        if (Utils.checkString(un.getText().toString(), "Username", 0 , 0) &&
-                Utils.checkString(pw.getText().toString(), "Password", 0, 0)) {
-            userExists(un.getText().toString(), pw.getText().toString(), this);
-        }
-    }
-
+    /**
+     * register() starts the RegisterActivity.
+     *
+     * @param view needed for onClick() usage.
+     */
     public void register(View view) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * guest() lets the user use the app as a guest.
+     * It limits the functions available but still permits looking at campsites.
+     * This is handled by setting the Username to 'guest'.
+     * It then starts the LandingActivity.
+     *
+     * @param view needed for onClick() usage.
+     */
     public void guest(View view) {
         if(SessionSingleton.getUsername().equals("guest")) {
             SessionSingleton.setPromptLogin(true);
@@ -77,10 +83,39 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
         startActivity(intent);
         finish();
-        //Continue using app as guest
     }
 
-    public void userExists(String username, String pw, Context context) {
+    /**
+     * checkUser() handles the check of the user input when logging in.
+     * It checks the Strings with our checkString() and if succesful
+     * it will run login which handles the rest of the login process.
+     *
+     * @param view needed for onClick() usage.
+     */
+    public void checkUser(View view) {
+        EditText un = (EditText) findViewById(R.id.input_username);
+        EditText pw = (EditText) findViewById(R.id.input_password);
+
+        if (Utils.checkString(un.getText().toString(), "Username", 0 , 0) &&
+                Utils.checkString(pw.getText().toString(), "Password", 0, 0)) {
+            login(un.getText().toString(), pw.getText().toString(), this);
+        }
+    }
+
+    /**
+     * login() checks whether the username and password exists against the database
+     * with a httpGetRequest.
+     *
+     * If the user exists we set the SessionsSingletons id to the users id and the same
+     * with username.
+     *
+     * Finally we run checkActivity().
+     *
+     * @param username the username to check.
+     * @param pw       the password to check.
+     * @param context  the context to send to checkActivity().
+     */
+    public void login(String username, String pw, Context context) {
         final Context c = context;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -108,8 +143,24 @@ public class LoginActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
+    /**
+     * promptLogin() handles the login function further into the app.
+     * If the user tries to use a function not available to a guest
+     * the promptLogin method will be triggered.
+     *
+     * It builds a AlertDialog telling the user it needs to login and asking
+     * the user if it wants to do it now.
+     * If the answer is yes the loginWindow() will run handling the actual login.
+     * If the answer is no the user will no longer be asked to login if it tries
+     * another unavailable function.
+     *
+     * @param activity where the user is currently in the app.
+     * @param context for the dialog Builder and loginWindow().
+     * @return true if the answer is yes and false if it is no.
+     */
     public static boolean promptLogin(String activity, Context context) {
         final Context c = context;
+
         if (SessionSingleton.getUsername().equals("guest") && SessionSingleton.getPromptLogin() == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(c);
             builder.setTitle("You are not logged in");
@@ -137,6 +188,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * loginWindow() is prompted if the user wants to login from the promptLogion() AlertDialog.
+     * It creates a new AlertDialog asking for the user info needed for logging in.
+     * The same method used for login in the loginActivity is also used here.
+     *
+     * @param context for the dialog Builder.
+     */
     public void loginWindow(final Context context) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         LinearLayout layout = new LinearLayout(context);
@@ -159,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (Utils.checkString(titleBox.getText().toString(), "Username", 0 , 0) &&
                         Utils.checkString(descriptionBox.getText().toString(), "Password", 0, 0)) {
-                    userExists(titleBox.getText().toString(), descriptionBox.getText().toString(), context);
+                    login(titleBox.getText().toString(), descriptionBox.getText().toString(), context);
                 }
         }});
 
@@ -173,6 +231,15 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * checkActivity() is needed because we wanted to only start LandingActivity
+     * if the user is logging in from LoginActivity.
+     *
+     * If the user is logging in from anywhere else we only want to close the
+     * AlertDialog and let the user continue from where it was, now logged in.
+     *
+     * @param context to check if the context is an instance of LoginActvity.
+     */
     public void checkActvity(Context context) {
         if(context instanceof LoginActivity) {
             Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
