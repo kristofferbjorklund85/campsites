@@ -1,7 +1,8 @@
 package com.example.sombra.myapplication;
 
 /**
- * 
+ * RatingModel is the model of our Rating.
+ * Only contains the constructor for the class.
  */
 public class RatingModel {
 
