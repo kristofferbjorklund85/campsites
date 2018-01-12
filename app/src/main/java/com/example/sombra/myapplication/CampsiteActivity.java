@@ -29,6 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * The Activity responsible for displaying the chosen campsite. It also have the options of deleting
+ * the campsite if the user is the creator and rate the campsite. The comments
+ */
 public class CampsiteActivity extends AppCompatActivity {
     TextView upVotes;
     TextView downVotes;
@@ -51,7 +55,7 @@ public class CampsiteActivity extends AppCompatActivity {
      * We create a Gson object and set context to this for future use in the class.
      * Finally it runs init().
      *
-     * @param savedInstanceState the standard Bundle from previous class.
+     * @param savedInstanceState The standard Bundle from previous class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class CampsiteActivity extends AppCompatActivity {
 
         ratingListener = new RatingChangeListener() {
             @Override
-            public void onRatingChangeList(List<com.example.sombra.myapplication.Rating> ratingList) {
+            public void onRatingChangeList(List<RatingModel> ratingList) {
                 Log.d("CAMPSITE ACTIVITY: ", "RESETTING RATINGLIST");
                 resetRating(ratingList);
             }
@@ -90,7 +94,12 @@ public class CampsiteActivity extends AppCompatActivity {
     }
 
     /**
+     * init() retrieves the campsiteModel to be displayed from the Bundle.
+     * It sets the campsiteView by calling {@link #setCampsiteView(CampsiteModel)}
+     * and if there is comments or ratings it also retrieves them from the databse through
+     * getComments() and getRating().
      *
+     * Finally it sets the toolbar for the view.
      */
     public void init() {
         Bundle extras = getIntent().getExtras();
@@ -114,6 +123,15 @@ public class CampsiteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    /**
+     * setCampsiteView() populates the different views with the data from the campsiteModel.
+     * RatingModel and comment button is created and set visible depending on the user, if its a guest or
+     * the user that created the campsite.
+     *
+     * The method also creates the AlertDialog handling the deletion of the campsite.
+     *
+     * @param cm CampsiteModel with the data about the campsite.
+     */
     private void setCampsiteView(final CampsiteModel cm) {
         TextView nameView = (TextView) findViewById(R.id.name);
         TextView locationView = (TextView) findViewById(R.id.location);
@@ -183,14 +201,19 @@ public class CampsiteActivity extends AppCompatActivity {
         }
     }
 
-    private void resetRating(List<com.example.sombra.myapplication.Rating> ratingList) {
+    /**
+     * resetRating() sets the rating and if there is no rating in the databse it is set to 0.
+     *
+     * @param ratingList RatingModel list containing the ratings.
+     */
+    private void resetRating(List<RatingModel> ratingList) {
         upVotes = (TextView) findViewById(R.id.positiveRating);
         downVotes = (TextView) findViewById(R.id.negativeRating);
 
         int positive = 0;
         int negative = 0;
 
-        for (com.example.sombra.myapplication.Rating r : ratingList) {
+        for (RatingModel r : ratingList) {
             if(r.getRating() == 1) {
                 positive++;
             } else {
@@ -202,8 +225,10 @@ public class CampsiteActivity extends AppCompatActivity {
         downVotes.setText("" + negative);
     }
 
+    /**
+     * getRating() retrieves the ratings from the databse and puts them in our List of ratings through a HttpGetRequest.
+     */
     private void getRating() {
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url + "?type=rating&campsiteId='" + cm.id + "'",
@@ -211,7 +236,7 @@ public class CampsiteActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray array) {
-                        List<com.example.sombra.myapplication.Rating> list = ratingsFromJSON(array);
+                        List<RatingModel> list = ratingsFromJSON(array);
                         ratingListener.onRatingChangeList(list);
                     }
                 }, new Response.ErrorListener() {
@@ -228,21 +253,27 @@ public class CampsiteActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * postRating() handles the posting of a new rating through a HttpPostRequest.
+     * If the user is not logged in it is asked to log in with prompLogin().
+     *
+     * @param rate RatingModel to be posted to the databse.
+     */
     private void postRating(int rate) {
         if(LoginActivity.promptLogin("rate", context)) {
             return;
         }
 
-        com.example.sombra.myapplication.Rating rating = new com.example.sombra.myapplication.Rating(SessionSingleton.getId(), rate);
+        RatingModel ratingModel = new RatingModel(SessionSingleton.getId(), rate);
 
-        Log.d("UserId: ", rating.getUserId());
-        Log.d("Rating: ", "" + rating.getRating());
+        Log.d("UserId: ", ratingModel.getUserId());
+        Log.d("RatingModel: ", "" + ratingModel.getRating());
 
-        String jo = gson.toJson(rating);
+        String jo = gson.toJson(ratingModel);
 
         GenericRequest gr = new GenericRequest(
                 Request.Method.POST,
-                url + "?type=rating&campsiteId='" + cm.id + "'",
+                url + "?type=ratingModel&campsiteId='" + cm.id + "'",
                 String.class,
                 jo,
                 new Response.Listener<String>(){
@@ -265,8 +296,12 @@ public class CampsiteActivity extends AppCompatActivity {
         VolleySingleton.getInstance(context).addToRequestQueue(gr);
     }
 
+    /**
+     * deleteCampsite() deletes the selected campsite from the databse through a HttpDeleteRequest.
+     *
+     * @param cm Campsite to be deleted.
+     */
     private void deleteCampsite(CampsiteModel cm) {
-
         GenericRequest gr = new GenericRequest(
                 Request.Method.DELETE,
                 url + "?type=campsite&campsiteId=" + cm.id,
@@ -295,8 +330,15 @@ public class CampsiteActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
     }
 
+    /**
+     * updateCampsite() updates the databse with a updated campsite object.
+     * We only use it for updating the total views of a campsite but it's dynamic
+     * and could be used for an unlimited number of extraordinary campsite updates.
+     *
+     * @param property The property to be updated.
+     * @param cm The campsite to be updated.
+     */
     private void updateCampsite(String property, CampsiteModel cm) {
-
         GenericRequest gr = new GenericRequest(
                 Request.Method.PUT,
                 url + "?type=" + property + "&campsiteId=" + cm.id,
@@ -322,13 +364,19 @@ public class CampsiteActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
     }
 
+    /**
+     * ratingsFromJSON() translates the ratings retrieved from the databas from JSONArray to ArrayList.
+     *
+     * @param array JSONArray to be translated.
+     * @return The finished list of ratings.
+     */
     public List ratingsFromJSON(JSONArray array) {
-        List<com.example.sombra.myapplication.Rating> ratingList = new ArrayList<>();
+        List<RatingModel> ratingList = new ArrayList<>();
 
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObj = array.getJSONObject(i);
-                com.example.sombra.myapplication.Rating cm = new com.example.sombra.myapplication.Rating(
+                RatingModel cm = new RatingModel(
                         jsonObj.getString("userId"),
                         jsonObj.getInt("rating"));
                 ratingList.add(cm);
@@ -341,8 +389,11 @@ public class CampsiteActivity extends AppCompatActivity {
         return ratingList;
     }
 
+    /**
+     * Interface for listening to changes in the ratings list.
+     */
     public interface RatingChangeListener {
-        void onRatingChangeList(List<com.example.sombra.myapplication.Rating> members);
+        void onRatingChangeList(List<RatingModel> members);
     }
 
 }

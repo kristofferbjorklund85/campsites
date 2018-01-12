@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
      * onCreate() sets the view for the activity.
      * SessionSingletons appContext and servlett URL is also set here.
      *
-     * @param savedInstanceState the standard Bundle from previous class.
+     * @param savedInstanceState The standard Bundle from previous class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * register() starts the RegisterActivity.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void register(View view) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
      * This is handled by setting the Username to 'guest'.
      * It then starts the LandingActivity.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void guest(View view) {
         if(SessionSingleton.getUsername().equals("guest")) {
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
      * It checks the Strings with our checkString() and if succesful
      * it will run login which handles the rest of the login process.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void checkUser(View view) {
         EditText un = (EditText) findViewById(R.id.input_username);
@@ -111,9 +111,9 @@ public class LoginActivity extends AppCompatActivity {
      *
      * Finally we run checkActivity().
      *
-     * @param username the username to check.
-     * @param pw       the password to check.
-     * @param context  the context to send to checkActivity().
+     * @param username The username to check.
+     * @param pw       The password to check.
+     * @param context  The context to send to checkActivity().
      */
     public void login(String username, String pw, Context context) {
         final Context c = context;
@@ -154,9 +154,9 @@ public class LoginActivity extends AppCompatActivity {
      * If the answer is no the user will no longer be asked to login if it tries
      * another unavailable function.
      *
-     * @param activity where the user is currently in the app.
-     * @param context for the dialog Builder and loginWindow().
-     * @return true if the answer is yes and false if it is no.
+     * @param activity Where the user is currently in the app.
+     * @param context  For the dialog Builder and loginWindow().
+     * @return True if the answer is yes and false if it is no.
      */
     public static boolean promptLogin(String activity, Context context) {
         final Context c = context;
@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
      * It creates a new AlertDialog asking for the user info needed for logging in.
      * The same method used for login in the loginActivity is also used here.
      *
-     * @param context for the dialog Builder.
+     * @param context Context for the dialog Builder.
      */
     public void loginWindow(final Context context) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity {
      * If the user is logging in from anywhere else we only want to close the
      * AlertDialog and let the user continue from where it was, now logged in.
      *
-     * @param context to check if the context is an instance of LoginActvity.
+     * @param context Context to check if the context is an instance of LoginActvity.
      */
     public void checkActvity(Context context) {
         if(context instanceof LoginActivity) {
