@@ -56,7 +56,7 @@ public class CommentLoader {
         this.url = url;
 
         gson = new Gson();
-        listeners = new ArrayList<>();
+        //listeners = new ArrayList<>();
     }
 
     /**
@@ -323,7 +323,8 @@ public class CommentLoader {
         void onCommentChangeList(List<CommentModel> members);
     }
 
-    /*private List<CommentChangeListener> listeners;
+    /*
+    private List<CommentChangeListener> listeners;
 
     public void addCommentChangeListener(CommentChangeListener l) {
         listeners.add(l);

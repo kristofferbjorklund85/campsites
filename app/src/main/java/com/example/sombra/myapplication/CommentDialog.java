@@ -13,7 +13,7 @@ import android.widget.EditText;
 import java.util.UUID;
 
 /**
- * Created by Sombra on 2017-12-05.
+ * A dialog containing a textfield where the user can type and post a comment.
  */
 
 public class CommentDialog extends DialogFragment {
@@ -22,12 +22,26 @@ public class CommentDialog extends DialogFragment {
     Context context;
     CampsiteModel cm;
 
+    /**
+     * Initialize the dialogfragment.
+     *
+     * @param context the context of the CampsiteAcitivty.
+     * @param cl class containing the necessary methods needed to post a comment.
+     * @param cm the campsite object to which the comment is posted.
+     */
     public CommentDialog(Context context, CommentLoader cl, CampsiteModel cm) {
         this.context = context;
         this.cl = cl;
         this.cm = cm;
     }
 
+    /**
+     * Creates a dialog with a textfield, a cancel and a submit-button. If submit is clicked, a
+     * CommentModel-object will be
+     *
+     * @param savedInstanceState not used here.
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

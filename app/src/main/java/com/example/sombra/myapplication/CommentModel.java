@@ -1,7 +1,7 @@
 package com.example.sombra.myapplication;
 
 /**
- * Created by Sombra on 2017-11-28.
+ * Model for a comment. Only contains the constructor for the class.
  */
 
 public class CommentModel {
