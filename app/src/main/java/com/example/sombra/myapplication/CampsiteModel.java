@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Sombra on 2017-11-14.
+ * CampsiteModel is the model of our campsites.
+ * It contains the standard constructor but an additional sort of constructor to be Parceable.
+ * Parceable makes it possible to put a CampsiteModel Object as an extra in an Intent.
+ * It makes a couple of methods necessary but mainly it's black magic.
  */
-
 public class CampsiteModel implements Parcelable {
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -18,7 +20,6 @@ public class CampsiteModel implements Parcelable {
             return new CampsiteModel[size];
         }
     };
-
     String id;
     String location;
     String name;
