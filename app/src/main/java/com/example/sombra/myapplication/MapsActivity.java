@@ -116,10 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * After the markers are generated the camera is moved to our default position and default zoom.
      *
-     * Finally three listeners for
-     * {@link GoogleMap.OnInfoWindowClickListener},
-     * {@link GoogleMap.OnMapClickListener},
-     * {@link GoogleMap.OnMarkerClickListener}.
+     * Finally three listeners for OnInfoWindowClickListener, OnMapClickListener and OnMarkerClickListener.
      *
      * @param googleMap Google Map to be used in the MapsActivity.
      */
