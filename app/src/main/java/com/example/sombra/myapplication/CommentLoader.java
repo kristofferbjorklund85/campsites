@@ -317,17 +317,15 @@ public class CommentLoader {
     }
 
     /**
-     * Listener for list of comments.
+     * Interface for listening to changes in the list of comments.
      */
-    private List<CommentChangeListener> listeners;
-
     public interface CommentChangeListener {
         void onCommentChangeList(List<CommentModel> members);
     }
 
+    /*private List<CommentChangeListener> listeners;
+
     public void addCommentChangeListener(CommentChangeListener l) {
         listeners.add(l);
-    }
-
-
+    }*/
 }
