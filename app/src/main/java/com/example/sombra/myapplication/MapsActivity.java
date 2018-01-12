@@ -375,6 +375,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
         }
 
+        // Sets the text and style of our info window.
         @Override
         public View getInfoContents(Marker marker) {
 
