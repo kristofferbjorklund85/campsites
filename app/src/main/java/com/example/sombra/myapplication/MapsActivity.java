@@ -51,6 +51,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng defaultLatLng = new LatLng(57.850894, 12.033463);
     private int defaultZoom = 7;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

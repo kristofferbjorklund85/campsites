@@ -32,20 +32,29 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class CampsiteActivity extends AppCompatActivity {
-
     TextView upVotes;
     TextView downVotes;
+    Button deleteCM;
+
     CommentLoader cl = null;
     CampsiteModel cm;
+
     private CommentChangeListener listener;
     private RatingChangeListener ratingListener;
+
     private List<Comment> comments;
     private String url;
     private Context context;
     private Gson gson;
 
-    Button deleteCM;
-
+    /**
+     * onCreate() sets the view for the activity and gets the URL from resource.
+     * We set two listeners, one for comment changes and one for rating changes.
+     * We create a Gson object and set context to this for future use in the class.
+     * Finally it runs init().
+     *
+     * @param savedInstanceState the standard Bundle from previous class.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,32 +83,33 @@ public class CampsiteActivity extends AppCompatActivity {
         init();
     }
 
+    /**
+     * If the back button is pressed the activity finishes.
+     */
     @Override
     public void onBackPressed() {
         finish();
     }
 
+    /**
+     *
+     */
     public void init() {
-        //ERROR = CampsiteActivity.class.getSimpleName() + getString(R.string.ERROR);
-
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Log.d("Extras: ", " NULL");
             return;
         }
-
         cm = (CampsiteModel) extras.getParcelable("cm");
         setCampsiteView(cm);
 
         cl = new CommentLoader(context, (ListView) findViewById(R.id.comments_listview), cm, listener, url);
-
         comments = new ArrayList<>();
         cl.resetListView(comments);
         cl.getComments();
         updateCampsite("views", cm);
 
         getRating();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(cm.location);

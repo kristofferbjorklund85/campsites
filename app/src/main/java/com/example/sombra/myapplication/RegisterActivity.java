@@ -14,10 +14,18 @@ import com.google.gson.Gson;
 
 import java.util.UUID;
 
+/**
+ * Handles all methods revoling around registration of a new user and
+ * the actual RegisterActivity.
+ */
 public class RegisterActivity extends AppCompatActivity {
-
     String url;
 
+    /**
+     * onCreate() sets the view for the activity and gets the URL from resource.
+     *
+     * @param savedInstanceState the standard Bundle from previous class.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +34,9 @@ public class RegisterActivity extends AppCompatActivity {
         url = this.getResources().getString(R.string.apiURL);
     }
 
+    /**
+     * If the back button is pressed LoginActivity is started.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -33,7 +44,13 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void registerUser(View view) {
+    /**
+     * checkRegistration() checks the required fields for registration with our checkString().
+     * If everying is ok we run register() handling the rest of the registration process.
+     *
+     * @param view needed for onClick() usage.
+     */
+    public void checkRegistration(View view) {
         EditText username       = (EditText) findViewById(R.id.input_username);
         EditText password       = (EditText) findViewById(R.id.input_password);
         EditText repeatPassword = (EditText) findViewById(R.id.input_repeat_password);
@@ -42,12 +59,18 @@ public class RegisterActivity extends AppCompatActivity {
                 Utils.checkString(password.getText().toString(), "Password", 3, 0) &&
                 Utils.checkString(repeatPassword.getText().toString(), "Password", 3, 0) &&
                 password.getText().toString().equals(repeatPassword.getText().toString())) {
-
-                postUser(new UserModel(UUID.randomUUID().toString(), username.getText().toString(), password.getText().toString()));
+                    register(new UserModel( UUID.randomUUID().toString(), username.getText().toString(),
+                                            password.getText().toString()));
         }
     }
 
-    private void postUser(UserModel user) {
+    /**
+     * register() posts the new user to the database with a httpPostRequest.
+     * If everything is okay we start the loginActivity and the user can login with the new account.
+     *
+     * @param user that will be registered
+     */
+    private void register(UserModel user) {
         Gson gson = new Gson();
         String jo = gson.toJson(user);
 
@@ -76,7 +99,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Utils.toast("Something went wrong!", "short");
                     }
                 });
-
         VolleySingleton.getInstance(this).addToRequestQueue(gr);
         }
 }

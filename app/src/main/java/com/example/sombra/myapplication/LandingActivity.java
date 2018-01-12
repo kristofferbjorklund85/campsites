@@ -1,15 +1,11 @@
 package com.example.sombra.myapplication;
 
 import android.content.Intent;
-import android.media.MediaCas;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,11 +19,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The 'home' activity of the app where options such as going to the map, my profile and logging out
+ * are available.
+ */
 public class LandingActivity extends AppCompatActivity {
     ArrayList<CampsiteModel> cml;
-    String url;
     Long back_pressed = 0L;
 
+    /**
+     * onCreate() sets the view for the activity.
+     * Also sets a toolbar for the activity.
+     *
+     * Finally it runs getCampsites().
+     *
+     * @param savedInstanceState the standard Bundle from previous class.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +46,20 @@ public class LandingActivity extends AppCompatActivity {
         getCampsites();
     }
 
+    /**
+     * onResume() we once again run getCampsites(), refreshing our arrayList.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         getCampsites();
     }
 
+    /**
+     * If the back button is pressed once the user is warned
+     * that one more press will exit the app.
+     * A second press within 1500 milliseconds will exit the app.
+     */
     @Override
     public void onBackPressed() {
         if (back_pressed + 1500 > System.currentTimeMillis()){
@@ -56,6 +71,11 @@ public class LandingActivity extends AppCompatActivity {
         back_pressed = System.currentTimeMillis();
     }
 
+    /**
+     * mapsView() starts the MapsActivity and puts our finished campsiteList as a intent extra.
+     *
+     * @param view needed for onClick() usage.
+     */
     public void mapsView(View view) {
         Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
         intent.putParcelableArrayListExtra("cmList", cml);
@@ -63,29 +83,11 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_maps);
     }
 
-    //Remove for production
-    public void loadCampsite(View view) {
-        /*CampsiteModel camp = new CampsiteModel(
-                                    "860f729e-5a4f-4398-ba05-0062cdf875b3",
-                                    "Gothenburg",
-                                    "Lindholmen",
-                                    -32.952854,
-                                    116.857342,
-                                    "School",
-                                    "Free",
-                                    "50",
-                                    "All year",
-                                    "Very nice place, lots of cool people",
-                                    12312,
-                                    "Satan666");*/
-
-
-        Log.d("starting: ", "CampsiteActivity");
-        Intent intent = new Intent(LandingActivity.this, CampsiteActivity.class);
-        intent.putExtra("cm", cml.get(0));
-        startActivity(intent);
-    }
-
+    /**
+     * logOut() resets the SessionSingleton user info and starts the LoginActivity.
+     *
+     * @param view needed for onClick() usage.
+     */
     public void logOut(View view) {
         Intent intent = new Intent(LandingActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -95,6 +97,11 @@ public class LandingActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * getCampsites() retrives the campsites from our databse with a getHttpRequest.
+     * If everything is okay we translates the JSONArray to an arrayList
+     * and assign it to our campsiteList.
+     */
     public void getCampsites() {
         Log.d("getCampsites ", "starting");
 
@@ -110,7 +117,6 @@ public class LandingActivity extends AppCompatActivity {
                         Log.d("campsitemodeListLanding", String.valueOf(cml.size()));
                     }
                 }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("GET-request cause: ", error.toString());
@@ -119,6 +125,12 @@ public class LandingActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
     }
 
+    /**
+     * fromJson() translate a JSONArray to an arrayList and populating it with campsiteModel objects.
+     *
+     * @param array to be translated.
+     * @return the complete campsiteList.
+     */
     public List fromJson(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();
 
@@ -144,7 +156,6 @@ public class LandingActivity extends AppCompatActivity {
                 Log.d("fromJSON Exception: ", e.getMessage());
             }
         }
-
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
     }

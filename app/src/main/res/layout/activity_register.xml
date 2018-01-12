@@ -70,7 +70,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:onClick="registerUser"
+            android:onClick="checkRegistration"
             android:text="Register"
             tools:layout_editor_absoluteX="125dp"
             tools:layout_editor_absoluteY="156dp" />
