@@ -33,7 +33,7 @@ public class LandingActivity extends AppCompatActivity {
      *
      * Finally it runs getCampsites().
      *
-     * @param savedInstanceState the standard Bundle from previous class.
+     * @param savedInstanceState The standard Bundle from previous class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     /**
-     * onResume() we once again run getCampsites(), refreshing our arrayList.
+     * onResume() calls getCampsites(), refreshing our arrayList.
      */
     @Override
     protected void onResume() {
@@ -74,7 +74,7 @@ public class LandingActivity extends AppCompatActivity {
     /**
      * mapsView() starts the MapsActivity and puts our finished campsiteList as a intent extra.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void mapsView(View view) {
         Intent intent = new Intent(LandingActivity.this, MapsActivity.class);
@@ -86,7 +86,7 @@ public class LandingActivity extends AppCompatActivity {
     /**
      * logOut() resets the SessionSingleton user info and starts the LoginActivity.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void logOut(View view) {
         Intent intent = new Intent(LandingActivity.this, LoginActivity.class);
@@ -128,8 +128,8 @@ public class LandingActivity extends AppCompatActivity {
     /**
      * fromJson() translate a JSONArray to an arrayList and populating it with campsiteModel objects.
      *
-     * @param array to be translated.
-     * @return the complete campsiteList.
+     * @param array JSONArray to be translated.
+     * @return The complete campsiteList.
      */
     public List fromJson(JSONArray array) {
         List<CampsiteModel> campList = new ArrayList<>();

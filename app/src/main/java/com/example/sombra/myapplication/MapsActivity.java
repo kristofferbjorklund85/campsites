@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.NonNull;
@@ -14,11 +12,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,8 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * Finally it retrives the map from getMapAsync() and loading it when it is finished.
      *
-     * @param savedInstanceState the standard Bundle from previous class.
+     * @param savedInstanceState The standard Bundle from previous class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * {@link GoogleMap.OnMapClickListener},
      * {@link GoogleMap.OnMarkerClickListener}.
      *
-     * @param googleMap to be used in the MapsActivity.
+     * @param googleMap Google Map to be used in the MapsActivity.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -212,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * The title is the name of the campsite, and the snipped contains fee and type.
      * We also set the campsite as a tag to be used in the {@link CampsiteActivity}.
      *
-     * @param list that contains the campsites to generate markers from.
+     * @param list List that contains the campsites to generate markers from.
      */
     private static void createMarker(List<CampsiteModel> list) {
         for (CampsiteModel cm : list) {
@@ -228,7 +222,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Same method as {@link #createMarker(List)} but only taking a single {@link CampsiteModel} as argument.
      * Used when generating marker from a newly created campsite.
      *
-     * @param cm to be used to generate a single marker.
+     * @param cm CampsiteModel to be used to generate a single marker.
      */
     private static void createMarker(CampsiteModel cm) {
         Marker m = mMap.addMarker(new MarkerOptions()
@@ -244,7 +238,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * After a succesful search it moves the camera to the new position.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void onSearch(View view) {
         EditText location_tf = (EditText) findViewById(R.id.TFaddress);
@@ -299,9 +293,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * If access is denied the user is moved back to the {@link LandingActivity} and told that
      * user location need to be enabled for maps functionality.
      *
-     * @param requestCode  the type of request made by the app.
-     * @param permissions  not used by the method, but note that this whole method is copied from Googles API so we won't change it.
-     * @param grantResults contains the result from the user request.
+     * @param requestCode  The type of request made by the app.
+     * @param permissions  Not used by the method, but note that this whole method is copied from Googles API so we won't change it.
+     * @param grantResults Contains the result from the user request.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -352,7 +346,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * newCM is used to generate a marker for the new campsite without needing to do
      * a database call.
      *
-     * @param cm to generate a marker from.
+     * @param cm CampsiteModel to generate a marker from.
      */
     public static void setNewCM(CampsiteModel cm) {
         newCM = cm;

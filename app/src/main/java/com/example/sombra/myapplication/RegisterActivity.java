@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * onCreate() sets the view for the activity and gets the URL from resource.
      *
-     * @param savedInstanceState the standard Bundle from previous class.
+     * @param savedInstanceState The standard Bundle from previous class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
      * checkRegistration() checks the required fields for registration with our checkString().
      * If everying is ok we run register() handling the rest of the registration process.
      *
-     * @param view needed for onClick() usage.
+     * @param view Needed for onClick() usage.
      */
     public void checkRegistration(View view) {
         EditText username       = (EditText) findViewById(R.id.input_username);
@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
      * register() posts the new user to the database with a httpPostRequest.
      * If everything is okay we start the loginActivity and the user can login with the new account.
      *
-     * @param user that will be registered
+     * @param user User that will be registered
      */
     private void register(UserModel user) {
         Gson gson = new Gson();

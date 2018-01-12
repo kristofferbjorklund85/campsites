@@ -1,15 +1,14 @@
 package com.example.sombra.myapplication;
 
 /**
- * Created by Sombra on 2017-12-20.
+ * 
  */
-
-public class Rating {
+public class RatingModel {
 
     private String userId;
     private int rating;
 
-    public Rating(String userId, int rating) {
+    public RatingModel(String userId, int rating) {
         this.userId = userId;
         this.rating = rating;
     }

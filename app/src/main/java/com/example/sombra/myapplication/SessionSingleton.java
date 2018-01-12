@@ -2,10 +2,10 @@ package com.example.sombra.myapplication;
 
 import android.content.Context;
 
-/**
- * Created by Sombra on 2017-11-27.
+/*
+ SessionSingletion contains properties identifying the current logged in user.
+ The methods are only different types of getters and setters.
  */
-
 public class SessionSingleton {
     private static String username = "guest";
     private static String id = null;

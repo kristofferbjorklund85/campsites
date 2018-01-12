@@ -18,11 +18,12 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * PostActivity handles the posting of a new campsite.
+ */
 public class PostActivity extends AppCompatActivity {
-
     static LatLng latLng = null;
 
     private String url;
@@ -35,6 +36,13 @@ public class PostActivity extends AppCompatActivity {
     EditText desc;
     EditText name;
 
+    /**
+     * onCreate() sets the view for the activity and sets the local URL.
+     * Also sets an onClicListener() on our create campsite button and retrieves
+     * the latitude and longitude from the Bundle from the previous activity.
+     *
+     * @param savedInstanceState The standard Bundle from previous class.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +64,19 @@ public class PostActivity extends AppCompatActivity {
         latLng = extras.getParcelable("latlng");
     }
 
+    /**
+     * If the back button is pressed the activity finishes.
+     */
     @Override
     public void onBackPressed() {
         finish();
     }
 
+    /**
+     * createCampsites() generates a CampsiteModel from the fields containg the user input.
+     * If all the fields are okay {@link #postCampsites(Context, CampsiteModel)} is called.
+     */
     public void createCampsite() {
-
         ln    = (EditText)findViewById(R.id.EditTextLocationName);
         type  = (EditText)findViewById(R.id.EditTextType);
         fee   = (EditText)findViewById(R.id.EditTextFee);
@@ -97,6 +111,12 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * postCampsites() posts the finished campsiteModel to the databse through a HttpPostRequest.
+     *
+     * @param context The context of the request.
+     * @param cm CampsiteModel to be posted.
+     */
     public void postCampsites(Context context, CampsiteModel cm) {
         JSONObject jo = toJSON(cm);
 
@@ -118,6 +138,12 @@ public class PostActivity extends AppCompatActivity {
         VolleySingleton.getInstance(context).addToRequestQueue(joReq);
     }
 
+    /**
+     * toJSON() translates a CampsiteModel to JSONObject.
+     *
+     * @param cm CampsiteModel to be translated to JSONObject.
+     * @return The finished JSONOjbect is returned.
+     */
     public static JSONObject toJSON(CampsiteModel cm) {
         JSONObject jo = new JSONObject();
 

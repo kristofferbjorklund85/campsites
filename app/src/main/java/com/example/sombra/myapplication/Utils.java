@@ -1,15 +1,23 @@
 package com.example.sombra.myapplication;
 
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Samuel on 2017-12-18.
+ * Utils is our toolbox class. It contains two methods, one for checking the content of strings and
+ * one creating a toast for easier syntax and less code.
  */
 public class Utils {
+    /**
+     * ceckString() checks if the content and length of a String is okay for the intented purpose.
+     *
+     * @param s    The String to be checked.
+     * @param type The type of check you're doing, to be able to customize the message saying what's wrong.
+     * @param min  Minimum length of the String, make 0 for no minimun length.
+     * @param max  Maximum length of the String, make 0 for no maximum length.
+     * @return True if okay, false if something is wrong.
+     */
     public static boolean checkString(String s, String type, int min, int max) {
         Pattern pattern = Pattern.compile("[(~#@*+%{}<>\\[\\]|\"_^öäå)']");
         Matcher matcher = pattern.matcher(s);
@@ -29,6 +37,13 @@ public class Utils {
         return false;
     }
 
+    /**
+     * toast() is our own custom method for creating toasts.
+     * It really only saves some code when creating a toast.
+     *
+     * @param s      The message to be displayed.
+     * @param length The length of the toast.
+     */
     public static void toast(String s, String length) {
         if(length == "short") {
             Toast.makeText(SessionSingleton.getAppContext(), s, Toast.LENGTH_SHORT).show();

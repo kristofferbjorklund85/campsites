@@ -1,11 +1,9 @@
 package com.example.sombra.myapplication;
 
-import java.util.UUID;
-
 /**
- * Created by Samuel on 2017-12-19.
+ * UserModel is the model of our user.
+ * Only contains the constructor for the class.
  */
-
 public class UserModel {
 
     String id;
