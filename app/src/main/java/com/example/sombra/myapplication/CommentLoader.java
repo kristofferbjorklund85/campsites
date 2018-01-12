@@ -27,8 +27,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Class for handling comments for campsites.
- *
+/**
+ * Class for handling comments for campsites.
  */
 public class CommentLoader {
 
@@ -39,7 +39,8 @@ public class CommentLoader {
     private Gson gson;
     private CommentChangeListener listener;
 
-    /** Initializes the commentloader with necessary data to handle comments.
+    /**
+     * Initializes the commentloader with necessary data to handle comments.
      *
      * @param context the context of the CampsiteActivity.
      * @param listview the listview that will hold all comments.
@@ -58,9 +59,10 @@ public class CommentLoader {
         listeners = new ArrayList<>();
     }
 
-    /** Creates/Updates the Listview with comments.
+    /**
+     * Creates/Updates the Listview with comments.
      *
-     * @param cList list of Comm
+     * @param cList list of {@link CommentModel}-objects.
      */
     public void resetListView(List<CommentModel> cList) {
         ListView comments = commentsListView;
@@ -70,6 +72,15 @@ public class CommentLoader {
         justifyListViewHeightBasedOnChildren(comments, adapter);
     }
 
+    /**
+     * Get all comments posted on the Campsite the user is viewing.
+     *
+     * When the comments have been retrieved, the response is converted from JSON to a list of
+     * CommentModel-objects and adds list to CommentChangeListener.
+     *
+     * Toasts the user if there is a problem getting comments. If the request is good, but there are
+     * no comments in the database, the server responds with 404 and user is not toasted.
+     */
     public void getComments() {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -96,6 +107,12 @@ public class CommentLoader {
 
     }
 
+    /**
+     * Converts JSONarray of Comments to list with {@link CommentModel}-objects.
+     *
+     * @param array the JSONarray to be converted.
+     * @return list of {@link CommentModel}-objects.
+     */
     public List commentsFromJSON(JSONArray array) {
         List<CommentModel> cList = new ArrayList<>();
 
@@ -119,6 +136,15 @@ public class CommentLoader {
         return cList;
     }
 
+    /**
+     * Post-method for posting a comment to the API. Converts a {@link CommentModel}-object to JSON
+     * using Google's {@link Gson}.
+     *
+     * Informs the user if the post was successful or not by toast.
+     *
+     * @param context the context of the CampsiteActivity.
+     * @param cm the comment to be posted to the API.
+     */
     public void postComment(Context context, CommentModel cm) {
         String jo = gson.toJson(cm);
 
@@ -148,6 +174,13 @@ public class CommentLoader {
 
     }
 
+    /**
+     * Deletes a comment from the API.
+     *
+     * Informs the user if the post was successful or not by toast.
+     *
+     * @param c the comment to be deleted.
+     */
     public void deleteComment(CommentModel c) {
 
         GenericRequest gr = new GenericRequest(
@@ -172,6 +205,13 @@ public class CommentLoader {
 
     }
 
+    /**
+     * Adapter for holding creating the list of comments as separate listitems. Class is instantiated
+     * from {@link #resetListView(List)}.
+     *
+     * If the logged in user is the same as the author of a comment, a delete-button will be visible
+     * in the listitem.
+     */
     private class CommentAdapter extends ArrayAdapter<CommentModel> {
 
         Context context;
@@ -243,12 +283,20 @@ public class CommentLoader {
 
     }
 
+    /**
+     * Class for a comment-listitem.
+     */
     private class CommentHolder {
         TextView user;
         TextView comment;
         Button deleteComment;
     }
 
+    /**
+     * Adjusts the height of the listview in order to enable scrolling of the entire page.
+     * @param listView the listview that holds all comments.
+     * @param adapter the adapter is needed to get the size of all individual listitems.
+     */
     public void justifyListViewHeightBasedOnChildren (ListView listView, CommentAdapter adapter) {
 
         int totalHeight = 0;
@@ -268,17 +316,16 @@ public class CommentLoader {
 
     }
 
-    //LISTENERS FROM HENRIK
-
-    private List<CommentChangeListener> listeners;
-
+    /**
+     * Interface for listening to changes in the list of comments.
+     */
     public interface CommentChangeListener {
         void onCommentChangeList(List<CommentModel> members);
     }
 
+    /*private List<CommentChangeListener> listeners;
+
     public void addCommentChangeListener(CommentChangeListener l) {
         listeners.add(l);
-    }
-
-
+    }*/
 }
