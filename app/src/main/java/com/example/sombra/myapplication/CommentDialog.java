@@ -37,7 +37,7 @@ public class CommentDialog extends DialogFragment {
 
     /**
      * Creates a dialog with a textfield, a cancel and a submit-button. If submit is clicked, a
-     * CommentModel-object will be
+     * CommentModel-object will be created and posted to the API.
      *
      * @param savedInstanceState not used here.
      * @return
