@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import android.Manifest;
 import android.content.Context;

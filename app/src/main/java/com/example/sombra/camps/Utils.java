@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import android.widget.Toast;
 import java.util.regex.Matcher;

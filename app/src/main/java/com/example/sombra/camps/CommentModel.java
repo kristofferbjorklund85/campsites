@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 /**
  * Model for a comment. Only contains the constructor for the class.

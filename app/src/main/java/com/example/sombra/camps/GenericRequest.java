@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.AuthFailureError;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.sombra.myapplication.LandingActivity"
+    tools:context="com.example.sombra.camps.LandingActivity"
     tools:showIn="@layout/activity_landing">
 
     <LinearLayout

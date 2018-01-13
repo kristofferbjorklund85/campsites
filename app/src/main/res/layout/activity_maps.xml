@@ -32,6 +32,6 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="431dp"
         android:layout_height="649dp"
-        tools:context="com.example.sombra.myapplication.MapsActivity" />
+        tools:context="com.example.sombra.camps.MapsActivity" />
 
 </LinearLayout>

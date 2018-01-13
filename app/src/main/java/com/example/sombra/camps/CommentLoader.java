@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -22,7 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.sombra.myapplication.CommentLoader.CommentChangeListener;
+import com.example.sombra.camps.CommentLoader.CommentChangeListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

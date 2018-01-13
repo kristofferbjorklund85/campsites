@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sombra.myapplication">
+    package="com.example.sombra.camps">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -39,7 +39,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.sombra.camps.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,20 +47,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CampsiteActivity"
+            android:name="com.example.sombra.camps.CampsiteActivity"
             android:label="@string/title_activity_campsite"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MapsActivity"
+            android:name="com.example.sombra.camps.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name="com.example.sombra.camps.LoginActivity" />
         <activity
-            android:name=".LandingActivity"
+            android:name="com.example.sombra.camps.LandingActivity"
             android:label="@string/title_activity_landing"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MyProfileActivity"></activity>
+        <activity android:name="com.example.sombra.camps.PostActivity" />
+        <activity android:name="com.example.sombra.camps.RegisterActivity" />
+        <activity android:name="com.example.sombra.camps.MyProfileActivity"></activity>
     </application>
 
 </manifest>

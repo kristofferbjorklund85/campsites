@@ -1,4 +1,4 @@
-package com.example.sombra.myapplication;
+package com.example.sombra.camps;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
