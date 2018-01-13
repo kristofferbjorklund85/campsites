@@ -40,7 +40,7 @@ public class CommentDialog extends DialogFragment {
      * CommentModel-object will be created and posted to the API.
      *
      * @param savedInstanceState not used here.
-     * @return
+     * @return returns the AlertDialog
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
