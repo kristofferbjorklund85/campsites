@@ -159,4 +159,13 @@ public class LandingActivity extends AppCompatActivity {
         Log.d("fromJSON: ", "Returning List of " + campList.size());
         return campList;
     }
+
+    /**
+     * myProfile() starts the myProfile activity.
+     */
+    public void myProfile(View view) {
+        Intent intent = new Intent(LandingActivity.this, MyProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
